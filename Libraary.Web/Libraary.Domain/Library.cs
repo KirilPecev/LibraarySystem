@@ -23,10 +23,6 @@
         [Phone]
         public string PhoneNumber { get; set; }
 
-        [Required]
-        public string OwnerId { get; set; }
-        public LibraaryUser Owner { get; set; }
-
         public virtual ICollection<LibraryBook> LibraryBooks { get; set; }
 
         public virtual ICollection<LibraaryUser> LibraryUsers { get; set; }

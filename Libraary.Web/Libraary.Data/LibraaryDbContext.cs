@@ -32,6 +32,8 @@
             builder.ApplyConfiguration(new BookCategoryEntityTypeConfiguration());
             builder.ApplyConfiguration(new RentEntityTypeConfiguration());
             builder.ApplyConfiguration(new BookLibraryEntityTypeConfiguration());
+
+            base.OnModelCreating(builder);
         }
     }
 }
