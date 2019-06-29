@@ -1,5 +1,3 @@
-using System;
-
 namespace Libraary.Web.Models
 {
     public class ErrorViewModel

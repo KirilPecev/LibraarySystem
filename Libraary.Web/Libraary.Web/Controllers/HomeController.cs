@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Libraary.Web.Models;
-
-namespace Libraary.Web.Controllers
+﻿namespace Libraary.Web.Controllers
 {
+    using Libraary.Web.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Diagnostics;
+
     public class HomeController : Controller
     {
         public IActionResult Index()
