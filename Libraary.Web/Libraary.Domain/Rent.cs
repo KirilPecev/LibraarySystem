@@ -1,20 +1,19 @@
 ﻿namespace Libraary.Domain
 {
     using System;
-    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class Rent
     {
-        public Rent()
-        {
-            this.Books = new HashSet<Book>();
-        }
-
+        [Required]
         public string UserId { get; set; }
         public LibraaryUser User { get; set; }
 
-        public DateTime IssuedOn { get; set; }
+        [Required]
+        public string BookId { get; set; }
+        public Book Book { get; set; }
 
-        public ICollection<Book> Books { get; set; }
+        [Required]
+        public DateTime IssuedOn { get; set; }
     }
 }
