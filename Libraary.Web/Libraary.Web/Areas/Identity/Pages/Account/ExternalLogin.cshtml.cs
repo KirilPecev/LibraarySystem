@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -112,7 +113,23 @@
 
             if (ModelState.IsValid)
             {
-                var user = new LibraaryUser { UserName = Input.Email, Email = Input.Email };
+                var username = info.Principal
+                    .Claims
+                    .Where(c => c.Type == ClaimTypes.Name)
+                    .Select(c => c.Value).SingleOrDefault();
+
+                var firstName = info.Principal
+                    .Claims
+                    .Where(c => c.Type == ClaimTypes.GivenName)
+                    .Select(c => c.Value).SingleOrDefault();
+
+                var lastName = info.Principal
+                    .Claims
+                    .Where(c => c.Type == ClaimTypes.Surname)
+                    .Select(c => c.Value).SingleOrDefault();
+
+
+                var user = new LibraaryUser { UserName = username, Email = Input.Email, FirstName = firstName, LastName = lastName };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
