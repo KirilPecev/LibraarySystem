@@ -19,11 +19,9 @@
         [MaxLength(25)]
         public string LastName { get; set; }
 
-        [Required]
         public string LibraryId { get; set; }
         public Library Library { get; set; }
 
-        [Required]
         public string AddressId { get; set; }
         public Address Address { get; set; }
 
