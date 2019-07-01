@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Libraary.Common\Libraary.Common.csproj" />
     <ProjectReference Include="..\Libraary.Domain\Libraary.Domain.csproj" />
   </ItemGroup>
 

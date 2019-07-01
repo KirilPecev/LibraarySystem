@@ -1,6 +1,7 @@
 ﻿namespace Libraary.Web
 {
     using Libraary.Data;
+    using Libraary.Data.Seeding;
     using Libraary.Domain;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -36,7 +37,8 @@
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<LibraaryUser, LibraaryRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<LibraaryDbContext>();
+                .AddEntityFrameworkStores<LibraaryDbContext>()
+                .AddRoleStore<LibraaryRoleStore>();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -59,11 +61,26 @@
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 0;
             });
+
+            services.AddTransient<IRoleStore<LibraaryRole>, LibraaryRoleStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Seed data on application startup
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<LibraaryDbContext>();
+
+                if (env.IsDevelopment())
+                {
+                    dbContext.Database.Migrate();
+                }
+
+                new LibraaryDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
