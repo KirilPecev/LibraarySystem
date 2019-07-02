@@ -44,8 +44,9 @@
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
+            [RegularExpression(@"^(?=.*\d).{6,100}$",ErrorMessage = "Password must include at least one numeric digit.")]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
@@ -66,10 +67,12 @@
 
             [Required]
             [Display(Name = "Country")]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             public string Country { get; set; }
 
             [Required]
             [Display(Name = "Town")]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             public string Town { get; set; }
 
             [Required]
@@ -78,6 +81,13 @@
             [Display(Name = "Street")]
 
             public string Street { get; set; }
+
+            [Required]
+            [DataType(DataType.PostalCode)]
+            [RegularExpression(@"(^\d{5}(?:[-\s]\d{4})?$)|(^\d{4})", ErrorMessage = "Invalid {0} code!")]
+            [Display(Name = "Zip")]
+
+            public string Zip { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -90,8 +100,10 @@
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new LibraaryUser { UserName = Input.Email, Email = Input.Email };
+                var address = new Address {Country = Input.Country, Town = Input.Town, Street = Input.Street, Zip = Input.Zip };
+                var user = new LibraaryUser {UserName = Input.Email, Email = Input.Email, FirstName=Input.FirstName, LastName = Input.LastName, Address = address };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                await this._userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -106,7 +118,7 @@
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //  await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)

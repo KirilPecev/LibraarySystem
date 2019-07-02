@@ -15,5 +15,9 @@
         [Required]
         [MaxLength(80)]
         public string Street { get; set; }
+
+
+        [Required]
+        public string Zip { get; set; }
     }
 }

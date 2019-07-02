@@ -36,6 +36,9 @@ namespace Libraary.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(60);
 
+                    b.Property<string>("Zip")
+                        .IsRequired();
+
                     b.HasKey("Id");
 
                     b.ToTable("Addresses");
