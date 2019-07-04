@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (@User.IsInRole("Admin"))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Libraries
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" asp-controller="Libraries" asp-action="Add">Add new library</a>
+            <a class="dropdown-item" asp-controller="Libraries" asp-action="All">View all</a>
+        </div>
+    </li>
+}
