@@ -3,6 +3,8 @@
     using Libraary.Data;
     using Libraary.Data.Seeding;
     using Libraary.Domain;
+    using Libraary.Services;
+    using Libraary.Web.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -64,6 +66,10 @@
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 0;
             });
+
+            services.AddTransient<IUserService, UserService>();
+
+            IdentityExtensions.userService = services.BuildServiceProvider().GetService<IUserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
