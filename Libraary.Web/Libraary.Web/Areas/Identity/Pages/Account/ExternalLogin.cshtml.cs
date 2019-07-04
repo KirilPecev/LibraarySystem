@@ -129,8 +129,9 @@
                     .Select(c => c.Value).SingleOrDefault();
 
 
-                var user = new LibraaryUser { UserName = username, Email = Input.Email, FirstName = firstName, LastName = lastName };
+                var user = new LibraaryUser { UserName = Input.Email, Email = Input.Email, FirstName = firstName, LastName = lastName };
                 var result = await _userManager.CreateAsync(user);
+                await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddLoginAsync(user, info);

@@ -8,8 +8,6 @@
 
         public const string UserRoleName = "User";
 
-        public const string AdminPassword = "Admin";
-
-        public const string AdministratorEmail = "Admin@admin.com";
+        public const string LibrarianRoleName = "Librarian";
     }
 }

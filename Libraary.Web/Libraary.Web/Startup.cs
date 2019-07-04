@@ -25,20 +25,23 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
 
             services.AddDbContext<LibraaryDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<LibraaryUser, LibraaryRole>()
+
+            services.AddIdentity<LibraaryUser, LibraaryRole>(config => 
+            {
+                config.SignIn.RequireConfirmedPhoneNumber = false;
+            })
                 .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<LibraaryDbContext>()
-                .AddRoleStore<LibraaryRoleStore>();
+                .AddEntityFrameworkStores<LibraaryDbContext>();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -61,14 +64,11 @@
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 0;
             });
-
-            services.AddTransient<IRoleStore<LibraaryRole>, LibraaryRoleStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<LibraaryDbContext>();
