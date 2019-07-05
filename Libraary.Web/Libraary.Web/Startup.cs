@@ -1,5 +1,6 @@
 ﻿namespace Libraary.Web
 {
+    using AutoMapper;
     using Libraary.Data;
     using Libraary.Data.Seeding;
     using Libraary.Domain;
@@ -50,7 +51,7 @@
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
-
+            
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
