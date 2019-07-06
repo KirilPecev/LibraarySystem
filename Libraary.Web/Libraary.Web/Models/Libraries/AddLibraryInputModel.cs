@@ -18,6 +18,7 @@
         [Required]
         [Display(Name = "Phone")]
         [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"08[789]\d{7}", ErrorMessage = "Invalid phone number!")]
         public string PhoneNumber { get; set; }
     }
 }

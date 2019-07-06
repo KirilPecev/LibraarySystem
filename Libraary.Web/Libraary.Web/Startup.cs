@@ -6,6 +6,7 @@
     using Libraary.Domain;
     using Libraary.Services;
     using Libraary.Web.Extensions;
+    using Libraary.Web.Profiles;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -68,7 +69,16 @@
                 options.Password.RequiredUniqueChars = 0;
             });
 
+            var automapper = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MappingProfiles());
+            });
+
+            IMapper mapper = automapper.CreateMapper();
+            services.AddSingleton(mapper);
+
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ILibraryService, LibraryService>();
 
             IdentityExtensions.userService = services.BuildServiceProvider().GetService<IUserService>();
         }

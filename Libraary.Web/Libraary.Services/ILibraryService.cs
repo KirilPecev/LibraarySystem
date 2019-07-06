@@ -5,5 +5,7 @@
     public interface ILibraryService
     {
         string Add(AddLibraryDTO library);
+
+        bool AddOwner(OwnerDTO dto);
     }
 }

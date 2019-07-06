@@ -20,9 +20,4 @@
     <ProjectReference Include="..\Libraary.Services\Libraary.Services.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="Profiles\" />
-  </ItemGroup>
-
 </Project>
