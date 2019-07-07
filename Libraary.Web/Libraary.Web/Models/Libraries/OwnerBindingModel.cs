@@ -4,6 +4,7 @@
 
     public class OwnerBindingModel
     {
+        [Required]
         public string LibraryId { get; set; }
 
         [Required]

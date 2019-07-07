@@ -4,7 +4,9 @@
     using Libraary.Data;
     using Libraary.Domain;
     using Microsoft.AspNetCore.Identity;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
 
     public class LibraryService : ILibraryService
     {
@@ -50,9 +52,35 @@
 
             library.LibraryUsers.Add(user);
 
-            this.db.SaveChanges();
+            int resultCount = this.db.SaveChanges();
+
+            if (resultCount == 0)
+            {
+                return false;
+            }
 
             return true;
+        }
+
+        public IEnumerable<LibraryDTO> GetAll()
+        {
+            var users = this.userManager.GetUsersInRoleAsync("Owner").Result;
+
+            return this.db
+                .Libraries
+                .Select(library => new LibraryDTO
+                {
+                    Id = library.Id,
+                    Name = library.Name,
+                    Owner = GetFirstAndLastNamesOfUser(library, users)
+                })
+                .ToList();
+        }
+
+        private string GetFirstAndLastNamesOfUser(Library library, IList<LibraaryUser> users)
+        {
+            return users.Where(l => l.LibraryId == library.Id)
+                .Select(user => $"{user.FirstName} {user.LastName}").FirstOrDefault();
         }
     }
 }

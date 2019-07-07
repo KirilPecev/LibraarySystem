@@ -13,6 +13,7 @@
             CreateMap<AddressInputModel, AddressDTO>();
             CreateMap<AddLibraryInputModel, AddLibraryDTO>();
             CreateMap<OwnerBindingModel, OwnerDTO>();
+            CreateMap<LibraryDTO, LibraryViewModel>();
         }
     }
 }

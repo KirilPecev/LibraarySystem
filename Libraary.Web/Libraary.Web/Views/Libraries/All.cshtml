@@ -1,7 +1,32 @@
-﻿@{
+﻿@model Libraary.Web.Models.Libraries.LibraryViewModel[]
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-</div>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Library name</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < @Model.Length; i++)
+        {
+            <tr>
+                <th scope="row">@(i+1)</th>
+                <td>@Model[i].Name</td>
+                <td>@Model[i].Owner</td>
+                <td>
+                    <a asp-controller="Libraries"
+                       asp-action="Details"
+                       asp-route-libraryId="@Model[i].Id"
+                       class="btn btn-outline-info"
+                       role="button">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

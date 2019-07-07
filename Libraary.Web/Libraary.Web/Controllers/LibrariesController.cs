@@ -21,7 +21,10 @@
 
         public IActionResult All()
         {
-            return this.View();
+            var libraries = this.libraryService.GetAll();
+            var model = this.mapper.Map<LibraryViewModel[]>(libraries);
+
+            return this.View(model);
         }
 
         public IActionResult Add()

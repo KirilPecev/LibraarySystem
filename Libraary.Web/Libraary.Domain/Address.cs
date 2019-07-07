@@ -19,5 +19,10 @@
 
         [Required]
         public string Zip { get; set; }
+
+        public override string ToString()
+        {
+            return $"{this.Country}, {this.Town}, {this.Street} {this.Zip}";
+        }
     }
 }
