@@ -6,7 +6,6 @@
     using Microsoft.AspNetCore.Identity;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Claims;
 
     public class LibraryService : ILibraryService
     {
@@ -64,7 +63,7 @@
 
         public IEnumerable<LibraryDTO> GetAll()
         {
-            var users = this.userManager.GetUsersInRoleAsync("Owner").Result;
+            var owners = this.userManager.GetUsersInRoleAsync("Owner").Result;
 
             return this.db
                 .Libraries
@@ -72,15 +71,45 @@
                 {
                     Id = library.Id,
                     Name = library.Name,
-                    Owner = GetFirstAndLastNamesOfUser(library, users)
+                    Owner = GetFirstAndLastNamesOfUser(library, owners)
                 })
                 .ToList();
         }
 
-        private string GetFirstAndLastNamesOfUser(Library library, IList<LibraaryUser> users)
+        public LibraryDetailsDTO GetLibraryDetails(string libraryId)
         {
-            return users.Where(l => l.LibraryId == library.Id)
-                .Select(user => $"{user.FirstName} {user.LastName}").FirstOrDefault();
+            var owners = this.userManager.GetUsersInRoleAsync("Owner").Result;
+            var currentOwner = owners
+                .FirstOrDefault(u => u.LibraryId == libraryId);
+
+            string ownerAddress = "Not added";
+            if (currentOwner.Address != null)
+            {
+                ownerAddress = currentOwner.Address.ToString();
+            }
+
+            return this.db.
+                 Libraries
+                 .Where(lib => lib.Id == libraryId)
+                 .Select(lib => new LibraryDetailsDTO
+                 {
+                     Name = lib.Name,
+                     Address = lib.Address.ToString(),
+                     PhoneNumber = lib.PhoneNumber,
+                     BooksCount = lib.LibraryBooks.Count,
+                     UsersCount = lib.LibraryUsers.Count,
+                     Owner = currentOwner.ToString(),
+                     OwnerAddress = ownerAddress,
+                     OwnerPhone = currentOwner.PhoneNumber ?? "Not added"
+                 })
+                 .SingleOrDefault();
+        }
+
+        private string GetFirstAndLastNamesOfUser(Library library, IList<LibraaryUser> owners)
+        {
+            return owners.Where(l => l.LibraryId == library.Id)
+                .FirstOrDefault()
+                .ToString();
         }
     }
 }

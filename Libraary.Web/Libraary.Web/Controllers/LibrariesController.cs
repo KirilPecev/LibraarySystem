@@ -67,9 +67,12 @@
             return this.Redirect("/");
         }
 
-        public IActionResult Details()
+        public IActionResult Details(string libraryId)
         {
-            return Ok();
+            var library = this.libraryService.GetLibraryDetails(libraryId);
+            var model = this.mapper.Map<LibraryDetailsViewModel>(library);
+
+            return this.View(model);
         }
     }
 }

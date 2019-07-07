@@ -26,5 +26,10 @@
         public Address Address { get; set; }
 
         public virtual ICollection<Rent> RentedBooks { get; set; }
+
+        public override string ToString()
+        {
+            return $"{this.FirstName} {this.LastName}";
+        }
     }
 }

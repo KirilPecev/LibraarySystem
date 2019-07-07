@@ -14,6 +14,7 @@
             CreateMap<AddLibraryInputModel, AddLibraryDTO>();
             CreateMap<OwnerBindingModel, OwnerDTO>();
             CreateMap<LibraryDTO, LibraryViewModel>();
+            CreateMap<LibraryDetailsDTO, LibraryDetailsViewModel>();
         }
     }
 }

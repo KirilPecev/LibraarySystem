@@ -10,5 +10,7 @@
         bool AddOwner(OwnerDTO dto);
 
         IEnumerable<LibraryDTO> GetAll();
+
+        LibraryDetailsDTO GetLibraryDetails(string libraryId);
     }
 }
