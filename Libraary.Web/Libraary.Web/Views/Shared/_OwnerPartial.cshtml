@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (@User.IsInRole("Owner"))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Librarians
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" asp-controller="Librarians" asp-action="All">View all</a>
+            <a class="dropdown-item" asp-controller="Librarians" asp-action="Add">Add new librarian</a>
+        </div>       
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Books
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" asp-controller="Books" asp-action="All">View all</a>
+            <a class="dropdown-item" asp-controller="Books" asp-action="Rented">View rented</a>
+            <a class="dropdown-item" asp-controller="Books" asp-action="Add">Add new book</a>
+        </div>
+    </li>
+}

@@ -1,0 +1,18 @@
+﻿@model Libraary.Web.Models.Libraries.LibraryDetailsViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+@if (this.User.IsInRole("Owner"))
+{
+    <partial name="/Views/Home/_OwnerHomePartial.cshtml" model="@Model"/>
+}
+else if (this.User.IsInRole("User"))
+{
+    <partial name="/Views/Home/_UserHome.cshtml" model="@Model" />
+}
+else
+{
+    <partial name="/Views/Home/_AdminHomePartial.cshtml" model="@Model" />
+}

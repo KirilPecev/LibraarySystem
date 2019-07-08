@@ -10,6 +10,8 @@
 
         public int BooksCount { get; set; }
 
+        public int RentedBooksCount { get; set; }
+
         public int UsersCount { get; set; }
 
         public string Owner { get; set; }
@@ -17,5 +19,7 @@
         public string OwnerAddress { get; set; }
 
         public string OwnerPhone { get; set; }
+
+        public decimal Profit { get; set; }
     }
 }
