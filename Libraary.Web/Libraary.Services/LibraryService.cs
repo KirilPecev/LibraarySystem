@@ -59,6 +59,26 @@
             return true;
         }
 
+        public bool AddLibrarian(LibrarianDTO dto)
+        {
+            var library = this.db.Libraries.Find(dto.LibraryId);
+            this.userService.ChangeRoles(dto.Email, "User", "Librarian");
+
+            var user = this.userService.GetUser(dto.Email);
+
+            library.LibraryUsers.Add(user);
+
+            int resultCount = this.db.SaveChanges();
+
+            if (resultCount == 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
         public IEnumerable<LibraryDTO> GetAll()
         {
             var owners = this.userService.GetUsersInRole("Owner");

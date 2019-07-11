@@ -1,4 +1,4 @@
-﻿namespace Libraary.Web.Models.Libraries
+﻿namespace Libraary.Web.Models.Owners
 {
     using System.ComponentModel.DataAnnotations;
 

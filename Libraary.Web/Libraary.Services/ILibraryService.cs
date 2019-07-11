@@ -9,6 +9,8 @@
 
         bool AddOwner(OwnerDTO dto);
 
+        bool AddLibrarian(LibrarianDTO dto);
+
         IEnumerable<LibraryDTO> GetAll();
 
         LibraryDetailsDTO GetLibraryDetails(string libraryId);

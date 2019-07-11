@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Identity;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
 
     public class UserService : IUserService
     {
@@ -19,9 +20,9 @@
 
         public void ChangeRoles(string email, string oldRole, string newRole)
         {
-            var user = this.GetUser(email);
-            this.userManager.AddToRoleAsync(user, newRole);
-            this.userManager.RemoveFromRoleAsync(user, oldRole);
+            var user = this.userManager.Users.SingleOrDefault(u => u.Email == email);
+            this.userManager.RemoveFromRoleAsync(user, oldRole).Wait();
+            this.userManager.AddToRoleAsync(user, newRole).Wait();
         }
 
         public string GetFirstAndLastNamesOfUser(Library library, IList<LibraaryUser> owners)
