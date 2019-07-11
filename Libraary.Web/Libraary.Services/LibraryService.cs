@@ -3,6 +3,8 @@
     using DTOs.Library;
     using Libraary.Data;
     using Libraary.Domain;
+    using Libraary.Services.DTOs.Librarian;
+    using Libraary.Services.DTOs.Owner;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -92,6 +94,20 @@
                     Owner = this.userService.GetFirstAndLastNamesOfUser(library, owners)
                 })
                 .ToList();
+        }
+
+        public IEnumerable<LibrarianDetailsDTO> GetAllLibrarians()
+        {
+            var librarians = this.userService.GetUsersInRole("Librarian");
+            var librariansDto = librarians
+                .Select(librarian => new LibrarianDetailsDTO()
+                {
+                    FullName = librarian.ToString(),
+                    Address = this.db.Addresses.Find(librarian.AddressId).ToString()
+                })
+                .ToList();
+
+            return librariansDto;
         }
 
         public LibraryDetailsDTO GetLibraryDetails(string libraryId)

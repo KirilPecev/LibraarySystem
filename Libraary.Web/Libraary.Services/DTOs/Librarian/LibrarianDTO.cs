@@ -1,6 +1,6 @@
-﻿namespace Libraary.Services.DTOs.Library
+﻿namespace Libraary.Services.DTOs.Librarian
 {
-    public class OwnerDTO
+    public class LibrarianDTO
     {
         public string LibraryId { get; set; }
 

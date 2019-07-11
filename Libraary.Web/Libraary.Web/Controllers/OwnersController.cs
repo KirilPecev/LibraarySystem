@@ -2,7 +2,7 @@
 {
     using AutoMapper;
     using Libraary.Services;
-    using Libraary.Services.DTOs.Library;
+    using Libraary.Services.DTOs.Owner;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Models.Owners;

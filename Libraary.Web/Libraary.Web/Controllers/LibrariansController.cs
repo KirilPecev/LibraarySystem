@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using Libraary.Services;
+    using Libraary.Services.DTOs.Librarian;
     using Libraary.Services.DTOs.Library;
     using Libraary.Web.Models;
     using Libraary.Web.Models.Librarians;
@@ -23,9 +24,10 @@
 
         public IActionResult All()
         {
-            var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
+            var model = this.libraryService.GetAllLibrarians();
+            var librarians = this.mapper.Map<LibrarianDetailsViewModel[]>(model);
 
-            return this.View(libraryId);
+            return this.View(librarians);
         }
 
         [HttpGet]

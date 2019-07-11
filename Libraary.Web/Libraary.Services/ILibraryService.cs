@@ -1,6 +1,8 @@
 ﻿namespace Libraary.Services
 {
     using DTOs.Library;
+    using Libraary.Services.DTOs.Librarian;
+    using Libraary.Services.DTOs.Owner;
     using System.Collections.Generic;
 
     public interface ILibraryService
@@ -14,5 +16,7 @@
         IEnumerable<LibraryDTO> GetAll();
 
         LibraryDetailsDTO GetLibraryDetails(string libraryId);
+
+        IEnumerable<LibrarianDetailsDTO> GetAllLibrarians();
     }
 }
