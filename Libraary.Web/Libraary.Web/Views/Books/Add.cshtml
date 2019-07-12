@@ -1,0 +1,26 @@
+﻿@model Libraary.Web.Models.Libraries.AddLibraryInputModel
+@inject Libraary.Services.ICategoryService  CategoryService
+@{
+    ViewData["Title"] = "Add Library";
+}
+
+<form method="post">
+    <fieldset>
+        <legend>Choose categories</legend>
+        @foreach (var item in CategoryService.GetCategories())
+        {
+            <div>
+                <input type="checkbox" id="@item" name="@item" value="@item">
+                <label asp-for="@item">@item</label>
+            </div>
+        }
+    </fieldset>
+    <div>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,8 +1,10 @@
 ﻿namespace Libraary.Web.Profiles
 {
     using AutoMapper;
+    using Libraary.Services.DTOs.Book;
     using Libraary.Services.DTOs.Librarian;
     using Libraary.Services.DTOs.Owner;
+    using Libraary.Web.Models.Books;
     using Libraary.Web.Models.Librarians;
     using Models.Address;
     using Models.Libraries;
@@ -22,6 +24,7 @@
             CreateMap<LibraryDetailsDTO, LibraryDetailsViewModel>();
             CreateMap<LibrarianBindingModel, LibrarianDTO>();
             CreateMap<LibrarianDetailsDTO, LibrarianDetailsViewModel>();
+            CreateMap<BookDTO, BookViewModel>();
         }
     }
 }

@@ -20,4 +20,9 @@
     <ProjectReference Include="..\Libraary.Services\Libraary.Services.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Views\Books - Copy\" />
+  </ItemGroup>
+
 </Project>

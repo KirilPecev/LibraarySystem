@@ -9,7 +9,6 @@
     using Libraary.Web.Profiles;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI;
     using Microsoft.AspNetCore.Mvc;
@@ -40,7 +39,7 @@
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<LibraaryUser, LibraaryRole>(config => 
+            services.AddIdentity<LibraaryUser, LibraaryRole>(config =>
             {
                 config.SignIn.RequireConfirmedPhoneNumber = false;
             })
@@ -52,7 +51,7 @@
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
-            
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
@@ -79,6 +78,7 @@
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ILibraryService, LibraryService>();
+            services.AddTransient<IBookService, BookService>();
 
             IdentityExtensions.userService = services.BuildServiceProvider().GetService<IUserService>();
         }

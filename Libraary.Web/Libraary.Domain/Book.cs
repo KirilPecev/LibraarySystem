@@ -39,6 +39,9 @@
         [Range(0, int.MaxValue)]
         public int Rating { get; set; }
 
+        [Required]
+        public byte[] Picture { get; set; }
+
         public virtual ICollection<Rent> Rents { get; set; }
 
         public virtual ICollection<BookCategory> BookCategories { get; set; }
