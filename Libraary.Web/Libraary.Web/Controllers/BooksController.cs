@@ -1,10 +1,10 @@
 ﻿namespace Libraary.Web.Controllers
 {
     using AutoMapper;
-    using Services;
-    using Services.DTOs.Book;
     using Microsoft.AspNetCore.Mvc;
     using Models.Books;
+    using Services;
+    using Services.DTOs.Book;
 
     public class BooksController : Controller
     {
@@ -19,6 +19,7 @@
             this.mapper = mapper;
             this.userService = userService;
             this.bookService = bookService;
+
             this.LibraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
         }
 
@@ -53,9 +54,12 @@
         }
 
 
-        public IActionResult Details()
+        public IActionResult Details(string bookId)
         {
-            return this.View();
+            var booksDto = this.bookService.GetBookDetails(bookId);
+            this.mapper.Map<BookDetailsViewModel>(booksDto);
+
+            return this.View(booksDto);
         }
     }
 }

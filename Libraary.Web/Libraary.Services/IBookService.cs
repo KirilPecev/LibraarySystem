@@ -10,5 +10,7 @@
         IEnumerable<BookDTO> GetAllRented(string libraryId);
 
         bool Add(AddBookDTO bookDto, string libraryId);
+
+        BookDetailsDTO GetBookDetails(string bookId);
     }
 }

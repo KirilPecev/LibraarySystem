@@ -119,5 +119,25 @@
                 })
                 .ToList();
         }
+
+        public BookDetailsDTO GetBookDetails(string bookId)
+        {
+            return this.db
+                 .Books
+                 .Where(book => book.Id == bookId)
+                 .Select(book => new BookDetailsDTO
+                 {
+                     Name = book.Name,
+                     Author = book.Author.ToString(),
+                     Publisher = book.Publisher.Name,
+                     Fee = book.Fee,
+                     IsRented = book.IsRented,
+                     Rating = book.Rating,
+                     Summary = book.Summary,
+                     Picture = Convert.ToBase64String(book.Picture),
+                     Categories = string.Join(", ", book.BookCategories)
+                 })
+                 .FirstOrDefault();
+        }
     }
 }

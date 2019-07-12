@@ -25,6 +25,8 @@
             CreateMap<LibrarianBindingModel, LibrarianDTO>();
             CreateMap<LibrarianDetailsDTO, LibrarianDetailsViewModel>();
             CreateMap<BookDTO, BookViewModel>();
+            CreateMap<BookInputModel, AddBookDTO>();
+            CreateMap<BookDetailsDTO, BookDetailsViewModel>();
         }
     }
 }

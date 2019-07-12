@@ -79,6 +79,9 @@
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ILibraryService, LibraryService>();
             services.AddTransient<IBookService, BookService>();
+            services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IPublisherService, PublisherService>();
+            services.AddTransient<ICategoryService, CategoryService>();
 
             IdentityExtensions.userService = services.BuildServiceProvider().GetService<IUserService>();
         }
