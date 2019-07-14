@@ -22,7 +22,7 @@
 
 
   <ItemGroup>
-    <Folder Include="Views\Books - Copy\" />
+    <Folder Include="Views\Authors\" />
   </ItemGroup>
 
 </Project>

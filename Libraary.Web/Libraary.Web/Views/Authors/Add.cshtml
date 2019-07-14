@@ -1,13 +1,18 @@
-﻿@model Libraary.Web.Models.Libraries.AddLibraryInputModel
+﻿@model Libraary.Web.Models.Authors.AuthorBindingModel
 @{
-    ViewData["Title"] = "Add Library";
+    ViewData["Title"] = "Add Author";
 }
 
     <form method="post">
         <div class="form-group">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" placeholder="Library name">
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="form-control" placeholder="Library name">
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" class="form-control" placeholder="Library name">
+            <span asp-validation-for="LastName" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Address.Country"></label>
@@ -28,11 +33,6 @@
             <label asp-for="Address.Zip"></label>
             <input asp-for="Address.Zip" class="form-control" placeholder="Zip">
             <span asp-validation-for="Address.Zip" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PhoneNumber"></label>
-            <input asp-for="PhoneNumber" class="form-control" placeholder="Phone number">
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
         <div>
             <button type="submit" class="btn btn-primary">Register</button>

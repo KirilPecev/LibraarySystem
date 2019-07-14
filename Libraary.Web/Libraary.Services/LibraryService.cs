@@ -46,6 +46,7 @@
         {
             var library = this.db.Libraries.Find(dto.LibraryId);
             this.userService.ChangeRoles(dto.Email, "User", "Owner");
+            this.userService.AddRole(dto.Email, "Librarian");
 
             var user = this.userService.GetUser(dto.Email);
 

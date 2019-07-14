@@ -5,15 +5,18 @@
     public class BookInputModel
     {
         [Required]
-        [MaxLength(60)]
+        [StringLength(60, ErrorMessage = "Invalid name! Must be between {2} and {1}", MinimumLength = 5)]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(5000)]
+        [StringLength(5000, ErrorMessage = "Invalid name! Must be between {2} and {1}", MinimumLength = 100)]
+        [Display(Name = "Summary")]
         public string Summary { get; set; }
 
         [Required]
         [Range(typeof(decimal), "0.01", "1000")]
+        [Display(Name = "Fee")]
         public decimal Fee { get; set; }
 
         [Required]

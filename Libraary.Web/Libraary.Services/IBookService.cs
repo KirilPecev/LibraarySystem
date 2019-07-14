@@ -12,5 +12,7 @@
         bool Add(AddBookDTO bookDto, string libraryId);
 
         BookDetailsDTO GetBookDetails(string bookId);
+
+        IEnumerable<BookDTO> GetAllByAuthor(string authorId, string libraryId);
     }
 }

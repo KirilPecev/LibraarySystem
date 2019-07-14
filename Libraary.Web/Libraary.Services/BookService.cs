@@ -139,5 +139,27 @@
                  })
                  .FirstOrDefault();
         }
+
+        public IEnumerable<BookDTO> GetAllByAuthor(string authorId, string libraryId)
+        {
+            return this.db
+                .LibraryBooks
+                .Where(lb => lb.LibraryId == libraryId
+                                    && lb.Book.AuthorId == authorId)
+                .Select(b => b.Book)
+                .OrderBy(b => b.Name)
+                .ThenBy(b => b.BookCategories
+                    .Select(c => c.Category.CategoryName))
+                .Select(book => new BookDTO
+                {
+                    Id = book.Id,
+                    Name = book.Name,
+                    Author = book.Author.ToString(),
+                    Publisher = book.Publisher.Name,
+                    Rating = book.Rating,
+                    Picture = Convert.ToBase64String(book.Picture)
+                })
+                .ToList();
+        }
     }
 }

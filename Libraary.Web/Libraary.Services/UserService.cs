@@ -17,6 +17,12 @@
             this.userManager = userManager;
         }
 
+        public void AddRole(string email, string role)
+        {
+            var user = this.userManager.Users.SingleOrDefault(u => u.Email == email);
+            this.userManager.AddToRoleAsync(user, role).Wait();
+        }
+
         public void ChangeRoles(string email, string oldRole, string newRole)
         {
             var user = this.userManager.Users.SingleOrDefault(u => u.Email == email);
