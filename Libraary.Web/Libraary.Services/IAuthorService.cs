@@ -8,7 +8,7 @@
     {
         Author GetAuthor(string name);
 
-        bool Add(AddAuthorDTO authorDto, string libraryId);
+        bool Add(AddAuthorDTO authorDto);
 
         IEnumerable<AuthorViewDTO> GetAll(string libraryId);
     }

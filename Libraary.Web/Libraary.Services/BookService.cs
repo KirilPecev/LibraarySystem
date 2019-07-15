@@ -46,6 +46,8 @@
                     Summary = bookDto.Summary
                 };
 
+                publisher.Books.Add(book);
+
                 foreach (var category in categories)
                 {
                     book.BookCategories.Add(new BookCategory

@@ -20,13 +20,12 @@
             this.mapper = mapper;
             this.authorService = authorService;
             this.bookService = bookService;
-            this.userService = userService;
             this.libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
         }
 
         public IActionResult All()
         {
-            var authors = this.authorService.GetAll(this.libraryId);
+            var authors = this.authorService.GetAll(libraryId);
             var model = mapper.Map<AuthorViewModel[]>(authors);
 
             return this.View(model);
@@ -42,7 +41,7 @@
         {
             var mappedModel = this.mapper.Map<AddAuthorDTO>(model);
 
-            this.authorService.Add(mappedModel, libraryId);
+            this.authorService.Add(mappedModel);
 
             return this.RedirectToAction("All");
         }

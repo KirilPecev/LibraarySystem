@@ -15,7 +15,7 @@
             this.db = db;
         }
 
-        public bool Add(AddAuthorDTO authorDto, string libraryId)
+        public bool Add(AddAuthorDTO authorDto)
         {
             var author = this.db
                 .Authors
@@ -24,7 +24,7 @@
 
             if (author == null)
             {
-                author = new Author()
+                this.db.Authors.Add(new Author()
                 {
                     FirstName = authorDto.FirstName,
                     LastName = authorDto.LastName,
@@ -35,14 +35,8 @@
                         Street = authorDto.Address.Street,
                         Zip = authorDto.Address.Zip
                     }
-                };
+                });
             }
-
-            this.db
-                .Libraries
-                .SingleOrDefault(lib => lib.Id == libraryId)
-                .Authors
-                .Add(author);
 
             int count = this.db.SaveChanges();
 
@@ -54,7 +48,8 @@
             return this.db
                 .Libraries
                 .SingleOrDefault(lib => lib.Id == libraryId)
-                .Authors.Select(author => new AuthorViewDTO
+                .Authors
+                .Select(author => new AuthorViewDTO
                 {
                     Id = author.Id,
                     Name = author.ToString(),
