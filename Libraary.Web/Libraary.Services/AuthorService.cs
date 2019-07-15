@@ -15,40 +15,52 @@
             this.db = db;
         }
 
-        public bool Add(AddAuthorDTO authorDto)
+        public bool Add(AddAuthorDTO authorDto, string libraryId)
         {
-            this.db.Authors.Add(new Author()
-            {
-                FirstName = authorDto.FirstName,
-                LastName = authorDto.LastName,
-                Address = new Address()
-                {
-                    Country = authorDto.Address.Country,
-                    Town = authorDto.Address.Town,
-                    Street = authorDto.Address.Street,
-                    Zip = authorDto.Address.Zip
-                }
-            });
+            var author = this.db
+                .Authors
+                .SingleOrDefault(a => a.FirstName == authorDto.FirstName
+                && a.LastName == authorDto.LastName);
 
-            int count = this.db.SaveChanges();
-            if (count == 0)
+            if (author == null)
             {
-                return false;
+                author = new Author()
+                {
+                    FirstName = authorDto.FirstName,
+                    LastName = authorDto.LastName,
+                    Address = new Address()
+                    {
+                        Country = authorDto.Address.Country,
+                        Town = authorDto.Address.Town,
+                        Street = authorDto.Address.Street,
+                        Zip = authorDto.Address.Zip
+                    }
+                };
             }
 
-            return true;
+            this.db
+                .Libraries
+                .SingleOrDefault(lib => lib.Id == libraryId)
+                .Authors
+                .Add(author);
+
+            int count = this.db.SaveChanges();
+
+            return count != 0;
         }
 
-        public IEnumerable<AuthorViewDTO> GetAll()
+        public IEnumerable<AuthorViewDTO> GetAll(string libraryId)
         {
-            return this.db.Authors.Select(author => new AuthorViewDTO
-            {
-                Id = author.Id,
-                Name = author.ToString(),
-                Address = author.Address.ToString(),
-                BooksCount = author.Books.Count
-            })
-                 .ToList();
+            return this.db
+                .Libraries
+                .SingleOrDefault(lib => lib.Id == libraryId)
+                .Authors.Select(author => new AuthorViewDTO
+                {
+                    Id = author.Id,
+                    Name = author.ToString(),
+                    Address = author.Address.ToString(),
+                    BooksCount = author.Books.Count
+                }).ToList();
         }
 
         public Author GetAuthor(string name)

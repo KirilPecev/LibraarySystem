@@ -70,12 +70,7 @@
 
             int count = this.db.SaveChanges();
 
-            if (count == 0)
-            {
-                return false;
-            }
-
-            return true;
+            return count != 0;
         }
 
         public IEnumerable<BookDTO> GetAll(string libraryId)

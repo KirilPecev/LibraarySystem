@@ -9,6 +9,7 @@
         {
             this.LibraryBooks = new HashSet<LibraryBook>();
             this.LibraryUsers = new HashSet<LibraaryUser>();
+            this.Authors = new HashSet<Author>();
         }
 
         [Required]
@@ -26,5 +27,7 @@
         public virtual ICollection<LibraryBook> LibraryBooks { get; set; }
 
         public virtual ICollection<LibraaryUser> LibraryUsers { get; set; }
+
+        public virtual ICollection<Author> Authors { get; set; }
     }
 }
