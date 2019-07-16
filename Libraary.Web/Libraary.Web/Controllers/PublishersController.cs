@@ -10,11 +10,13 @@
     {
         private readonly IMapper mapper;
         private readonly IPublisherService publisherService;
+        private readonly IUserService userService;
 
-        public PublishersController(IMapper mapper, IPublisherService publisherService)
+        public PublishersController(IMapper mapper, IPublisherService publisherService, IUserService userService)
         {
             this.mapper = mapper;
             this.publisherService = publisherService;
+            this.userService = userService;
         }
 
         public IActionResult Add()
@@ -33,7 +35,8 @@
 
         public IActionResult All()
         {
-            var model = this.publisherService.GetAll();
+            var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
+            var model = this.publisherService.GetAllByLibraryId(libraryId);
             var mappedModel = this.mapper.Map<PublisherViewModel[]>(model);
 
             return this.View(mappedModel);

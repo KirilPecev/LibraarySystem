@@ -13,19 +13,19 @@
         private readonly IAuthorService authorService;
         private readonly IBookService bookService;
         private readonly IUserService userService;
-        private readonly string libraryId;
 
         public AuthorsController(IMapper mapper, IAuthorService authorService, IBookService bookService, IUserService userService)
         {
             this.mapper = mapper;
             this.authorService = authorService;
             this.bookService = bookService;
-            this.libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
+            this.userService = userService;
         }
 
         public IActionResult All()
         {
-            var authors = this.authorService.GetAll(libraryId);
+            var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
+            var authors = this.authorService.GetAllByLibraryId(libraryId);
             var model = mapper.Map<AuthorViewModel[]>(authors);
 
             return this.View(model);
@@ -48,6 +48,7 @@
 
         public IActionResult Details(string authorId)
         {
+            var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
             var books = this.bookService.GetAllByAuthor(authorId, libraryId);
 
             var model = this.mapper.Map<BookViewModel[]>(books);

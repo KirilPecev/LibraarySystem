@@ -1,10 +1,52 @@
-﻿@model Libraary.Web.Models.Libraries.AddLibraryInputModel
+﻿@model Libraary.Web.Models.Books.BookInputModel
 @inject Libraary.Services.ICategoryService  CategoryService
+@inject Libraary.Services.IAuthorService  AuthorService
+@inject Libraary.Services.IPublisherService  PublisherService
 @{
     ViewData["Title"] = "Add Library";
 }
 
 <form method="post">
+    <div class="form-group">
+        <label asp-for="Picture"></label>
+        <input asp-for="Picture" class="form-control" placeholder="Library name">
+        <span asp-validation-for="Picture" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" placeholder="Library name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Summary"></label>
+        <input asp-for="Summary" class="form-control" placeholder="Library name">
+        <span asp-validation-for="Summary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Summary"></label>
+        <input asp-for="Summary" class="form-control" placeholder="Library name">
+        <span asp-validation-for="Summary" class="text-danger"></span>
+    </div>
+    <fieldset>
+        <legend>Choose author</legend>
+        @foreach (var item in AuthorService.GetAllAuthorsName())
+        {
+            <div>
+                <input type="checkbox" id="@item" name="@item" value="@item">
+                <label asp-for="@item">@item</label>
+            </div>
+        }
+    </fieldset>
+    <fieldset>
+        <legend>Choose publisher</legend>
+        @foreach (var item in PublisherService.GetAllPublishersName())
+        {
+            <div>
+                <input type="checkbox" id="@item" name="@item" value="@item">
+                <label asp-for="@item">@item</label>
+            </div>
+        }
+    </fieldset>
     <fieldset>
         <legend>Choose categories</legend>
         @foreach (var item in CategoryService.GetCategories())

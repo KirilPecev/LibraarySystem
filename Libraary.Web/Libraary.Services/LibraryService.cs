@@ -99,7 +99,10 @@
 
         public IEnumerable<LibrarianDetailsDTO> GetAllLibrarians()
         {
-            var librarians = this.userService.GetUsersInRole("Librarian");
+            var librarians = this.userService
+                .GetUsersInRole("Librarian")
+                .Where(user => user.AddressId != null);
+
             var librariansDto = librarians
                 .Select(librarian => new LibrarianDetailsDTO()
                 {
@@ -118,11 +121,8 @@
             var currentOwner = owners
                 .FirstOrDefault(u => u.LibraryId == libraryId);
 
-            string ownerAddress = "Not added";
-            if (currentOwner.Address != null)
-            {
-                ownerAddress = currentOwner.Address.ToString();
-            }
+            var address = this.db.Addresses
+                .SingleOrDefault(adress => adress.Id == currentOwner.AddressId);
 
             return this.db.
                  Libraries
@@ -136,9 +136,9 @@
                      RentedBooksCount = lib.LibraryBooks.Where(b => b.Book.IsRented == true).Count(),
                      UsersCount = lib.LibraryUsers.Count,
                      Owner = currentOwner.ToString(),
-                     OwnerAddress = ownerAddress,
+                     OwnerAddress = address.ToString(),
                      OwnerPhone = currentOwner.PhoneNumber ?? "Not added",
-                     Profit = lib.LibraryBooks.Where(book => book.Book.IsRented == true).Sum(book => book.Book.Fee) //TODO: Think about this fee
+                     Profit = 0 //TODO: Think about this fee
                  })
                  .SingleOrDefault();
         }

@@ -42,7 +42,6 @@
                     Picture = bookDto.Picture,
                     Rating = 0,
                     IsRented = false,
-                    Fee = bookDto.Fee,
                     Summary = bookDto.Summary
                 };
 
@@ -127,7 +126,6 @@
                      Name = book.Name,
                      Author = book.Author.ToString(),
                      Publisher = book.Publisher.Name,
-                     Fee = book.Fee,
                      IsRented = book.IsRented,
                      Rating = book.Rating,
                      Summary = book.Summary,

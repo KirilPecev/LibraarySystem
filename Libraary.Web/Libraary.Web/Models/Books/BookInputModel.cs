@@ -15,11 +15,6 @@
         public string Summary { get; set; }
 
         [Required]
-        [Range(typeof(decimal), "0.01", "1000")]
-        [Display(Name = "Fee")]
-        public decimal Fee { get; set; }
-
-        [Required]
         public string Author { get; set; }
 
         [Required]

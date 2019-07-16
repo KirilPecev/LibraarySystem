@@ -22,9 +22,6 @@
         public string AddressId { get; set; }
         public virtual Address Address { get; set; }
 
-        public string LibraryId { get; set; }
-        public Library Library { get; set; }
-
         public virtual ICollection<Book> Books { get; set; }
 
         public override string ToString()

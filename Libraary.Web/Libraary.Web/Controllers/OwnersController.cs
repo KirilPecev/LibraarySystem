@@ -38,5 +38,13 @@
 
             return this.Redirect("/");
         }
+
+
+        [HttpGet]
+        public IActionResult BooksFee(OwnerBindingModel model)
+        {
+            //TODO: Implement this functionality!!!
+            return this.View(model);
+        }
     }
 }

@@ -10,6 +10,8 @@
 
         bool Add(AddAuthorDTO authorDto);
 
-        IEnumerable<AuthorViewDTO> GetAll(string libraryId);
+        IEnumerable<AuthorViewDTO> GetAllByLibraryId(string libraryId);
+
+        IEnumerable<string> GetAllAuthorsName();
     }
 }

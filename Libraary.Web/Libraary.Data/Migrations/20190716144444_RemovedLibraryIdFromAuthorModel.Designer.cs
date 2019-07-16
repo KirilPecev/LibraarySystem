@@ -4,14 +4,16 @@ using Libraary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Libraary.Data.Migrations
 {
     [DbContext(typeof(LibraaryDbContext))]
-    partial class LibraaryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190716144444_RemovedLibraryIdFromAuthorModel")]
+    partial class RemovedLibraryIdFromAuthorModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,6 +80,8 @@ namespace Libraary.Data.Migrations
 
                     b.Property<string>("AuthorId")
                         .IsRequired();
+
+                    b.Property<decimal>("Fee");
 
                     b.Property<bool>("IsRented");
 
@@ -231,8 +235,6 @@ namespace Libraary.Data.Migrations
 
                     b.Property<string>("AddressId")
                         .IsRequired();
-
-                    b.Property<decimal>("BooksFee");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -1,6 +1,7 @@
 ﻿namespace Libraary.Web.Areas.Identity.Pages.Account
 {
     using Libraary.Domain;
+    using Libraary.Web.Models.Address;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,9 @@
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            public AddressInputModel Address { get; set; }
         }
 
         public IActionResult OnGetAsync()
@@ -128,8 +132,8 @@
                     .Where(c => c.Type == ClaimTypes.Surname)
                     .Select(c => c.Value).SingleOrDefault();
 
-
-                var user = new LibraaryUser { UserName = Input.Email, Email = Input.Email, FirstName = firstName, LastName = lastName };
+                var address = new Address { Country = Input.Address.Country, Town = Input.Address.Town, Street = Input.Address.Street, Zip = Input.Address.Zip };
+                var user = new LibraaryUser { UserName = Input.Email, Email = Input.Email, FirstName = firstName, LastName = lastName, Address = address };
                 var result = await _userManager.CreateAsync(user);
                 await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)

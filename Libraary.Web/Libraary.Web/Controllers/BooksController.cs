@@ -11,20 +11,18 @@
         private readonly IMapper mapper;
         private readonly IUserService userService;
         private readonly IBookService bookService;
-        private readonly string libraryId;
-
+  
         public BooksController(IMapper mapper, IUserService userService, IBookService bookService)
         {
             this.mapper = mapper;
             this.userService = userService;
             this.bookService = bookService;
-
-            this.libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
         }
 
         public IActionResult All()
         {
-            var booksDTO = this.bookService.GetAll(this.libraryId);
+            var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
+            var booksDTO = this.bookService.GetAll(libraryId);
             var model = this.mapper.Map<BookViewModel[]>(booksDTO);
 
             return this.View(model);
@@ -32,7 +30,8 @@
 
         public IActionResult Rented()
         {
-            var booksDTO = this.bookService.GetAllRented(this.libraryId);
+            var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
+            var booksDTO = this.bookService.GetAllRented(libraryId);
             var model = this.mapper.Map<BookViewModel[]>(booksDTO);
 
             return this.View("All", model);
@@ -46,8 +45,9 @@
         [HttpPost]
         public IActionResult Add(BookInputModel book)
         {
+            var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
             var model = this.mapper.Map<AddBookDTO>(book);
-            this.bookService.Add(model, this.libraryId);
+            this.bookService.Add(model, libraryId);
 
             return this.View("/");
         }

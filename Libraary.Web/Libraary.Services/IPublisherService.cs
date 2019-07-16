@@ -10,6 +10,8 @@
 
         Publisher GetPublisher(string name);
 
-        IEnumerable<PublisherViewModelDTO> GetAll();
+        IEnumerable<PublisherViewModelDTO> GetAllByLibraryId(string libraryId);
+
+        IEnumerable<string> GetAllPublishersName();
     }
 }

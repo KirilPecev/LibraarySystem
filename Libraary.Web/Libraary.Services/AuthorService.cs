@@ -3,6 +3,7 @@
     using Data;
     using Domain;
     using DTOs.Author;
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -43,19 +44,25 @@
             return count != 0;
         }
 
-        public IEnumerable<AuthorViewDTO> GetAll(string libraryId)
+        public IEnumerable<AuthorViewDTO> GetAllByLibraryId(string libraryId)
         {
             return this.db
-                .Libraries
-                .SingleOrDefault(lib => lib.Id == libraryId)
-                .Authors
-                .Select(author => new AuthorViewDTO
+                .LibraryBooks
+                .Where(lb => lb.LibraryId == libraryId)
+                .Include(x => x.Book)
+                .ThenInclude(x => x.Author)
+                .Select(book => new AuthorViewDTO
                 {
-                    Id = author.Id,
-                    Name = author.ToString(),
-                    Address = author.Address.ToString(),
-                    BooksCount = author.Books.Count
+                    Id = book.Book.Author.Id,
+                    Name = book.Book.Author.ToString(),
+                    Address = book.Book.Author.Address.ToString(),
+                    BooksCount = book.Book.Author.Books.Count
                 }).ToList();
+        }
+
+        public IEnumerable<string> GetAllAuthorsName()
+        {
+            return this.db.Authors.Select(author => author.ToString()).ToList();
         }
 
         public Author GetAuthor(string name)

@@ -21,10 +21,6 @@
         public string Summary { get; set; }
 
         [Required]
-        [Range(typeof(decimal), "0.01", "1000")]
-        public decimal Fee { get; set; }
-
-        [Required]
         public string AuthorId { get; set; }
         public Author Author { get; set; }
 
