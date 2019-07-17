@@ -35,6 +35,11 @@
             //    options.MinimumSameSitePolicy = SameSiteMode.None;
             //});
 
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+            });
+
             services.AddDbContext<LibraaryDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -114,6 +119,7 @@
             }
 
             app.UseHttpsRedirection();
+            app.UseResponseCompression();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
