@@ -39,7 +39,7 @@
                     Name = bookDto.Name,
                     Author = author,
                     Publisher = publisher,
-                    Picture = bookDto.Picture,
+                    //Picture = bookDto.Picture,
                     Rating = 0,
                     IsRented = false,
                     Summary = bookDto.Summary
@@ -90,7 +90,7 @@
                     Author = book.Author.ToString(),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
-                    Picture = Convert.ToBase64String(book.Picture)
+                    //Picture = Convert.ToBase64String(book.Picture)
                 })
                 .ToList();
         }
@@ -111,7 +111,7 @@
                     Author = book.Author.ToString(),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
-                    Picture = Convert.ToBase64String(book.Picture)
+                    //Picture = Convert.ToBase64String(book.Picture)
                 })
                 .ToList();
         }
@@ -129,7 +129,7 @@
                      IsRented = book.IsRented,
                      Rating = book.Rating,
                      Summary = book.Summary,
-                     Picture = Convert.ToBase64String(book.Picture),
+                     //Picture = Convert.ToBase64String(book.Picture),
                      Categories = string.Join(", ", book.BookCategories)
                  })
                  .FirstOrDefault();
@@ -152,7 +152,7 @@
                     Author = book.Author.ToString(),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
-                    Picture = Convert.ToBase64String(book.Picture)
+                    //Picture = Convert.ToBase64String(book.Picture)
                 })
                 .ToList();
         }

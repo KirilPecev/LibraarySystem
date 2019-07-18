@@ -1,5 +1,7 @@
 ﻿namespace Libraary.Services.DTOs.Book
 {
+    using Microsoft.AspNetCore.Http;
+
     public class AddBookDTO
     {
         public string Name { get; set; }
@@ -10,7 +12,7 @@
 
         public string Publisher { get; set; }
 
-        public byte[] Picture { get; set; }
+        public IFormFile Picture { get; set; }
 
         public string Categories { get; set; }
     }

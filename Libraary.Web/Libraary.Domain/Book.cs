@@ -36,7 +36,7 @@
         public int Rating { get; set; }
 
         [Required]
-        public byte[] Picture { get; set; }
+        public string PictureName { get; set; }
 
         public virtual ICollection<Rent> Rents { get; set; }
 

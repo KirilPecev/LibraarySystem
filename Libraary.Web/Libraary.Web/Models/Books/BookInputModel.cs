@@ -1,5 +1,6 @@
 ﻿namespace Libraary.Web.Models.Books
 {
+    using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
 
     public class BookInputModel
@@ -21,7 +22,8 @@
         public string Publisher { get; set; }
 
         [Required]
-        public byte[] Picture { get; set; }
+        [DataType(DataType.Upload)]
+        public IFormFile Picture { get; set; }
 
         [Required]
         public string Categories { get; set; }
