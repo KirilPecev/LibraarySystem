@@ -3,8 +3,8 @@
     using DTOs.Book;
     using Libraary.Data;
     using Libraary.Domain;
-    using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     public class BookService : IBookService
@@ -39,11 +39,18 @@
                     Name = bookDto.Name,
                     Author = author,
                     Publisher = publisher,
-                    //Picture = bookDto.Picture,
                     Rating = 0,
                     IsRented = false,
                     Summary = bookDto.Summary
                 };
+
+                book.PictureName = book.Id;
+                var filePath = $@"~\wwwroot\Pictures\{book.PictureName}";
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    bookDto.Picture.CopyTo(stream);
+                }
 
                 publisher.Books.Add(book);
 
