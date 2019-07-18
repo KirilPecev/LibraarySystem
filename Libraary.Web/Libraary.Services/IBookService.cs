@@ -14,5 +14,10 @@
         BookDetailsDTO GetBookDetails(string bookId);
 
         IEnumerable<BookDTO> GetAllByAuthor(string authorId, string libraryId);
+
+        void RemoveBook(string bookId);
+
+        EditBookDto GetBookEditDetails(string bookId);
+        void EditBookById(string bookId);
     }
 }

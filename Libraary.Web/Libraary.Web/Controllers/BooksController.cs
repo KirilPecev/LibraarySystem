@@ -11,7 +11,7 @@
         private readonly IMapper mapper;
         private readonly IUserService userService;
         private readonly IBookService bookService;
-  
+
         public BooksController(IMapper mapper, IUserService userService, IBookService bookService)
         {
             this.mapper = mapper;
@@ -49,16 +49,39 @@
             var model = this.mapper.Map<AddBookDTO>(book);
             this.bookService.Add(model, libraryId);
 
-            return this.View("/");
+            return this.Redirect("/");
         }
 
 
         public IActionResult Details(string bookId)
         {
             var booksDto = this.bookService.GetBookDetails(bookId);
-            this.mapper.Map<BookDetailsViewModel>(booksDto);
+            var mappedModel = this.mapper.Map<BookDetailsViewModel>(booksDto);
 
-            return this.View(booksDto);
+            return this.View(mappedModel);
+        }
+
+        public IActionResult Remove(string bookId)
+        {
+            this.bookService.RemoveBook(bookId);
+            return this.RedirectToAction("All");
+        }
+
+        public IActionResult Edit(string bookId)
+        {
+            var book = this.bookService.GetBookEditDetails(bookId);
+            var mappedModel = this.mapper.Map<BookEditInputModel>(book);
+
+            return this.View(mappedModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(BookEditInputModel model, string bookId)
+        {
+            var mappedModel = this.mapper.Map<EditBookDto>(model);
+            this.bookService.EditBookById(bookId);
+
+            return this.RedirectToAction("All");
         }
     }
 }

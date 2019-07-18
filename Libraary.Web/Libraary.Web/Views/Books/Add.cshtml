@@ -14,23 +14,13 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-10">
-            <input type="submit" value="Upload">
-        </div>
-    </div>
-    <div class="form-group">
         <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" placeholder="Library name">
+        <input asp-for="Name" class="form-control" placeholder="Book name">
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Summary"></label>
-        <input asp-for="Summary" class="form-control" placeholder="Library name">
-        <span asp-validation-for="Summary" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Summary"></label>
-        <input asp-for="Summary" class="form-control" placeholder="Library name">
+        <input asp-for="Summary" class="form-control" placeholder="Summary">
         <span asp-validation-for="Summary" class="text-danger"></span>
     </div>
     <fieldset>
@@ -38,7 +28,7 @@
         @foreach (var item in AuthorService.GetAllAuthorsName())
         {
             <div>
-                <input type="checkbox" id="@item" name="@item" value="@item">
+                <input type="checkbox" asp-for="Author" value="@item" checked>
                 <label asp-for="@item">@item</label>
             </div>
         }
@@ -48,7 +38,7 @@
         @foreach (var item in PublisherService.GetAllPublishersName())
         {
             <div>
-                <input type="checkbox" id="@item" name="@item" value="@item">
+                <input type="checkbox" asp-for="Publisher" value="@item">
                 <label asp-for="@item">@item</label>
             </div>
         }
@@ -58,7 +48,7 @@
         @foreach (var item in CategoryService.GetCategories())
         {
             <div>
-                <input type="checkbox" id="@item" name="@item" value="@item">
+                <input type="checkbox" asp-for="Categories" value="@item">
                 <label asp-for="@item">@item</label>
             </div>
         }

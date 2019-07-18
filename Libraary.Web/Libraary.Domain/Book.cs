@@ -38,6 +38,8 @@
         [Required]
         public string PictureName { get; set; }
 
+        public bool IsRemoved { get; set; }
+
         public virtual ICollection<Rent> Rents { get; set; }
 
         public virtual ICollection<BookCategory> BookCategories { get; set; }

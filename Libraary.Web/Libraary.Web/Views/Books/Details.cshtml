@@ -4,43 +4,41 @@
 }
 
 <main class="mt-3">
-    <h1 class="text-center">Library Details for @Model.Name</h1>
+    <h1 class="text-center">Book Details for @Model.Name</h1>
     <hr class="hr-2">
     <div class="mx-auto">
         <div class="address-and-date-holder d-flex justify-content-around">
             <div class="d-flex flex-column">
-                <img src="data:image/png;base64,@Model.Picture" width="80" height="80" />
+                <img src="~/Pictures/@Model.Picture" width="80" height="80" />
             </div>
             <div class="d-flex flex-column">
-                <h2 class="text-center">Address</h2>
+                <h2 class="text-center">Author</h2>
                 <h3 class="text-center mt-1">@Model.Author</h3>
             </div>
             <div class="d-flex flex-column">
-                <h2 class="text-center">Phone</h2>
+                <h2 class="text-center">Publisher</h2>
                 <h3 class="text-center mt-1">@Model.Publisher</h3>
             </div>
         </div>
         <hr class="hr-2">
         <div class="w-75 mx-auto weight-and-recipient-holder d-flex justify-content-between">
             <div class="d-flex flex-column w-50">
-                <h2 class="text-center">Books count</h2>
+                <h2 class="text-center">Rating</h2>
                 <h3 class="text-center mt-1">@Model.Rating</h3>
+            </div>
+            <div class="d-flex flex-column w-50">
+                <h2 class="text-center">Rented</h2>
+                <h3 class="text-center mt-1">@Model.IsRented</h3>
             </div>
         </div>
         <hr class="hr-2 w-75">
         <div class="w-75 mx-auto weight-and-recipient-holder d-flex justify-content-between">
             <div class="d-flex flex-column w-50">
-                <h2 class="text-center">Owner name</h2>
+                <h2 class="text-center">Category</h2>
                 <h3 class="text-center mt-1">@Model.Categories</h3>
             </div>
             <div class="d-flex flex-column w-50">
-                <h2 class="text-center">Owner Phone</h2>
-                <h3 class="text-center mt-1">@Model.IsRented</h3>
-            </div>
-        </div>
-        <div class="w-100 mx-auto weight-and-recipient-holder d-flex justify-content-between">
-            <div class="d-flex flex-column w-50">
-                <h2 class="text-center">Owner Address</h2>
+                <h2 class="text-center">Summary</h2>
                 <h3 class="text-center mt-1">@Model.Summary</h3>
             </div>
         </div>

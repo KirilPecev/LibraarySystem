@@ -1,0 +1,97 @@
+﻿@model Libraary.Web.Models.Books.BookEditInputModel
+@inject Libraary.Services.ICategoryService  CategoryService
+@inject Libraary.Services.IAuthorService  AuthorService
+@inject Libraary.Services.IPublisherService  PublisherService
+@{
+    ViewData["Title"] = "Edit Book";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <img src="~/Pictures/@Model.Picture" width="80" height="80" />
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <p>Upload new picture:</p>
+            <input asp-for="NewPicture">
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" placeholder="Book name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Summary"></label>
+        <input asp-for="Summary" class="form-control" placeholder="Summary">
+        <span asp-validation-for="Summary" class="text-danger"></span>
+    </div>
+    <fieldset>
+        <legend>Choose author</legend>
+        @foreach (var item in AuthorService.GetAllAuthorsName())
+        {
+            if (Model.Author == item)
+            {
+                <div>
+                    <input type="checkbox" asp-for="Author" value="@item" checked>
+                    <label asp-for="@item">@item</label>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <input type="checkbox" asp-for="Author" value="@item">
+                    <label asp-for="@item">@item</label>
+                </div>
+            }
+        }
+    </fieldset>
+    <fieldset>
+        <legend>Choose publisher</legend>
+        @foreach (var item in PublisherService.GetAllPublishersName())
+        {
+            if (Model.Publisher == item)
+            {
+                <div>
+                    <input type="checkbox" asp-for="Publisher" value="@item" checked>
+                    <label asp-for="@item">@item</label>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <input type="checkbox" asp-for="Publisher" value="@item">
+                    <label asp-for="@item">@item</label>
+                </div>
+            }
+        }
+    </fieldset>
+    <fieldset>
+        <legend>Choose categories</legend>
+        @foreach (var item in CategoryService.GetCategories())
+        {
+            if (Model.Category == item)
+            {
+                <div>
+                    <input type="checkbox" asp-for="Category" value="@item" checked>
+                    <label asp-for="@item">@item</label>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <input type="checkbox" asp-for="Category" value="@item">
+                    <label asp-for="Category">@item</label>
+                </div>
+            }
+        }
+    </fieldset>
+    <div>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -3,6 +3,7 @@
     using DTOs.Book;
     using Libraary.Data;
     using Libraary.Domain;
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -40,12 +41,15 @@
                     Author = author,
                     Publisher = publisher,
                     Rating = 0,
+                    PictureName = bookDto.Picture.FileName,
                     IsRented = false,
+                    IsRemoved = false,
                     Summary = bookDto.Summary
                 };
 
-                book.PictureName = book.Id;
-                var filePath = $@"~\wwwroot\Pictures\{book.PictureName}";
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Pictures");
+
+                filePath += $@"\{book.PictureName}";
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
@@ -85,7 +89,7 @@
         {
             return this.db
                 .LibraryBooks
-                .Where(lb => lb.LibraryId == libraryId)
+                .Where(lb => lb.LibraryId == libraryId && lb.Book.IsRemoved == false)
                 .Select(b => b.Book)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
@@ -97,7 +101,7 @@
                     Author = book.Author.ToString(),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
-                    //Picture = Convert.ToBase64String(book.Picture)
+                    Picture = book.PictureName
                 })
                 .ToList();
         }
@@ -106,7 +110,7 @@
         {
             return this.db
                 .LibraryBooks
-                .Where(lb => lb.LibraryId == libraryId && lb.Book.IsRented == true)
+                .Where(lb => lb.LibraryId == libraryId && lb.Book.IsRented == true && lb.Book.IsRemoved == false)
                 .Select(b => b.Book)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
@@ -118,7 +122,7 @@
                     Author = book.Author.ToString(),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
-                    //Picture = Convert.ToBase64String(book.Picture)
+                    Picture = book.PictureName
                 })
                 .ToList();
         }
@@ -136,7 +140,7 @@
                      IsRented = book.IsRented,
                      Rating = book.Rating,
                      Summary = book.Summary,
-                     //Picture = Convert.ToBase64String(book.Picture),
+                     Picture = book.PictureName,
                      Categories = string.Join(", ", book.BookCategories)
                  })
                  .FirstOrDefault();
@@ -146,8 +150,9 @@
         {
             return this.db
                 .LibraryBooks
-                .Where(lb => lb.LibraryId == libraryId
-                                    && lb.Book.AuthorId == authorId)
+                .Where(lb => lb.LibraryId == libraryId)
+                .Include(x => x.Book)
+                .Where(b => b.Book.IsRemoved == false && b.Book.AuthorId == authorId)
                 .Select(b => b.Book)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
@@ -159,9 +164,38 @@
                     Author = book.Author.ToString(),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
-                    //Picture = Convert.ToBase64String(book.Picture)
+                    Picture = book.PictureName
                 })
                 .ToList();
+        }
+
+        public void RemoveBook(string bookId)
+        {
+            this.db.Books.SingleOrDefault(b => b.Id == bookId).IsRemoved = true;
+            this.db.SaveChanges();
+        }
+
+        public EditBookDto GetBookEditDetails(string bookId)
+        {
+            return this.db
+                .Books
+                .Where(book => book.Id == bookId)
+                .Include(x=>x.BookCategories)
+                .Select(book => new EditBookDto
+                {
+                    Name = book.Name,
+                    Author = book.Author.ToString(),
+                    Publisher = book.Publisher.Name,
+                    Summary = book.Summary,
+                    Picture = book.PictureName,
+                    Category = book.BookCategories.Select(bc=>bc.Category.CategoryName).FirstOrDefault()
+                })
+                .FirstOrDefault();
+        }
+
+        public void EditBookById(string bookId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
