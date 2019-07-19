@@ -54,6 +54,7 @@
                     Phone = book.Book.Publisher.PhoneNumber,
                     URL = book.Book.Publisher.URLAddress
                 })
+                 .Distinct()
                  .ToList();
         }
 

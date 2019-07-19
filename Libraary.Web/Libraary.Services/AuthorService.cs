@@ -46,7 +46,7 @@
 
         public IEnumerable<AuthorViewDTO> GetAllByLibraryId(string libraryId)
         {
-            return this.db
+            var booksWithAuthor = this.db
                 .LibraryBooks
                 .Where(lb => lb.LibraryId == libraryId)
                 .Include(x => x.Book)
@@ -57,7 +57,9 @@
                     Name = book.Book.Author.ToString(),
                     Address = book.Book.Author.Address.ToString(),
                     BooksCount = book.Book.Author.Books.Count
-                }).ToList();
+                });
+
+            return booksWithAuthor.GroupBy(author => author.Name).Select(x=>x.First());
         }
 
         public IEnumerable<string> GetAllAuthorsName()
