@@ -33,7 +33,7 @@
                 isNewBook = true;
                 var author = this.authorService.GetAuthor(bookDto.Author);
                 var publisher = this.publisherService.GetPublisher(bookDto.Publisher);
-                var categories = bookDto.Categories.Split(' ').ToArray();
+                var categories = bookDto.Categories;
 
                 book = new Book
                 {
@@ -141,7 +141,7 @@
                      Rating = book.Rating,
                      Summary = book.Summary,
                      Picture = book.PictureName,
-                     Categories = string.Join(", ", book.BookCategories)
+                     Categories = string.Join(", ", book.BookCategories.Select(x=>x.Category.CategoryName))
                  })
                  .FirstOrDefault();
         }
@@ -180,7 +180,7 @@
             return this.db
                 .Books
                 .Where(book => book.Id == bookId)
-                .Include(x=>x.BookCategories)
+                .Include(x => x.BookCategories)
                 .Select(book => new EditBookDto
                 {
                     Name = book.Name,
@@ -188,14 +188,72 @@
                     Publisher = book.Publisher.Name,
                     Summary = book.Summary,
                     Picture = book.PictureName,
-                    Category = book.BookCategories.Select(bc=>bc.Category.CategoryName).FirstOrDefault()
+                    Categories = book.BookCategories.Select(bc => bc.Category.CategoryName).ToArray()
                 })
                 .FirstOrDefault();
         }
 
-        public void EditBookById(string bookId)
+        public bool EditBookById(string bookId, EditBookDto model, string libraryId)
         {
-            throw new System.NotImplementedException();
+            var book = this.db.Books.SingleOrDefault(b => b.Id == bookId);
+
+            this.db.Remove(book);
+
+            var author = this.authorService.GetAuthor(model.Author);
+            var publisher = this.publisherService.GetPublisher(model.Publisher);
+            var categories = model.Categories;
+
+            var pictureName = book.PictureName;
+            if (model.NewPicture != null)
+            {
+                pictureName = model.NewPicture.FileName;
+            }
+
+            var editedBook = new Book
+            {
+                Name = model.Name,
+                Author = author,
+                Publisher = publisher,
+                Rating = book.Rating,
+                PictureName = pictureName,
+                IsRented = book.IsRented,
+                IsRemoved = book.IsRemoved,
+                Summary = model.Summary
+            };
+
+            if (model.NewPicture != null)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Pictures");
+
+                filePath += $@"\{editedBook.PictureName}";
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.NewPicture.CopyTo(stream);
+                }
+            }
+
+            publisher.Books.Add(editedBook);
+
+            foreach (var category in categories)
+            {
+                editedBook.BookCategories.Add(new BookCategory
+                {
+                    Category = new Category
+                    {
+                        CategoryName = category
+                    }
+                });
+            }
+
+            editedBook.LibraryBooks.Add(new LibraryBook
+            {
+                LibraryId = libraryId
+            });
+
+            this.db.Add(editedBook);
+            int count = this.db.SaveChanges();
+            return count != 0;
         }
     }
 }

@@ -18,6 +18,7 @@
         void RemoveBook(string bookId);
 
         EditBookDto GetBookEditDetails(string bookId);
-        void EditBookById(string bookId);
+
+        bool EditBookById(string bookId, EditBookDto mappedModel, string libraryId);
     }
 }

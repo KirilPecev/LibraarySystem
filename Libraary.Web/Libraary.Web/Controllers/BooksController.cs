@@ -78,8 +78,9 @@
         [HttpPost]
         public IActionResult Edit(BookEditInputModel model, string bookId)
         {
+            var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
             var mappedModel = this.mapper.Map<EditBookDto>(model);
-            this.bookService.EditBookById(bookId);
+            this.bookService.EditBookById(bookId, mappedModel, libraryId);
 
             return this.RedirectToAction("All");
         }

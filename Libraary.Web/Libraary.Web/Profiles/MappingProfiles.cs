@@ -36,6 +36,7 @@
             CreateMap<PublisherBindingModel, AddPublisherDTO>();
             CreateMap<PublisherViewModelDTO, PublisherViewModel>();
             CreateMap<EditBookDto, BookEditInputModel>();
+            CreateMap<BookEditInputModel, EditBookDto>();
         }
     }
 }

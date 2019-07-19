@@ -26,6 +26,6 @@
         public IFormFile Picture { get; set; }
 
         [Required]
-        public string Categories { get; set; }
+        public string[] Categories { get; set; }
     }
 }

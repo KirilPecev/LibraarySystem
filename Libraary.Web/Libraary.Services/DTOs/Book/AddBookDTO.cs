@@ -14,6 +14,6 @@
 
         public IFormFile Picture { get; set; }
 
-        public string Categories { get; set; }
+        public string[] Categories { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Libraary.Data.Migrations
             migrationBuilder.InsertData(
             table: "Categories",
             columns: new[] { "Id", "CategoryName" },
-            values: new object[] { Guid.NewGuid().ToString(), "Art, Music & Photography" });
+            values: new object[] { Guid.NewGuid().ToString(), "Art, Music, Photography" });
 
             migrationBuilder.InsertData(
           table: "Categories",

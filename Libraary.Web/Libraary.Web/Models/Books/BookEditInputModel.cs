@@ -21,13 +21,12 @@
         [Required]
         public string Publisher { get; set; }
 
-        [Required]
         [DataType(DataType.Upload)]
         public IFormFile NewPicture { get; set; }
 
         public string Picture { get; set; }
 
         [Required]
-        public string Category { get; set; }
+        public string[] Categories { get; set; }
     }
 }
