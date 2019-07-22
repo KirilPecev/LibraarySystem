@@ -1,0 +1,33 @@
+﻿@model Libraary.Web.Models.Books.BookViewModel[]
+@{
+    ViewData["Title"] = "My History";
+}
+
+<p1>My History of rented books</p1>
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Picture</th>
+            <th scope="col">Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Publisher</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Returned</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < @Model.Length; i++)
+        {
+        <tr>
+            <th><img src="~/Pictures/@Model[i].Picture" width="80" height="80" /></th>
+            <td>@Model[i].Name</td>
+            <td>@Model[i].Author</td>
+            <td>@Model[i].Publisher</td>
+            <td>@Model[i].Rating</td>
+            <td>@(Model[i].IsRented?"No":"Yes")</td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -41,6 +41,14 @@
                            class="btn btn-outline-info"
                            role="button">Edit</a>
                     }
+                    @if (this.User.IsInRole("Librarian") && Model[i].IsRented == true)
+                    {
+                        <a asp-controller="Books"
+                           asp-action="ReturnBook"
+                           asp-route-bookId="@Model[i].Id"
+                           class="btn btn-outline-info"
+                           role="button">Return</a>
+                    }
                 </td>
             </tr>
         }

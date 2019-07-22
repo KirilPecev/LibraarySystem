@@ -18,6 +18,7 @@
         string GetUserLibraryId(string name);
 
         int GetUsersCount();
+
         void AddRole(string email, string v);
     }
 }

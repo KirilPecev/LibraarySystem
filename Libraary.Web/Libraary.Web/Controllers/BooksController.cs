@@ -92,5 +92,18 @@
 
             return this.RedirectToAction("All");
         }
+
+
+        public IActionResult ReturnBook(string bookId)
+        {
+            var result = this.bookService.ReturnBook(bookId);
+
+            if (result == false)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            return this.RedirectToAction("Rented");
+        }
     }
 }

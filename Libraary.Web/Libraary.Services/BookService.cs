@@ -4,6 +4,7 @@
     using Libraary.Data;
     using Libraary.Domain;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -13,12 +14,14 @@
         private readonly LibraaryDbContext db;
         private readonly IAuthorService authorService;
         private readonly IPublisherService publisherService;
+        private readonly IUserService userService;
 
-        public BookService(LibraaryDbContext db, IAuthorService authorService, IPublisherService publisherService)
+        public BookService(LibraaryDbContext db, IAuthorService authorService, IPublisherService publisherService, IUserService userService)
         {
             this.db = db;
             this.authorService = authorService;
             this.publisherService = publisherService;
+            this.userService = userService;
         }
 
         public bool Add(AddBookDTO bookDto, string libraryId)
@@ -101,7 +104,8 @@
                     Author = book.Author.ToString(),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
-                    Picture = book.PictureName
+                    Picture = book.PictureName,
+                    IsRented = book.IsRented
                 })
                 .ToList();
         }
@@ -122,7 +126,8 @@
                     Author = book.Author.ToString(),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
-                    Picture = book.PictureName
+                    Picture = book.PictureName,
+                    IsRented = book.IsRented
                 })
                 .ToList();
         }
@@ -134,6 +139,7 @@
                  .Where(book => book.Id == bookId)
                  .Select(book => new BookDetailsDTO
                  {
+                     Id = book.Id,
                      Name = book.Name,
                      Author = book.Author.ToString(),
                      Publisher = book.Publisher.Name,
@@ -141,7 +147,7 @@
                      Rating = book.Rating,
                      Summary = book.Summary,
                      Picture = book.PictureName,
-                     Categories = string.Join(", ", book.BookCategories.Select(x=>x.Category.CategoryName))
+                     Categories = string.Join(", ", book.BookCategories.Select(x => x.Category.CategoryName))
                  })
                  .FirstOrDefault();
         }
@@ -164,7 +170,8 @@
                     Author = book.Author.ToString(),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
-                    Picture = book.PictureName
+                    Picture = book.PictureName,
+                    IsRented = book.IsRented
                 })
                 .ToList();
         }
@@ -260,6 +267,7 @@
         {
             return this.db
                 .Books
+                .Where(book => book.IsRemoved == false && book.IsRented == false)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
@@ -270,9 +278,55 @@
                     Author = book.Author.ToString(),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
-                    Picture = book.PictureName
+                    Picture = book.PictureName,
+                    IsRented = book.IsRented
                 })
                 .ToList();
+        }
+
+        public IEnumerable<BookDTO> GetAllRentedByUserName(string user)
+        {
+            return this.db
+                .Rents
+                .Include(x => x.User)
+                .Where(rent => rent.User.UserName == user)
+                .Select(book => new BookDTO
+                {
+                    Id = book.Book.Id,
+                    Name = book.Book.Name,
+                    Author = book.Book.Author.ToString(),
+                    Publisher = book.Book.Publisher.Name,
+                    Rating = book.Book.Rating,
+                    Picture = book.Book.PictureName,
+                    IsRented = book.Book.IsRented
+                })
+                .ToList();
+        }
+
+        public bool RentBook(string userName, string bookId)
+        {
+            var user = this.userService.GetUser(userName);
+            user.RentedBooks.Add(new Rent()
+            {
+                BookId = bookId,
+                IssuedOn = DateTime.UtcNow,
+            });
+
+            var currentBook = this.db.Books.SingleOrDefault(book => book.Id == bookId).IsRented = true;
+
+            int count = this.db.SaveChanges();
+            return count != 0;
+        }
+
+        public bool ReturnBook(string bookId)
+        {
+            this.db
+                 .Books
+                 .SingleOrDefault(book => book.Id == bookId)
+                 .IsRented = false;
+
+            int count = this.db.SaveChanges();
+            return count != 0;
         }
     }
 }

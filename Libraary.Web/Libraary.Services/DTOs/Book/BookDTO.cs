@@ -12,6 +12,8 @@
 
         public int Rating { get; set; }
 
-        public string Picture { get; set; } 
+        public string Picture { get; set; }
+
+        public bool IsRented { get; set; }
     }
 }
