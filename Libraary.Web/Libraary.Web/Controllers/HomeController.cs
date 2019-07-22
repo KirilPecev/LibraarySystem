@@ -34,6 +34,11 @@
                 return this.RedirectToAction("Home", new { LibraryId = id });
             }
 
+            if (this.User.IsInRole("User"))
+            {
+                return this.RedirectToAction("All", "Books");
+            }
+
             return this.RedirectToAction("Home");
         }
 
@@ -49,11 +54,6 @@
             }
 
             return this.View(model);
-        }
-
-        public IActionResult Choose(string libraryId)
-        {
-            return this.View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

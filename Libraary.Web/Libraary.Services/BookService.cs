@@ -85,7 +85,7 @@
             return count != 0;
         }
 
-        public IEnumerable<BookDTO> GetAll(string libraryId)
+        public IEnumerable<BookDTO> GetAllByLibraryId(string libraryId)
         {
             return this.db
                 .LibraryBooks
@@ -254,6 +254,25 @@
             this.db.Add(editedBook);
             int count = this.db.SaveChanges();
             return count != 0;
+        }
+
+        public IEnumerable<BookDTO> GetAll()
+        {
+            return this.db
+                .Books
+                .OrderBy(b => b.Name)
+                .ThenBy(b => b.BookCategories
+                    .Select(c => c.Category.CategoryName))
+                .Select(book => new BookDTO
+                {
+                    Id = book.Id,
+                    Name = book.Name,
+                    Author = book.Author.ToString(),
+                    Publisher = book.Publisher.Name,
+                    Rating = book.Rating,
+                    Picture = book.PictureName
+                })
+                .ToList();
         }
     }
 }

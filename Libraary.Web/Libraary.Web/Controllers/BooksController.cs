@@ -19,10 +19,18 @@
             this.bookService = bookService;
         }
 
-        public IActionResult All()
+        public IActionResult AllByLibraryId()
         {
             var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
-            var booksDTO = this.bookService.GetAll(libraryId);
+            var booksDTO = this.bookService.GetAllByLibraryId(libraryId);
+            var model = this.mapper.Map<BookViewModel[]>(booksDTO);
+
+            return this.View(model);
+        }
+
+        public IActionResult All()
+        {
+            var booksDTO = this.bookService.GetAll();
             var model = this.mapper.Map<BookViewModel[]>(booksDTO);
 
             return this.View(model);

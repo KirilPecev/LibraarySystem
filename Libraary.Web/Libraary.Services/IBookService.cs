@@ -5,7 +5,7 @@
 
     public interface IBookService
     {
-        IEnumerable<BookDTO> GetAll(string libraryId);
+        IEnumerable<BookDTO> GetAllByLibraryId(string libraryId);
 
         IEnumerable<BookDTO> GetAllRented(string libraryId);
 
@@ -20,5 +20,7 @@
         EditBookDto GetBookEditDetails(string bookId);
 
         bool EditBookById(string bookId, EditBookDto mappedModel, string libraryId);
+
+        IEnumerable<BookDTO> GetAll();
     }
 }

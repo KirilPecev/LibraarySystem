@@ -28,16 +28,19 @@
                        asp-route-bookId="@Model[i].Id"
                        class="btn btn-outline-info"
                        role="button">Details</a>
-                    <a asp-controller="Books"
-                       asp-action="Remove"
-                       asp-route-bookId="@Model[i].Id"
-                       class="btn btn-outline-info"
-                       role="button">Remove</a>
-                    <a asp-controller="Books"
-                       asp-action="Edit"
-                       asp-route-bookId="@Model[i].Id"
-                       class="btn btn-outline-info"
-                       role="button">Edit</a>
+                    @if (this.User.IsInRole("Librarian"))
+                    {
+                        <a asp-controller="Books"
+                           asp-action="Remove"
+                           asp-route-bookId="@Model[i].Id"
+                           class="btn btn-outline-info"
+                           role="button">Remove</a>
+                        <a asp-controller="Books"
+                           asp-action="Edit"
+                           asp-route-bookId="@Model[i].Id"
+                           class="btn btn-outline-info"
+                           role="button">Edit</a>
+                    }
                 </td>
             </tr>
         }
