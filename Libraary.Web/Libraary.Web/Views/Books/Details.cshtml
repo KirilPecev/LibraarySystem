@@ -43,7 +43,7 @@
             </div>
         </div>
     </div>
-    @if (this.User.IsInRole("User"))
+    @if (this.User.IsInRole("User") && Model.IsRented == false)
     {
         <div>
             <a asp-controller="Users"
