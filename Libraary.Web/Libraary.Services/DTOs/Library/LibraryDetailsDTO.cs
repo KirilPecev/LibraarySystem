@@ -23,5 +23,9 @@
         public int LibrariesCount { get; set; }
 
         public int BooksCountForAllLibraries { get; set; }
+
+        public int LibrariansCount { get; set; }
+
+        public int AuthorsCount { get; set; }
     }
 }

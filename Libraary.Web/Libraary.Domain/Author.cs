@@ -7,7 +7,7 @@
     {
         public Author()
         {
-            this.Books = new HashSet<Book>();
+            this.AuthorBooks = new HashSet<AuthorBooks>();
         }
 
         [Required]
@@ -22,7 +22,7 @@
         public string AddressId { get; set; }
         public virtual Address Address { get; set; }
 
-        public virtual ICollection<Book> Books { get; set; }
+        public virtual ICollection<AuthorBooks> AuthorBooks { get; set; }
 
         public override string ToString()
         {

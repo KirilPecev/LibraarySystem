@@ -7,6 +7,7 @@
     {
         public Book()
         {
+            this.AuthorBooks = new HashSet<AuthorBooks>();
             this.BookCategories = new HashSet<BookCategory>();
             this.LibraryBooks = new List<LibraryBook>();
         }
@@ -18,10 +19,6 @@
         [Required]
         [MaxLength(int.MaxValue)]
         public string Summary { get; set; }
-
-        [Required]
-        public string AuthorId { get; set; }
-        public Author Author { get; set; }
 
         [Required]
         public bool IsRented { get; set; }
@@ -38,6 +35,8 @@
         public string PictureName { get; set; }
 
         public bool IsRemoved { get; set; }
+
+        public virtual ICollection<AuthorBooks> AuthorBooks { get; set; }
 
         public virtual ICollection<BookCategory> BookCategories { get; set; }
 

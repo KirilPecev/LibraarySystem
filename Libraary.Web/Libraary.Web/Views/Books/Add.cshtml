@@ -28,7 +28,7 @@
         @foreach (var item in AuthorService.GetAllAuthorsName())
         {
             <div>
-                <input type="checkbox" asp-for="Author" value="@item">
+                <input type="checkbox" name="Authors" value="@item">
                 <label asp-for="@item">@item</label>
             </div>
         }

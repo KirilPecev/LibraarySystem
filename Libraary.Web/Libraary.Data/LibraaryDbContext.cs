@@ -13,6 +13,8 @@
 
         public DbSet<Author> Authors { get; set; }
 
+        public DbSet<AuthorBooks> AuthorBooks { get; set; }
+
         public DbSet<Book> Books { get; set; }
 
         public DbSet<BookCategory> BookCategories { get; set; }
@@ -31,6 +33,7 @@
         {
             builder.ApplyConfiguration(new BookCategoryEntityTypeConfiguration());
             builder.ApplyConfiguration(new BookLibraryEntityTypeConfiguration());
+            builder.ApplyConfiguration(new AuthorBooksEntityTypeConfiguration());
 
             base.OnModelCreating(builder);
         }

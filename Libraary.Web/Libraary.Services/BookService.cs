@@ -15,33 +15,32 @@
         private readonly IAuthorService authorService;
         private readonly IPublisherService publisherService;
         private readonly IUserService userService;
+        private readonly ICategoryService categoryService;
 
-        public BookService(LibraaryDbContext db, IAuthorService authorService, IPublisherService publisherService, IUserService userService)
+        public BookService(LibraaryDbContext db, IAuthorService authorService, IPublisherService publisherService, IUserService userService, ICategoryService categoryService)
         {
             this.db = db;
             this.authorService = authorService;
             this.publisherService = publisherService;
             this.userService = userService;
+            this.categoryService = categoryService;
         }
 
         public bool Add(AddBookDTO bookDto, string libraryId)
         {
             bool isNewBook = false;
-            Book book = this.db.Books.FirstOrDefault(b => b.Name == bookDto.Name
-                           && b.Author.ToString() == bookDto.Author
-                           && b.Publisher.Name == bookDto.Publisher);
+            Book book = this.db.Books.FirstOrDefault(b => b.Name == bookDto.Name);
 
             if (book == null)
             {
                 isNewBook = true;
-                var author = this.authorService.GetAuthor(bookDto.Author);
+                var authors = bookDto.Authors;
                 var publisher = this.publisherService.GetPublisher(bookDto.Publisher);
                 var categories = bookDto.Categories;
 
                 book = new Book
                 {
                     Name = bookDto.Name,
-                    Author = author,
                     Publisher = publisher,
                     Rating = 0,
                     PictureName = bookDto.Picture.FileName,
@@ -63,12 +62,20 @@
 
                 foreach (var category in categories)
                 {
-                    book.BookCategories.Add(new BookCategory
+                    var currentCategory = this.categoryService.GetCategory(category);
+
+                    book.BookCategories.Add(new BookCategory()
                     {
-                        Category = new Category
-                        {
-                            CategoryName = category
-                        }
+                        Category = currentCategory
+                    });
+                }
+
+                foreach (var author in authors)
+                {
+                    var currentAuthor = this.authorService.GetAuthor(author);
+                    book.AuthorBooks.Add(new AuthorBooks()
+                    {
+                        Author = currentAuthor
                     });
                 }
             }
@@ -101,7 +108,7 @@
                 {
                     Id = book.Id,
                     Name = book.Name,
-                    Author = book.Author.ToString(),
+                    Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
                     Picture = book.PictureName,
@@ -123,7 +130,7 @@
                 {
                     Id = book.Id,
                     Name = book.Name,
-                    Author = book.Author.ToString(),
+                    Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
                     Picture = book.PictureName,
@@ -141,7 +148,7 @@
                  {
                      Id = book.Id,
                      Name = book.Name,
-                     Author = book.Author.ToString(),
+                     Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                      Publisher = book.Publisher.Name,
                      IsRented = book.IsRented,
                      Rating = book.Rating,
@@ -158,7 +165,7 @@
                 .LibraryBooks
                 .Where(lb => lb.LibraryId == libraryId)
                 .Include(x => x.Book)
-                .Where(b => b.Book.IsRemoved == false && b.Book.AuthorId == authorId)
+                .Where(b => b.Book.IsRemoved == false && b.Book.AuthorBooks.Any(author => author.Author.Id == authorId))
                 .Select(b => b.Book)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
@@ -167,7 +174,7 @@
                 {
                     Id = book.Id,
                     Name = book.Name,
-                    Author = book.Author.ToString(),
+                    Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
                     Picture = book.PictureName,
@@ -191,7 +198,7 @@
                 .Select(book => new EditBookDto
                 {
                     Name = book.Name,
-                    Author = book.Author.ToString(),
+                    Authors =  book.AuthorBooks.Select(ab => ab.Author.ToString()).ToArray(),
                     Publisher = book.Publisher.Name,
                     Summary = book.Summary,
                     Picture = book.PictureName,
@@ -203,10 +210,11 @@
         public bool EditBookById(string bookId, EditBookDto model, string libraryId)
         {
             var book = this.db.Books.SingleOrDefault(b => b.Id == bookId);
-
+            var fileForDeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Pictures", model.Picture);
+            File.Delete(fileForDeletePath);
             this.db.Remove(book);
 
-            var author = this.authorService.GetAuthor(model.Author);
+            var authors = model.Authors;
             var publisher = this.publisherService.GetPublisher(model.Publisher);
             var categories = model.Categories;
 
@@ -219,7 +227,6 @@
             var editedBook = new Book
             {
                 Name = model.Name,
-                Author = author,
                 Publisher = publisher,
                 Rating = book.Rating,
                 PictureName = pictureName,
@@ -241,22 +248,24 @@
             }
 
             publisher.Books.Add(editedBook);
-
             foreach (var category in categories)
             {
-                editedBook.BookCategories.Add(new BookCategory
+                var currentCategory = this.categoryService.GetCategory(category);
+
+                editedBook.BookCategories.Add(new BookCategory()
                 {
-                    Category = new Category
-                    {
-                        CategoryName = category
-                    }
+                    Category = currentCategory
                 });
             }
 
-            editedBook.LibraryBooks.Add(new LibraryBook
+            foreach (var author in authors)
             {
-                LibraryId = libraryId
-            });
+                var currentAuthor = this.authorService.GetAuthor(author);
+                book.AuthorBooks.Add(new AuthorBooks()
+                {
+                    Author = currentAuthor
+                });
+            }
 
             this.db.Add(editedBook);
             int count = this.db.SaveChanges();
@@ -275,7 +284,7 @@
                 {
                     Id = book.Id,
                     Name = book.Name,
-                    Author = book.Author.ToString(),
+                    Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
                     Rating = book.Rating,
                     Picture = book.PictureName,
@@ -294,7 +303,7 @@
                 {
                     Id = book.Book.Id,
                     Name = book.Book.Name,
-                    Author = book.Book.Author.ToString(),
+                    Authors = string.Join(", ", book.Book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Book.Publisher.Name,
                     Rating = book.Book.Rating,
                     Picture = book.Book.PictureName,

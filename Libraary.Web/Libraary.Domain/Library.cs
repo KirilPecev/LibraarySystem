@@ -24,10 +24,6 @@
         [Phone]
         public string PhoneNumber { get; set; }
 
-        [Required]
-        [Range(typeof(decimal), "0.01", "1000")]
-        public decimal BooksFee { get; set; }
-
         public virtual ICollection<LibraryBook> LibraryBooks { get; set; }
 
         public virtual ICollection<LibraaryUser> LibraryUsers { get; set; }

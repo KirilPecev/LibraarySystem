@@ -3,7 +3,6 @@
     using Data;
     using Domain;
     using DTOs.Author;
-    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -46,20 +45,7 @@
 
         public IEnumerable<AuthorViewDTO> GetAllByLibraryId(string libraryId)
         {
-            var booksWithAuthor = this.db
-                .LibraryBooks
-                .Where(lb => lb.LibraryId == libraryId)
-                .Include(x => x.Book)
-                .ThenInclude(x => x.Author)
-                .Select(book => new AuthorViewDTO
-                {
-                    Id = book.Book.Author.Id,
-                    Name = book.Book.Author.ToString(),
-                    Address = book.Book.Author.Address.ToString(),
-                    BooksCount = book.Book.Author.Books.Count
-                });
-
-            return booksWithAuthor.GroupBy(author => author.Name).Select(x=>x.First());
+            return null;
         }
 
         public IEnumerable<string> GetAllAuthorsName()

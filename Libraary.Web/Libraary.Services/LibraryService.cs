@@ -117,6 +117,7 @@
         public LibraryDetailsDTO GetLibraryDetails(string libraryId)
         {
             var owners = this.userService.GetUsersInRole("Owner");
+            var librarians = this.userService.GetUsersInRole("Librarian");
 
             var currentOwner = owners
                 .FirstOrDefault(u => u.LibraryId == libraryId);
@@ -124,22 +125,32 @@
             var address = this.db.Addresses
                 .SingleOrDefault(adress => adress.Id == currentOwner.AddressId);
 
+            var librariansCount = librarians.Count(x => x.LibraryId == libraryId);
+
+            var authorsCount = this.db
+                .Libraries
+                .Where(lib => lib.Id == libraryId)
+                .Select(x => x.Authors)
+                .Distinct()
+                .Count();
+
             return this.db.
-                 Libraries
-                 .Where(lib => lib.Id == libraryId)
-                 .Select(lib => new LibraryDetailsDTO
-                 {
-                     Name = lib.Name,
-                     Address = lib.Address.ToString(),
-                     PhoneNumber = lib.PhoneNumber,
-                     BooksCount = lib.LibraryBooks.Count,
-                     RentedBooksCount = lib.LibraryBooks.Where(b => b.Book.IsRented == true).Count(),
-                     UsersCount = lib.LibraryUsers.Count,
-                     Owner = currentOwner.ToString(),
-                     OwnerAddress = address.ToString(),
-                     OwnerPhone = currentOwner.PhoneNumber ?? "Not added"
-                 })
-                 .SingleOrDefault();
+             Libraries
+             .Where(lib => lib.Id == libraryId)
+             .Select(lib => new LibraryDetailsDTO
+             {
+                 Name = lib.Name,
+                 Address = lib.Address.ToString(),
+                 PhoneNumber = lib.PhoneNumber,
+                 BooksCount = lib.LibraryBooks.Count,
+                 RentedBooksCount = lib.LibraryBooks.Where(b => b.Book.IsRented == true).Count(),
+                 Owner = currentOwner.ToString(),
+                 OwnerAddress = address.ToString(),
+                 OwnerPhone = currentOwner.PhoneNumber ?? "Not added",
+                 LibrariansCount = librariansCount,
+                 AuthorsCount = authorsCount
+             })
+             .SingleOrDefault();
         }
 
         public int GetCountOfAllLibraries()

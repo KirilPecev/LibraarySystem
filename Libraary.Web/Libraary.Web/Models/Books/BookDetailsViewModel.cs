@@ -8,7 +8,7 @@
 
         public string Summary { get; set; }
 
-        public string Author { get; set; }
+        public string Authors { get; set; }
 
         public bool IsRented { get; set; }
 
