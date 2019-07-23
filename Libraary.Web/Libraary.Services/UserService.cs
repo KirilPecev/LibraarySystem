@@ -39,7 +39,7 @@
 
         public string GetFirstName(string email)
         {
-            return this.db.Users.SingleOrDefault(user => user.Email == email).FirstName;
+            return this.GetUser(email).FirstName;
         }
 
         public LibraaryUser GetUser(string email)
@@ -47,9 +47,9 @@
             return this.db.Users.SingleOrDefault(u => u.Email == email);
         }
 
-        public string GetUserLibraryId(string name)
+        public string GetUserLibraryId(string email)
         {
-            return this.db.Users.SingleOrDefault(user => user.UserName == name).LibraryId;
+            return this.GetUser(email).LibraryId;
         }
 
         public int GetUsersCount()
