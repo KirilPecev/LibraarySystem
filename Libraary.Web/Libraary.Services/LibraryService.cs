@@ -137,10 +137,14 @@
                      UsersCount = lib.LibraryUsers.Count,
                      Owner = currentOwner.ToString(),
                      OwnerAddress = address.ToString(),
-                     OwnerPhone = currentOwner.PhoneNumber ?? "Not added",
-                     Profit = 0 //TODO: Think about this fee
+                     OwnerPhone = currentOwner.PhoneNumber ?? "Not added"
                  })
                  .SingleOrDefault();
+        }
+
+        public int GetCountOfAllLibraries()
+        {
+            return this.db.Libraries.Count();
         }
     }
 }

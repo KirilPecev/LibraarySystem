@@ -18,5 +18,6 @@
         LibraryDetailsDTO GetLibraryDetails(string libraryId);
 
         IEnumerable<LibrarianDetailsDTO> GetAllLibrarians();
+        int GetCountOfAllLibraries();
     }
 }

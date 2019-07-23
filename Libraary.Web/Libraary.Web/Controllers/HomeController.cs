@@ -12,12 +12,14 @@
         private readonly IMapper mapper;
         private readonly ILibraryService libraryService;
         private readonly IUserService userService;
+        private readonly IBookService bookService;
 
-        public HomeController(IMapper mapper, ILibraryService libraryService, IUserService userService)
+        public HomeController(IMapper mapper, ILibraryService libraryService, IUserService userService, IBookService bookService)
         {
             this.mapper = mapper;
             this.libraryService = libraryService;
             this.userService = userService;
+            this.bookService = bookService;
         }
 
         public IActionResult Index()
@@ -46,6 +48,8 @@
         {
             LibraryDetailsViewModel model = new LibraryDetailsViewModel();
             model.UsersCount = this.userService.GetUsersCount();
+            model.BooksCountForAllLibraries = this.bookService.GetCountOfAllBooks();
+            model.LibrariesCount = this.libraryService.GetCountOfAllLibraries();
 
             if (libraryId != null)
             {

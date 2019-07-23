@@ -329,5 +329,10 @@
             int count = this.db.SaveChanges();
             return count != 0;
         }
+
+        public int GetCountOfAllBooks()
+        {
+            return this.db.Books.Count();
+        }
     }
 }

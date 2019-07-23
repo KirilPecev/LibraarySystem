@@ -20,6 +20,8 @@
 
         public string OwnerPhone { get; set; }
 
-        public decimal Profit { get; set; }
+        public int LibrariesCount { get; set; }
+
+        public int BooksCountForAllLibraries { get; set; }
     }
 }

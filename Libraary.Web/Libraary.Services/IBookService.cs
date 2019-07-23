@@ -28,5 +28,6 @@
         bool RentBook(string userName, string bookId);
 
         bool ReturnBook(string bookId);
+        int GetCountOfAllBooks();
     }
 }
