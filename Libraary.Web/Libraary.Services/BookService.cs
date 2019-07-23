@@ -306,10 +306,11 @@
         public bool RentBook(string userName, string bookId)
         {
             var user = this.userService.GetUser(userName);
-            user.RentedBooks.Add(new Rent()
+
+            user.RentedBooks.Add(new Rent
             {
                 BookId = bookId,
-                IssuedOn = DateTime.UtcNow,
+                IssuedOn = DateTime.UtcNow
             });
 
             var currentBook = this.db.Books.SingleOrDefault(book => book.Id == bookId).IsRented = true;

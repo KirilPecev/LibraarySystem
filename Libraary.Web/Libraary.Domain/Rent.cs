@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class Rent
+    public class Rent : BaseModel<string>
     {
         [Required]
         public string UserId { get; set; }

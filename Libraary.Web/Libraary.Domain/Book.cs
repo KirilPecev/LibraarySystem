@@ -7,7 +7,6 @@
     {
         public Book()
         {
-            this.Rents = new List<Rent>();
             this.BookCategories = new HashSet<BookCategory>();
             this.LibraryBooks = new List<LibraryBook>();
         }
@@ -39,8 +38,6 @@
         public string PictureName { get; set; }
 
         public bool IsRemoved { get; set; }
-
-        public virtual ICollection<Rent> Rents { get; set; }
 
         public virtual ICollection<BookCategory> BookCategories { get; set; }
 
