@@ -1,4 +1,23 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿(function($) {
+    function Rating() {
+        var $this = this;
 
-// Write your JavaScript code.
+        function initialize() {
+            $(".star").click(function() {
+                $(".star").removeClass('active');
+                $(this).addClass('active');
+                var starValue = $(this).data("value");
+                $("#Rating").val(starValue);
+            });
+        }
+
+        $this.init = function() {
+            initialize();
+        }
+    }
+
+    $(function() {
+        var self = new Rating();
+        self.init();
+    });
+}(jQuery));

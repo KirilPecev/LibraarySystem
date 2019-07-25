@@ -96,7 +96,6 @@
             return this.RedirectToAction("All");
         }
 
-
         public IActionResult ReturnBook(string bookId)
         {
             var result = this.bookService.ReturnBook(bookId);
@@ -107,6 +106,13 @@
             }
 
             return this.RedirectToAction("Rented");
+        }
+
+        [HttpPost]
+        public IActionResult Rating(BookDetailsViewModel model)
+        {
+            //TODO: Implement functionality
+            return this.View();
         }
     }
 }
