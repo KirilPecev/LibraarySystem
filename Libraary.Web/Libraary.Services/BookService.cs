@@ -198,7 +198,7 @@
                 .Select(book => new EditBookDto
                 {
                     Name = book.Name,
-                    Authors =  book.AuthorBooks.Select(ab => ab.Author.ToString()).ToArray(),
+                    Authors = book.AuthorBooks.Select(ab => ab.Author.ToString()).ToArray(),
                     Publisher = book.Publisher.Name,
                     Summary = book.Summary,
                     Picture = book.PictureName,
@@ -210,8 +210,13 @@
         public bool EditBookById(string bookId, EditBookDto model, string libraryId)
         {
             var book = this.db.Books.SingleOrDefault(b => b.Id == bookId);
-            var fileForDeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Pictures", model.Picture);
-            File.Delete(fileForDeletePath);
+
+            if (model.NewPicture != null)
+            {
+                var fileForDeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Pictures", book.PictureName);
+                File.Delete(fileForDeletePath);
+            }
+
             this.db.Remove(book);
 
             var authors = model.Authors;
@@ -261,7 +266,7 @@
             foreach (var author in authors)
             {
                 var currentAuthor = this.authorService.GetAuthor(author);
-                book.AuthorBooks.Add(new AuthorBooks()
+                editedBook.AuthorBooks.Add(new AuthorBooks()
                 {
                     Author = currentAuthor
                 });

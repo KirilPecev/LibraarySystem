@@ -16,7 +16,7 @@
         public string Summary { get; set; }
 
         [Required]
-        public string Author { get; set; }
+        public string[] Authors { get; set; }
 
         [Required]
         public string Publisher { get; set; }
