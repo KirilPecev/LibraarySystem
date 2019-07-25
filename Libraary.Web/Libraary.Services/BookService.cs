@@ -97,7 +97,7 @@
 
         public IEnumerable<BookDTO> GetAllByLibraryId(string libraryId)
         {
-            return this.db
+            var a = this.db
                 .LibraryBooks
                 .Where(lb => lb.LibraryId == libraryId && lb.Book.IsRemoved == false)
                 .Select(b => b.Book)
@@ -115,6 +115,8 @@
                     IsRented = book.IsRented
                 })
                 .ToList();
+
+            return a;
         }
 
         public IEnumerable<BookDTO> GetAllRented(string libraryId)
@@ -271,6 +273,11 @@
                     Author = currentAuthor
                 });
             }
+
+            editedBook.LibraryBooks.Add(new LibraryBook
+            {
+                LibraryId = libraryId
+            });
 
             this.db.Add(editedBook);
             int count = this.db.SaveChanges();

@@ -5,6 +5,7 @@
     using Models.Books;
     using Services;
     using Services.DTOs.Book;
+    using System.Collections.Generic;
 
     public class BooksController : Controller
     {
@@ -19,19 +20,21 @@
             this.bookService = bookService;
         }
 
-        public IActionResult AllByLibraryId()
-        {
-            var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
-            var booksDTO = this.bookService.GetAllByLibraryId(libraryId);
-            var model = this.mapper.Map<BookViewModel[]>(booksDTO);
-
-            return this.View(model);
-        }
-
         public IActionResult All()
         {
-            var booksDTO = this.bookService.GetAll();
-            var model = this.mapper.Map<BookViewModel[]>(booksDTO);
+            IEnumerable<BookDTO> modelDto;
+
+            if (this.User.IsInRole("Librarian"))
+            {
+                var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
+                modelDto = this.bookService.GetAllByLibraryId(libraryId);
+            }
+            else
+            {
+                modelDto = this.bookService.GetAll();
+            }
+
+            var model = this.mapper.Map<BookViewModel[]>(modelDto);
 
             return this.View(model);
         }
