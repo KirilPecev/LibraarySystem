@@ -156,7 +156,9 @@
                      Rating = book.Rating,
                      Summary = book.Summary,
                      Picture = book.PictureName,
-                     Categories = string.Join(", ", book.BookCategories.Select(x => x.Category.CategoryName))
+                     Categories = string.Join(", ", book.BookCategories.Select(x => x.Category.CategoryName)),
+                     User = book.UserRents.FirstOrDefault(x => x.BookId == book.Id).User.ToString(),
+                     RentDate = book.UserRents.FirstOrDefault(x => x.BookId == book.Id).IssuedOn.ToString()
                  })
                  .FirstOrDefault();
         }
@@ -319,7 +321,7 @@
                     Publisher = book.Book.Publisher.Name,
                     Rating = book.Book.Rating,
                     Picture = book.Book.PictureName,
-                    IsRented = book.Book.IsRented
+                    IsRented = book.Book.IsRented,
                 })
                 .ToList();
         }

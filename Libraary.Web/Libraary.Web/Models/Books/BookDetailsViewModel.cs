@@ -19,5 +19,9 @@
         public string Picture { get; set; }
 
         public string Categories { get; set; }
+
+        public string User { get; set; }
+
+        public string RentDate { get; set; }
     }
 }

@@ -10,6 +10,7 @@
             this.AuthorBooks = new HashSet<AuthorBooks>();
             this.BookCategories = new HashSet<BookCategory>();
             this.LibraryBooks = new List<LibraryBook>();
+            this.UserRents = new List<Rent>();
         }
 
         [Required]
@@ -41,5 +42,7 @@
         public virtual ICollection<BookCategory> BookCategories { get; set; }
 
         public virtual ICollection<LibraryBook> LibraryBooks { get; set; }
+
+        public virtual ICollection<Rent> UserRents { get; set; }
     }
 }
