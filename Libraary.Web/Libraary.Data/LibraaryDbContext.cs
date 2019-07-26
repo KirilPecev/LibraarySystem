@@ -36,7 +36,6 @@
             builder.ApplyConfiguration(new BookCategoryEntityTypeConfiguration());
             builder.ApplyConfiguration(new BookLibraryEntityTypeConfiguration());
             builder.ApplyConfiguration(new AuthorBooksEntityTypeConfiguration());
-            builder.ApplyConfiguration(new RatingsEntityTypeConfiguration());
 
             base.OnModelCreating(builder);
         }

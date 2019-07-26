@@ -1,6 +1,6 @@
 ﻿namespace Libraary.Data.EntityTypeConfigurations
 {
-    using Libraary.Domain;
+    using Domain;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

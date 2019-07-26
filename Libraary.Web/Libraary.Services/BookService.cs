@@ -37,12 +37,13 @@
                 var authors = bookDto.Authors;
                 var publisher = this.publisherService.GetPublisher(bookDto.Publisher);
                 var categories = bookDto.Categories;
+                var rating = new Rating();
 
                 book = new Book
                 {
                     Name = bookDto.Name,
                     Publisher = publisher,
-                  //  Rating = 0,
+                    Rating = rating,
                     PictureName = bookDto.Picture.FileName,
                     IsRented = false,
                     IsRemoved = false,
@@ -91,7 +92,6 @@
             }
 
             int count = this.db.SaveChanges();
-
             return count != 0;
         }
 
@@ -101,6 +101,7 @@
                 .LibraryBooks
                 .Where(lb => lb.LibraryId == libraryId && lb.Book.IsRemoved == false)
                 .Select(b => b.Book)
+                .Include(x => x.Rating)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
@@ -110,7 +111,7 @@
                     Name = book.Name,
                     Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
-                    //Rating = book.Rating,
+                    Rating = this.CalculateRating(book),
                     Picture = book.PictureName,
                     IsRented = book.IsRented
                 })
@@ -125,6 +126,7 @@
                 .LibraryBooks
                 .Where(lb => lb.LibraryId == libraryId && lb.Book.IsRented == true && lb.Book.IsRemoved == false)
                 .Select(b => b.Book)
+                .Include(x => x.Rating)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
@@ -134,7 +136,7 @@
                     Name = book.Name,
                     Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
-                    //Rating = book.Rating,
+                    Rating = this.CalculateRating(book),
                     Picture = book.PictureName,
                     IsRented = book.IsRented
                 })
@@ -143,24 +145,35 @@
 
         public BookDetailsDTO GetBookDetails(string bookId)
         {
-            return this.db
-                 .Books
-                 .Where(book => book.Id == bookId)
-                 .Select(book => new BookDetailsDTO
-                 {
-                     Id = book.Id,
-                     Name = book.Name,
-                     Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
-                     Publisher = book.Publisher.Name,
-                     IsRented = book.IsRented,
-                    // Rating = book.Rating,
-                     Summary = book.Summary,
-                     Picture = book.PictureName,
-                     Categories = string.Join(", ", book.BookCategories.Select(x => x.Category.CategoryName)),
-                     User = book.UserRents.FirstOrDefault(x => x.BookId == book.Id).User.ToString(),
-                     RentDate = book.UserRents.FirstOrDefault(x => x.BookId == book.Id).IssuedOn.ToString()
-                 })
-                 .FirstOrDefault();
+            var currentBook = this.db
+                .Books
+                .Where(book => book.Id == bookId)
+                .Include(x => x.Publisher)
+                .Include(x => x.Rating)
+                .Include(x => x.AuthorBooks)
+                .ThenInclude(x => x.Author)
+                .Select(book => new BookDetailsDTO
+                {
+                    Id = book.Id,
+                    Name = book.Name,
+                    Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
+                    Publisher = book.Publisher.Name,
+                    IsRented = book.IsRented,
+                    Rating = this.CalculateRating(book),
+                    Summary = book.Summary,
+                    Picture = book.PictureName,
+                    Categories = string.Join(", ", book.BookCategories.Select(x => x.Category.CategoryName)),
+                })
+                .FirstOrDefault();
+
+            if (currentBook != null && currentBook.IsRented)
+            {
+                currentBook.User = this.db.Rents.SingleOrDefault(rent => rent.BookId == currentBook.Id).User.ToString();
+                currentBook.RentDate = this.db.Rents.SingleOrDefault(rent => rent.BookId == currentBook.Id).IssuedOn
+                    .ToString();
+            }
+
+            return currentBook;
         }
 
         public IEnumerable<BookDTO> GetAllByAuthor(string authorId, string libraryId)
@@ -171,6 +184,7 @@
                 .Include(x => x.Book)
                 .Where(b => b.Book.IsRemoved == false && b.Book.AuthorBooks.Any(author => author.Author.Id == authorId))
                 .Select(b => b.Book)
+                .Include(x => x.Rating)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
@@ -180,7 +194,7 @@
                     Name = book.Name,
                     Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
-                    //Rating = book.Rating,
+                    Rating = this.CalculateRating(book),
                     Picture = book.PictureName,
                     IsRented = book.IsRented
                 })
@@ -291,6 +305,7 @@
             return this.db
                 .Books
                 .Where(book => book.IsRemoved == false && book.IsRented == false)
+                .Include(x => x.Rating)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
@@ -300,7 +315,7 @@
                     Name = book.Name,
                     Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
-                   // Rating = book.Rating,
+                    Rating = this.CalculateRating(book),
                     Picture = book.PictureName,
                     IsRented = book.IsRented
                 })
@@ -313,13 +328,15 @@
                 .Rents
                 .Include(x => x.User)
                 .Where(rent => rent.User.UserName == user)
+                .Include(x => x.Book)
+                .ThenInclude(x => x.Rating)
                 .Select(book => new BookDTO
                 {
                     Id = book.Book.Id,
                     Name = book.Book.Name,
                     Authors = string.Join(", ", book.Book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Book.Publisher.Name,
-                   // Rating = book.Book.Rating,
+                    Rating = this.CalculateRating(book.Book),
                     Picture = book.Book.PictureName,
                     IsRented = book.Book.IsRented,
                 })
@@ -357,16 +374,55 @@
             return this.db.Books.Count();
         }
 
-        public void SaveRatingFromUser(string bookId)
+        public void SaveRatingFromUser(string bookId, int modelRating)
         {
-           //this.GetBookById(bookId).Rating = 
+            var book = this.GetBookById(bookId);
+            switch (modelRating)
+            {
+                case 1:
+                    book.Rating.CountOfScoresOne++;
+                    break;
+                case 2:
+                    book.Rating.CountOfScoresTwo++;
+                    break;
+                case 3:
+                    book.Rating.CountOfScoresThree++;
+                    break;
+                case 4:
+                    book.Rating.CountOfScoresFour++;
+                    break;
+                case 5:
+                    book.Rating.CountOfScoresFive++;
+                    break;
+            }
+
+            this.db.SaveChanges();
         }
 
         private Book GetBookById(string bookId)
         {
             return this.db
                 .Books
+                .Include(x=>x.Rating)
                 .SingleOrDefault(book => book.Id == bookId);
+        }
+
+        private int CalculateRating(Book book)
+        {
+            var dividerPoints = book.Rating.CountOfScoresOne + book.Rating.CountOfScoresTwo + book.Rating.CountOfScoresThree +
+                                 book.Rating.CountOfScoresFour + book.Rating.CountOfScoresFive;
+
+            if (dividerPoints == 0)
+            {
+                return 0;
+            }
+
+            var points =
+                (decimal)(book.Rating.CountOfScoresOne + book.Rating.CountOfScoresTwo * 2 +
+                           book.Rating.CountOfScoresThree * 3 +
+                           book.Rating.CountOfScoresFour * 4 + book.Rating.CountOfScoresFive * 5) / dividerPoints;
+
+            return (int)Math.Floor(points);
         }
     }
 }

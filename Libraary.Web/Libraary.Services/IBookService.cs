@@ -31,6 +31,6 @@
 
         int GetCountOfAllBooks();
 
-        void SaveRatingFromUser(string bookId);
+        void SaveRatingFromUser(string bookId, int modelRating);
     }
 }

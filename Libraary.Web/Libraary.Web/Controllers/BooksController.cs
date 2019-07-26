@@ -111,10 +111,9 @@
         [HttpPost]
         public IActionResult Rating(BookDetailsViewModel model)
         {
-            //TODO: Implement functionality
-            this.bookService.SaveRatingFromUser(model.Id);
+            this.bookService.SaveRatingFromUser(model.Id, model.Rating);
 
-            return this.RedirectToAction("Details", model.Id);
+            return this.RedirectToAction("Details", new { bookId = model.Id });
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿namespace Libraary.Domain
 {
-    using System.ComponentModel.DataAnnotations;
+    using System.Collections.Generic;
 
     public class Rating : BaseModel<string>
     {
-        [Required]
-        public string BookId { get; set; }
-        public Book Book { get; set; }
+        public Rating()
+        {
+            this.Books = new HashSet<Book>();
+        }
 
         public int CountOfScoresOne { get; set; }
 
@@ -17,5 +18,7 @@
         public int CountOfScoresFour { get; set; }
 
         public int CountOfScoresFive { get; set; }
+
+        public virtual ICollection<Book> Books { get; set; }
     }
 }

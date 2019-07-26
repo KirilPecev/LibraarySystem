@@ -4,14 +4,16 @@ using Libraary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Libraary.Data.Migrations
 {
     [DbContext(typeof(LibraaryDbContext))]
-    partial class LibraaryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190726115303_AddedFkBetweenBooksAndRatings")]
+    partial class AddedFkBetweenBooksAndRatings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,7 +115,9 @@ namespace Libraary.Data.Migrations
 
                     b.HasIndex("PublisherId");
 
-                    b.HasIndex("RatingId");
+                    b.HasIndex("RatingId")
+                        .IsUnique()
+                        .HasFilter("[RatingId] IS NOT NULL");
 
                     b.ToTable("Books");
                 });
@@ -301,6 +305,9 @@ namespace Libraary.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("BookId")
+                        .IsRequired();
+
                     b.Property<int>("CountOfScoresFive");
 
                     b.Property<int>("CountOfScoresFour");
@@ -457,8 +464,8 @@ namespace Libraary.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Libraary.Domain.Rating", "Rating")
-                        .WithMany("Books")
-                        .HasForeignKey("RatingId");
+                        .WithOne("Book")
+                        .HasForeignKey("Libraary.Domain.Book", "RatingId");
                 });
 
             modelBuilder.Entity("Libraary.Domain.BookCategory", b =>
