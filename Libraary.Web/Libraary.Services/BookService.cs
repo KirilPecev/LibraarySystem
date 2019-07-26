@@ -29,7 +29,7 @@
         public bool Add(AddBookDTO bookDto, string libraryId)
         {
             bool isNewBook = false;
-            Book book = this.db.Books.FirstOrDefault(b => b.Name == bookDto.Name);
+            var book = this.db.Books.FirstOrDefault(b => b.Name == bookDto.Name);
 
             if (book == null)
             {
@@ -42,7 +42,7 @@
                 {
                     Name = bookDto.Name,
                     Publisher = publisher,
-                    Rating = 0,
+                  //  Rating = 0,
                     PictureName = bookDto.Picture.FileName,
                     IsRented = false,
                     IsRemoved = false,
@@ -110,7 +110,7 @@
                     Name = book.Name,
                     Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
-                    Rating = book.Rating,
+                    //Rating = book.Rating,
                     Picture = book.PictureName,
                     IsRented = book.IsRented
                 })
@@ -134,7 +134,7 @@
                     Name = book.Name,
                     Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
-                    Rating = book.Rating,
+                    //Rating = book.Rating,
                     Picture = book.PictureName,
                     IsRented = book.IsRented
                 })
@@ -153,7 +153,7 @@
                      Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                      Publisher = book.Publisher.Name,
                      IsRented = book.IsRented,
-                     Rating = book.Rating,
+                    // Rating = book.Rating,
                      Summary = book.Summary,
                      Picture = book.PictureName,
                      Categories = string.Join(", ", book.BookCategories.Select(x => x.Category.CategoryName)),
@@ -180,7 +180,7 @@
                     Name = book.Name,
                     Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
-                    Rating = book.Rating,
+                    //Rating = book.Rating,
                     Picture = book.PictureName,
                     IsRented = book.IsRented
                 })
@@ -189,7 +189,7 @@
 
         public void RemoveBook(string bookId)
         {
-            this.db.Books.SingleOrDefault(b => b.Id == bookId).IsRemoved = true;
+            this.GetBookById(bookId).IsRemoved = true;
             this.db.SaveChanges();
         }
 
@@ -213,7 +213,7 @@
 
         public bool EditBookById(string bookId, EditBookDto model, string libraryId)
         {
-            var book = this.db.Books.SingleOrDefault(b => b.Id == bookId);
+            var book = this.GetBookById(bookId);
 
             if (model.NewPicture != null)
             {
@@ -300,7 +300,7 @@
                     Name = book.Name,
                     Authors = string.Join(", ", book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Publisher.Name,
-                    Rating = book.Rating,
+                   // Rating = book.Rating,
                     Picture = book.PictureName,
                     IsRented = book.IsRented
                 })
@@ -319,7 +319,7 @@
                     Name = book.Book.Name,
                     Authors = string.Join(", ", book.Book.AuthorBooks.Select(ab => ab.Author.ToString())),
                     Publisher = book.Book.Publisher.Name,
-                    Rating = book.Book.Rating,
+                   // Rating = book.Book.Rating,
                     Picture = book.Book.PictureName,
                     IsRented = book.Book.IsRented,
                 })
@@ -336,7 +336,8 @@
                 IssuedOn = DateTime.UtcNow
             });
 
-            var currentBook = this.db.Books.SingleOrDefault(book => book.Id == bookId).IsRented = true;
+            var currentBook = this.GetBookById(bookId)
+                .IsRented = true;
 
             int count = this.db.SaveChanges();
             return count != 0;
@@ -344,9 +345,7 @@
 
         public bool ReturnBook(string bookId)
         {
-            this.db
-                 .Books
-                 .SingleOrDefault(book => book.Id == bookId)
+            this.GetBookById(bookId)
                  .IsRented = false;
 
             int count = this.db.SaveChanges();
@@ -356,6 +355,18 @@
         public int GetCountOfAllBooks()
         {
             return this.db.Books.Count();
+        }
+
+        public void SaveRatingFromUser(string bookId)
+        {
+           //this.GetBookById(bookId).Rating = 
+        }
+
+        private Book GetBookById(string bookId)
+        {
+            return this.db
+                .Books
+                .SingleOrDefault(book => book.Id == bookId);
         }
     }
 }

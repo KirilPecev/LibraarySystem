@@ -112,7 +112,9 @@
         public IActionResult Rating(BookDetailsViewModel model)
         {
             //TODO: Implement functionality
-            return this.View();
+            this.bookService.SaveRatingFromUser(model.Id);
+
+            return this.RedirectToAction("Details", model.Id);
         }
     }
 }

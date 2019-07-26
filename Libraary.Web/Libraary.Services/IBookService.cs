@@ -30,5 +30,7 @@
         bool ReturnBook(string bookId);
 
         int GetCountOfAllBooks();
+
+        void SaveRatingFromUser(string bookId);
     }
 }

@@ -4,14 +4,16 @@ using Libraary.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Libraary.Data.Migrations
 {
     [DbContext(typeof(LibraaryDbContext))]
-    partial class LibraaryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190726104224_AddedTableForRatings")]
+    partial class AddedTableForRatings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

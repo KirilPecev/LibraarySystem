@@ -28,9 +28,8 @@
         public string PublisherId { get; set; }
         public Publisher Publisher { get; set; }
 
-        [Required]
-        [Range(0, int.MaxValue)]
-        public int Rating { get; set; }
+        public string RatingId { get; set; }
+        public Rating Rating { get; set; }
 
         [Required]
         public string PictureName { get; set; }
