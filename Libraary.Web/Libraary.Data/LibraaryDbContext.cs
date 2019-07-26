@@ -1,7 +1,7 @@
 ﻿namespace Libraary.Data
 {
-    using Libraary.Data.EntityTypeConfigurations;
-    using Libraary.Domain;
+    using Domain;
+    using EntityTypeConfigurations;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 

@@ -7,11 +7,11 @@
     {
         [Required]
         public string UserId { get; set; }
-        public LibraaryUser User { get; set; }
+        public virtual LibraaryUser User { get; set; }
 
         [Required]
         public string BookId { get; set; }
-        public Book Book { get; set; }
+        public virtual Book Book { get; set; }
 
         [Required]
         public DateTime IssuedOn { get; set; }

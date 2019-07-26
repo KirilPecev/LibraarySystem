@@ -1,7 +1,7 @@
 ﻿namespace Libraary.Services
 {
-    using Libraary.Data;
-    using Libraary.Domain;
+    using Data;
+    using Domain;
     using Microsoft.AspNetCore.Identity;
     using System.Collections.Generic;
     using System.Linq;
@@ -32,8 +32,8 @@
 
         public string GetFirstAndLastNamesOfUser(Library library, IList<LibraaryUser> owners)
         {
-            return owners.Where(l => l.LibraryId == library.Id)
-                .FirstOrDefault()
+            return owners
+                .FirstOrDefault(l => l.LibraryId == library.Id)
                 .ToString();
         }
 

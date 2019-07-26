@@ -3,7 +3,6 @@
     using Data;
     using Domain;
     using DTOs.Publisher;
-    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -46,14 +45,12 @@
             return this.db
                .LibraryBooks
                .Where(lb => lb.LibraryId == libraryId)
-               .Include(x => x.Book)
-               .ThenInclude(x => x.Publisher)
-                .Select(book => new PublisherViewModelDTO
-                {
-                    Name = book.Book.Publisher.Name,
-                    Phone = book.Book.Publisher.PhoneNumber,
-                    URL = book.Book.Publisher.URLAddress
-                })
+               .Select(book => new PublisherViewModelDTO
+               {
+                   Name = book.Book.Publisher.Name,
+                   Phone = book.Book.Publisher.PhoneNumber,
+                   URL = book.Book.Publisher.URLAddress
+               })
                  .Distinct()
                  .ToList();
         }

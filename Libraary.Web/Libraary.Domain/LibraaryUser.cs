@@ -20,10 +20,10 @@
         public string LastName { get; set; }
 
         public string LibraryId { get; set; }
-        public Library Library { get; set; }
+        public virtual Library Library { get; set; }
 
         public string AddressId { get; set; }
-        public Address Address { get; set; }
+        public virtual Address Address { get; set; }
 
         public virtual ICollection<Rent> RentedBooks { get; set; }
 

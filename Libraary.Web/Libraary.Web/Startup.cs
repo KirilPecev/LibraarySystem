@@ -13,6 +13,7 @@
     using Microsoft.AspNetCore.Identity.UI;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Diagnostics;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -41,15 +42,18 @@
             });
 
             services.AddDbContext<LibraaryDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseLazyLoadingProxies()
+                    .UseSqlServer(
+                        Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             services.AddIdentity<LibraaryUser, LibraaryRole>(config =>
-            {
-                config.SignIn.RequireConfirmedPhoneNumber = false;
-            })
-                .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<LibraaryDbContext>();
+                {
+                    config.SignIn.RequireConfirmedPhoneNumber = false;
+                })
+                    .AddDefaultUI(UIFramework.Bootstrap4)
+                    .AddEntityFrameworkStores<LibraaryDbContext>();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -63,15 +67,15 @@
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.Configure<IdentityOptions>(options =>
-            {
-                // Default Password settings.
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 0;
-            });
+                        {
+                            // Default Password settings.
+                            options.Password.RequireDigit = true;
+                            options.Password.RequireLowercase = false;
+                            options.Password.RequireNonAlphanumeric = false;
+                            options.Password.RequireUppercase = false;
+                            options.Password.RequiredLength = 6;
+                            options.Password.RequiredUniqueChars = 0;
+                        });
 
             var automapper = new MapperConfiguration(cfg =>
             {

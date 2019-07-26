@@ -1,7 +1,7 @@
 ﻿namespace Libraary.Services
 {
     using Data;
-    using Libraary.Domain;
+    using Domain;
     using System.Collections.Generic;
     using System.Linq;
 

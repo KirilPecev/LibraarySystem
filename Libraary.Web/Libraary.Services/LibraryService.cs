@@ -1,10 +1,10 @@
 ﻿namespace Libraary.Services
 {
+    using Data;
+    using Domain;
+    using DTOs.Librarian;
     using DTOs.Library;
-    using Libraary.Data;
-    using Libraary.Domain;
-    using Libraary.Services.DTOs.Librarian;
-    using Libraary.Services.DTOs.Owner;
+    using DTOs.Owner;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -122,8 +122,8 @@
             var currentOwner = owners
                 .FirstOrDefault(u => u.LibraryId == libraryId);
 
-            var address = this.db.Addresses
-                .SingleOrDefault(adress => adress.Id == currentOwner.AddressId);
+            var currentAddress = this.db.Addresses
+                .SingleOrDefault(address => address.Id == currentOwner.AddressId);
 
             var librariansCount = librarians.Count(x => x.LibraryId == libraryId);
 
@@ -143,9 +143,9 @@
                  Address = lib.Address.ToString(),
                  PhoneNumber = lib.PhoneNumber,
                  BooksCount = lib.LibraryBooks.Count,
-                 RentedBooksCount = lib.LibraryBooks.Where(b => b.Book.IsRented == true).Count(),
+                 RentedBooksCount = lib.LibraryBooks.Count(b => b.Book.IsRented == true),
                  Owner = currentOwner.ToString(),
-                 OwnerAddress = address.ToString(),
+                 OwnerAddress = currentAddress.ToString(),
                  OwnerPhone = currentOwner.PhoneNumber ?? "Not added",
                  LibrariansCount = librariansCount,
                  AuthorsCount = authorsCount

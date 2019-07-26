@@ -26,10 +26,10 @@
 
         [Required]
         public string PublisherId { get; set; }
-        public Publisher Publisher { get; set; }
+        public virtual Publisher Publisher { get; set; }
 
         public string RatingId { get; set; }
-        public Rating Rating { get; set; }
+        public virtual Rating Rating { get; set; }
 
         [Required]
         public string PictureName { get; set; }

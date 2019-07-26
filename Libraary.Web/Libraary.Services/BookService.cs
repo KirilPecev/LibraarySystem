@@ -6,6 +6,7 @@
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
 
@@ -101,7 +102,7 @@
                 .LibraryBooks
                 .Where(lb => lb.LibraryId == libraryId && lb.Book.IsRemoved == false)
                 .Select(b => b.Book)
-                .Include(x => x.Rating)
+                .Include(x=>x.Rating)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
@@ -126,7 +127,6 @@
                 .LibraryBooks
                 .Where(lb => lb.LibraryId == libraryId && lb.Book.IsRented == true && lb.Book.IsRemoved == false)
                 .Select(b => b.Book)
-                .Include(x => x.Rating)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
@@ -148,10 +148,7 @@
             var currentBook = this.db
                 .Books
                 .Where(book => book.Id == bookId)
-                .Include(x => x.Publisher)
-                .Include(x => x.Rating)
-                .Include(x => x.AuthorBooks)
-                .ThenInclude(x => x.Author)
+                .Include(x=>x.Rating)
                 .Select(book => new BookDetailsDTO
                 {
                     Id = book.Id,
@@ -168,9 +165,10 @@
 
             if (currentBook != null && currentBook.IsRented)
             {
-                currentBook.User = this.db.Rents.SingleOrDefault(rent => rent.BookId == currentBook.Id).User.ToString();
-                currentBook.RentDate = this.db.Rents.SingleOrDefault(rent => rent.BookId == currentBook.Id).IssuedOn
-                    .ToString();
+                currentBook.User = this.db.Rents.SingleOrDefault(rent => rent.BookId == currentBook.Id)?.User.ToString();
+                currentBook.RentDate = this.db.Rents.SingleOrDefault(rent => rent.BookId == currentBook.Id)
+                    ?.IssuedOn
+                    .ToString(CultureInfo.InvariantCulture);
             }
 
             return currentBook;
@@ -181,10 +179,8 @@
             return this.db
                 .LibraryBooks
                 .Where(lb => lb.LibraryId == libraryId)
-                .Include(x => x.Book)
                 .Where(b => b.Book.IsRemoved == false && b.Book.AuthorBooks.Any(author => author.Author.Id == authorId))
                 .Select(b => b.Book)
-                .Include(x => x.Rating)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
@@ -212,7 +208,6 @@
             return this.db
                 .Books
                 .Where(book => book.Id == bookId)
-                .Include(x => x.BookCategories)
                 .Select(book => new EditBookDto
                 {
                     Name = book.Name,
@@ -305,7 +300,7 @@
             return this.db
                 .Books
                 .Where(book => book.IsRemoved == false && book.IsRented == false)
-                .Include(x => x.Rating)
+                .Include(x=>x.Rating)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
@@ -324,23 +319,19 @@
 
         public IEnumerable<BookDTO> GetAllRentedByUserName(string user)
         {
-            return this.db
-                .Rents
-                .Include(x => x.User)
-                .Where(rent => rent.User.UserName == user)
-                .Include(x => x.Book)
-                .ThenInclude(x => x.Rating)
-                .Select(book => new BookDTO
-                {
-                    Id = book.Book.Id,
-                    Name = book.Book.Name,
-                    Authors = string.Join(", ", book.Book.AuthorBooks.Select(ab => ab.Author.ToString())),
-                    Publisher = book.Book.Publisher.Name,
-                    Rating = this.CalculateRating(book.Book),
-                    Picture = book.Book.PictureName,
-                    IsRented = book.Book.IsRented,
-                })
-                .ToList();
+            return this.userService.GetUser(user)
+                 .RentedBooks
+                 .Select(rent => new BookDTO
+                 {
+                     Id = rent.Book.Id,
+                     Name = rent.Book.Name,
+                     Authors = string.Join(", ", rent.Book.AuthorBooks.Select(ab => ab.Author.ToString())),
+                     Publisher = rent.Book.Publisher.Name,
+                     Rating = this.CalculateRating(rent.Book),
+                     Picture = rent.Book.PictureName,
+                     IsRented = rent.Book.IsRented,
+                 })
+                 .ToList();
         }
 
         public bool RentBook(string userName, string bookId)
@@ -403,7 +394,6 @@
         {
             return this.db
                 .Books
-                .Include(x=>x.Rating)
                 .SingleOrDefault(book => book.Id == bookId);
         }
 

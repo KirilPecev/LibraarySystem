@@ -6,10 +6,10 @@
     {
         [Required]
         public string LibraryId { get; set; }
-        public Library Library { get; set; }
+        public virtual Library Library { get; set; }
 
         [Required]
         public string BookId { get; set; }
-        public Book Book { get; set; }
+        public virtual Book Book { get; set; }
     }
 }

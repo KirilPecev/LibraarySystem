@@ -5,7 +5,6 @@
     using DTOs.Author;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.EntityFrameworkCore;
 
     public class AuthorService : IAuthorService
     {
@@ -46,25 +45,21 @@
 
         public IEnumerable<AuthorViewDTO> GetAllByLibraryId(string libraryId)
         {
-            var books = this.db
-                .LibraryBooks
-                .Select(lb => lb.Book).ToList();
-
-            var authors = this.db
-                .AuthorBooks
-                .Where(ab => books.Contains(ab.Book))
+            var authors = this.db.Libraries.SingleOrDefault(l => l.Id == libraryId)
+                ?.LibraryBooks
+                .SelectMany(lb => lb.Book.AuthorBooks)
                 .Select(ab => ab.Author)
-                .Include(x=>x.AuthorBooks)
-                .Include(x=>x.Address)
+                .Distinct()
                 .ToList();
 
-            return authors.Select(author => new AuthorViewDTO()
+            return authors.Select(ab => new AuthorViewDTO()
             {
-                Id = author.Id,
-                Name = author.ToString(),
-                Address = author.Address.ToString(),
-                BooksCount = author.AuthorBooks.Count()
-            }).ToList();
+                Id = ab.Id,
+                Name = ab.ToString(),
+                Address = ab.Address.ToString(),
+                BooksCount = ab.AuthorBooks.Count()
+            })
+                .ToList();
         }
 
         public IEnumerable<string> GetAllAuthorsName()
