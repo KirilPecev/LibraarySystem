@@ -4,7 +4,6 @@
     using Domain;
     using DTOs.Librarian;
     using DTOs.Library;
-    using DTOs.Owner;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -19,7 +18,7 @@
             this.userService = userService;
         }
 
-        public string Add(AddLibraryDTO libraryDTO)
+        public bool Add(AddLibraryDTO libraryDTO)
         {
             Address address = new Address()
             {
@@ -36,22 +35,21 @@
                 Address = address
             };
 
-            this.db.Libraries.Add(library);
-            this.db.SaveChanges();
+            var result = AddOwner(library, libraryDTO.Email);
 
-            return library.Id ?? null;
+            return result;
         }
 
-        public bool AddOwner(OwnerDTO dto)
+        public bool AddOwner(Library library, string userEmail)
         {
-            var library = this.db.Libraries.Find(dto.LibraryId);
-            this.userService.ChangeRoles(dto.Email, "User", "Owner");
-            this.userService.AddRole(dto.Email, "Librarian");
+            this.userService.ChangeRoles(userEmail, "User", "Owner");
+            this.userService.AddRole(userEmail, "Librarian");
 
-            var user = this.userService.GetUser(dto.Email);
+            var user = this.userService.GetUser(userEmail);
 
             library.LibraryUsers.Add(user);
 
+            this.db.Libraries.Add(library);
             int resultCount = this.db.SaveChanges();
 
             if (resultCount == 0)

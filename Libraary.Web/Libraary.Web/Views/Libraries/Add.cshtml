@@ -3,46 +3,76 @@
     ViewData["Title"] = "Add Library";
 }
 
-    <form method="post">
-        <div class="form-group">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" placeholder="Library name">
-            <span asp-validation-for="Name" class="text-danger"></span>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" placeholder="Library name">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Country"></label>
+        <input asp-for="Address.Country" class="form-control" placeholder="Country">
+        <span asp-validation-for="Address.Country" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Town"></label>
+        <input asp-for="Address.Town" class="form-control" placeholder="Town">
+        <span asp-validation-for="Address.Town" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Street"></label>
+        <input asp-for="Address.Street" class="form-control" placeholder="Street">
+        <span asp-validation-for="Address.Street" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Zip"></label>
+        <input asp-for="Address.Zip" class="form-control" placeholder="Zip">
+        <span asp-validation-for="Address.Zip" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" placeholder="Phone number">
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary" disabled>Register</button>
+    </div>
+    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Owner</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+                    <div class="md-form mb-5">
+                        <i class="fas fa-envelope prefix grey-text"></i>
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" id="target" class="form-control" placeholder="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-outline-primary" type="submit" data-dismiss="modal" disabled>Save</button>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Address.Country"></label>
-            <input asp-for="Address.Country" class="form-control" placeholder="Country">
-            <span asp-validation-for="Address.Country" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Address.Town"></label>
-            <input asp-for="Address.Town" class="form-control" placeholder="Town">
-            <span asp-validation-for="Address.Town" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Address.Street"></label>
-            <input asp-for="Address.Street" class="form-control" placeholder="Street">
-            <span asp-validation-for="Address.Street" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Address.Zip"></label>
-            <input asp-for="Address.Zip" class="form-control" placeholder="Zip">
-            <span asp-validation-for="Address.Zip" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="PhoneNumber"></label>
-            <input asp-for="PhoneNumber" class="form-control" placeholder="Phone number">
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </div>
-    </form>
-
+    </div>
+    <div class="text-center">
+        <a href="" class="btn btn-outline-info mb-4" data-toggle="modal" data-target="#modalLoginForm">Add owner</a>
+    </div>
+</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-<script>
-    confirm("Owner has to be registered!");
-</script>
+    <script>
+        confirm("Owner has to be registered!");
+
+        $("#target").keyup(function() {
+            $("button").prop("disabled", !this.value);
+        });
+    </script>
 }

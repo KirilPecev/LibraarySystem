@@ -1,15 +1,15 @@
 ﻿namespace Libraary.Services
 {
+    using Domain;
+    using DTOs.Librarian;
     using DTOs.Library;
-    using Libraary.Services.DTOs.Librarian;
-    using Libraary.Services.DTOs.Owner;
     using System.Collections.Generic;
 
     public interface ILibraryService
     {
-        string Add(AddLibraryDTO library);
+        bool Add(AddLibraryDTO libraryDTO);
 
-        bool AddOwner(OwnerDTO dto);
+        bool AddOwner(Library library, string userEmail);
 
         bool AddLibrarian(LibrarianDTO dto);
 
@@ -18,6 +18,7 @@
         LibraryDetailsDTO GetLibraryDetails(string libraryId);
 
         IEnumerable<LibrarianDetailsDTO> GetAllLibrarians();
+
         int GetCountOfAllLibraries();
     }
 }

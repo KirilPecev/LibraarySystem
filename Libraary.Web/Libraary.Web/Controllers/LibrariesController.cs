@@ -39,12 +39,7 @@
 
             var id = this.libraryService.Add(library);
 
-            if (id == null)
-            {
-                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-            }
-
-            return this.RedirectToAction("Add","Owners", new { LibraryId = id });
+            return this.Redirect("/");
         }
 
 

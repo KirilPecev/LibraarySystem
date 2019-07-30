@@ -1,20 +1,18 @@
 ﻿namespace Libraary.Web.Profiles
 {
     using AutoMapper;
-    using Libraary.Services.DTOs.Author;
-    using Libraary.Services.DTOs.Book;
-    using Libraary.Services.DTOs.Librarian;
-    using Libraary.Services.DTOs.Owner;
-    using Libraary.Services.DTOs.Publisher;
-    using Libraary.Web.Models.Authors;
-    using Libraary.Web.Models.Books;
-    using Libraary.Web.Models.Librarians;
-    using Libraary.Web.Models.Publishers;
     using Models.Address;
+    using Models.Authors;
+    using Models.Books;
+    using Models.Librarians;
     using Models.Libraries;
-    using Models.Owners;
+    using Models.Publishers;
     using Services.DTOs.Address;
+    using Services.DTOs.Author;
+    using Services.DTOs.Book;
+    using Services.DTOs.Librarian;
     using Services.DTOs.Library;
+    using Services.DTOs.Publisher;
 
     public class MappingProfiles : Profile
     {
@@ -22,7 +20,6 @@
         {
             CreateMap<AddressInputModel, AddressDTO>();
             CreateMap<AddLibraryInputModel, AddLibraryDTO>();
-            CreateMap<OwnerBindingModel, OwnerDTO>();
             CreateMap<LibraryDTO, LibraryViewModel>();
             CreateMap<LibraryDetailsDTO, LibraryDetailsViewModel>();
             CreateMap<LibraryDetailsDTO, LibraryDetailsViewModel>();
