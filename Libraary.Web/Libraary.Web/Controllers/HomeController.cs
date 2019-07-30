@@ -30,7 +30,7 @@
                 return this.Redirect("/Identity/Account/Login");
             }
 
-            if (this.User.IsInRole("Owner"))
+            if (this.User.IsInRole("Owner") || this.User.IsInRole("Librarian"))
             {
                 string id = this.userService.GetUserLibraryId(this.User.Identity.Name);
 
