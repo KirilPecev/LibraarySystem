@@ -2,6 +2,14 @@
 {
     public static class GlobalConstants
     {
+        public const string AdministratorEmail = "admin1@admin.com";
+
+        public const string AdministratorFirstName = "Admin";
+
+        public const string AdministratorLastName = "Admin";
+
+        public const string AdministratorPassword = "admin1";
+
         public const string AdministratorRoleName = "Admin";
 
         public const string OwnerRoleName = "Owner";
