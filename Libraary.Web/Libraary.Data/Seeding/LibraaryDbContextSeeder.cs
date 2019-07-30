@@ -1,11 +1,10 @@
 ﻿namespace Libraary.Data.Seeding
 {
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
 
     public class LibraaryDbContextSeeder : ISeeder
     {
@@ -25,7 +24,8 @@
 
             var seeders = new List<ISeeder>
                           {
-                              new RolesSeeder()
+                              new RolesSeeder(),
+                              new CategoriesSeeder()
                           };
 
             foreach (var seeder in seeders)
