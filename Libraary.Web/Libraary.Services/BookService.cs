@@ -74,7 +74,7 @@
 
                 foreach (var author in authors)
                 {
-                    var currentAuthor = this.authorService.GetAuthor(author);
+                    var currentAuthor = this.authorService.GetAuthorByFullName(author);
                     book.AuthorBooks.Add(new AuthorBooks()
                     {
                         Author = currentAuthor
@@ -92,7 +92,7 @@
                 this.db.Add(book);
             }
 
-            int count = this.db.SaveChanges();
+            var count = db.SaveChanges();
             return count != 0;
         }
 
@@ -285,7 +285,7 @@
 
             foreach (var author in authors)
             {
-                var currentAuthor = this.authorService.GetAuthor(author);
+                var currentAuthor = this.authorService.GetAuthorByFullName(author);
                 editedBook.AuthorBooks.Add(new AuthorBooks()
                 {
                     Author = currentAuthor
@@ -419,7 +419,7 @@
                            book.Rating.CountOfScoresThree * 3 +
                            book.Rating.CountOfScoresFour * 4 + book.Rating.CountOfScoresFive * 5) / dividerPoints;
 
-            return (int)Math.Floor(points);
+            return (int)Math.Ceiling(points);
         }
     }
 }

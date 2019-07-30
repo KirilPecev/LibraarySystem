@@ -25,7 +25,7 @@
     </div>
     <fieldset>
         <legend>Choose author</legend>
-        @foreach (var item in AuthorService.GetAllAuthorsName())
+        @foreach (var item in AuthorService.GetAllAuthorsByName())
         {
             <div>
                 <input type="checkbox" name="Authors" value="@item">

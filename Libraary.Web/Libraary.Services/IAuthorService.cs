@@ -6,12 +6,12 @@
 
     public interface IAuthorService
     {
-        Author GetAuthor(string name);
+        Author GetAuthorByFullName(string name);
 
         bool Add(AddAuthorDTO authorDto);
 
         IEnumerable<AuthorViewDTO> GetAllByLibraryId(string libraryId);
 
-        IEnumerable<string> GetAllAuthorsName();
+        IEnumerable<string> GetAllAuthorsByName();
     }
 }

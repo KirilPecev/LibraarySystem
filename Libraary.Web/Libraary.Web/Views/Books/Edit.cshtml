@@ -28,7 +28,7 @@
     </div>
     <fieldset>
         <legend>Choose author</legend>
-        @foreach (var item in AuthorService.GetAllAuthorsName())
+        @foreach (var item in AuthorService.GetAllAuthorsByName())
         {
             if (Model.Authors.Contains(item))
             {

@@ -98,8 +98,7 @@
         public IEnumerable<LibrarianDetailsDTO> GetAllLibrarians()
         {
             var librarians = this.userService
-                .GetUsersInRole("Librarian")
-                .Where(user => user.AddressId != null);
+                .GetUsersInRole("Librarian");
 
             var librariansDto = librarians
                 .Select(librarian => new LibrarianDetailsDTO()
@@ -120,17 +119,11 @@
             var currentOwner = owners
                 .FirstOrDefault(u => u.LibraryId == libraryId);
 
-            var currentAddress = this.db.Addresses
-                .SingleOrDefault(address => address.Id == currentOwner.AddressId);
+            var currentAddress = GetAddress(currentOwner);
 
             var librariansCount = librarians.Count(x => x.LibraryId == libraryId);
 
-            var authorsCount = this.db
-                .Libraries
-                .Where(lib => lib.Id == libraryId)
-                .Select(x => x.Authors)
-                .Distinct()
-                .Count();
+            var authorsCount = GetAuthorsCount(libraryId);
 
             return this.db.
              Libraries
@@ -149,6 +142,22 @@
                  AuthorsCount = authorsCount
              })
              .SingleOrDefault();
+        }
+
+        private Address GetAddress(LibraaryUser currentOwner)
+        {
+            return this.db.Addresses
+                .SingleOrDefault(address => address.Id == currentOwner.AddressId);
+        }
+
+        private int GetAuthorsCount(string libraryId)
+        {
+            return this.db
+                .Libraries
+                .Where(lib => lib.Id == libraryId)
+                .Select(x => x.Authors)
+                .Distinct()
+                .Count();
         }
 
         public int GetCountOfAllLibraries()

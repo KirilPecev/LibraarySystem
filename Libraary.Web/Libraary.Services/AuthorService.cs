@@ -17,10 +17,7 @@
 
         public bool Add(AddAuthorDTO authorDto)
         {
-            var author = this.db
-                .Authors
-                .SingleOrDefault(a => a.FirstName == authorDto.FirstName
-                && a.LastName == authorDto.LastName);
+            var author = GetAuthorByFirstNameAndLastName(authorDto.FirstName, authorDto.LastName);
 
             if (author == null)
             {
@@ -43,6 +40,14 @@
             return count != 0;
         }
 
+        private Author GetAuthorByFirstNameAndLastName(string firstName, string lastName)
+        {
+            return this.db
+                .Authors
+                .SingleOrDefault(a => a.FirstName == firstName
+                                      && a.LastName == lastName);
+        }
+
         public IEnumerable<AuthorViewDTO> GetAllByLibraryId(string libraryId)
         {
             var authors = this.db.Libraries.SingleOrDefault(l => l.Id == libraryId)
@@ -62,12 +67,12 @@
                 .ToList();
         }
 
-        public IEnumerable<string> GetAllAuthorsName()
+        public IEnumerable<string> GetAllAuthorsByName()
         {
             return this.db.Authors.Select(author => author.ToString()).ToList();
         }
 
-        public Author GetAuthor(string name)
+        public Author GetAuthorByFullName(string name)
         {
             return this.db.Authors.SingleOrDefault(author => author.ToString() == name);
         }
