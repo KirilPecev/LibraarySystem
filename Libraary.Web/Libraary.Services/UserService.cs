@@ -34,7 +34,7 @@
         {
             return owners
                 .FirstOrDefault(l => l.LibraryId == library.Id)
-                .ToString();
+                ?.ToString();
         }
 
         public string GetFirstName(string email)

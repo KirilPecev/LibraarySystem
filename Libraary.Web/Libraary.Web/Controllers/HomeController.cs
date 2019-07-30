@@ -45,7 +45,7 @@
             return this.RedirectToAction("Home");
         }
 
-        [Authorize(Roles = "Owner, Librarian")]
+        [Authorize(Roles = "Owner, Librarian, Admin")]
         public IActionResult Home(string libraryId = null)
         {
             LibraryDetailsViewModel model = new LibraryDetailsViewModel
