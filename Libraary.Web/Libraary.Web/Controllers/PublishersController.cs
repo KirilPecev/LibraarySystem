@@ -1,6 +1,7 @@
 ﻿namespace Libraary.Web.Controllers
 {
     using AutoMapper;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Publishers;
     using Services;
@@ -19,11 +20,13 @@
             this.userService = userService;
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult Add()
         {
             return this.View();
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         [HttpPost]
         public IActionResult Add(PublisherBindingModel model)
         {
@@ -33,6 +36,7 @@
             return this.RedirectToAction("All");
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult All()
         {
             var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);

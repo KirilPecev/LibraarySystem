@@ -6,6 +6,7 @@
     using Services;
     using Services.DTOs.Book;
     using System.Collections.Generic;
+    using Microsoft.AspNetCore.Authorization;
 
     public class BooksController : Controller
     {
@@ -20,6 +21,7 @@
             this.bookService = bookService;
         }
 
+        [Authorize(Roles = "Owner, Librarian, User")]
         public IActionResult All()
         {
             IEnumerable<BookDTO> modelDto;
@@ -39,6 +41,7 @@
             return this.View(model);
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult Rented()
         {
             var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
@@ -48,11 +51,13 @@
             return this.View("All", model);
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult Add()
         {
             return this.View();
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         [HttpPost]
         public IActionResult Add(BookInputModel book)
         {
@@ -63,7 +68,7 @@
             return this.Redirect("/");
         }
 
-
+        [Authorize(Roles = "Owner, Librarian, User")]
         public IActionResult Details(string bookId)
         {
             var booksDto = this.bookService.GetBookDetails(bookId);
@@ -72,12 +77,14 @@
             return this.View(mappedModel);
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult Remove(string bookId)
         {
             this.bookService.RemoveBook(bookId);
             return this.RedirectToAction("All");
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult Edit(string bookId)
         {
             var book = this.bookService.GetBookEditDetails(bookId);
@@ -86,6 +93,7 @@
             return this.View(mappedModel);
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         [HttpPost]
         public IActionResult Edit(BookEditInputModel model, string bookId)
         {
@@ -96,6 +104,7 @@
             return this.RedirectToAction("All");
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult ReturnBook(string bookId)
         {
             var result = this.bookService.ReturnBook(bookId);
@@ -108,6 +117,7 @@
             return this.RedirectToAction("Rented");
         }
 
+        [Authorize(Roles = "Owner, Librarian, User")]
         [HttpPost]
         public IActionResult Rating(BookDetailsViewModel model)
         {

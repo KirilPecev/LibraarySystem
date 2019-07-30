@@ -1,9 +1,10 @@
 ﻿namespace Libraary.Web.Controllers
 {
     using AutoMapper;
-    using Libraary.Services;
-    using Libraary.Web.Models.Books;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Books;
+    using Services;
 
     public class UsersController : Controller
     {
@@ -16,6 +17,7 @@
             this.bookService = bookService;
         }
 
+        [Authorize(Roles = "User")]
         public IActionResult History()
         {
             var user = this.User.Identity.Name;
@@ -25,6 +27,7 @@
             return this.View(model);
         }
 
+        [Authorize(Roles = "User")]
         public IActionResult Rent(string bookId)
         {
             var userName = this.User.Identity.Name;

@@ -1,13 +1,11 @@
 ﻿namespace Libraary.Web.Controllers
 {
     using AutoMapper;
-    using Libraary.Services;
-    using Libraary.Services.DTOs.Librarian;
-    using Libraary.Services.DTOs.Library;
-    using Libraary.Web.Models;
-    using Libraary.Web.Models.Librarians;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Diagnostics;
+    using Models.Librarians;
+    using Services;
+    using Services.DTOs.Librarian;
 
     public class LibrariansController : Controller
     {
@@ -22,6 +20,7 @@
             this.libraryService = libraryService;
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult All()
         {
             var model = this.libraryService.GetAllLibrarians();
@@ -30,6 +29,7 @@
             return this.View(librarians);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpGet]
         public IActionResult Add()
         {
@@ -39,16 +39,12 @@
             return this.View(model);
         }
 
+        [Authorize(Roles = "Owner")]
         [HttpPost]
         public IActionResult Add(LibrarianBindingModel model)
         {
             var dto = this.mapper.Map<LibrarianDTO>(model);
             bool result = this.libraryService.AddLibrarian(dto);
-
-            if (result == false)
-            {
-                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-            }
 
             return this.Redirect("/");
         }

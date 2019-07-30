@@ -1,11 +1,12 @@
 ﻿namespace Libraary.Web.Controllers
 {
     using AutoMapper;
-    using Libraary.Services;
-    using Libraary.Web.Models;
-    using Libraary.Web.Models.Libraries;
     using Microsoft.AspNetCore.Mvc;
+    using Models;
+    using Models.Libraries;
+    using Services;
     using System.Diagnostics;
+    using Microsoft.AspNetCore.Authorization;
 
     public class HomeController : Controller
     {
@@ -44,12 +45,15 @@
             return this.RedirectToAction("Home");
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult Home(string libraryId = null)
         {
-            LibraryDetailsViewModel model = new LibraryDetailsViewModel();
-            model.UsersCount = this.userService.GetUsersCount();
-            model.BooksCountForAllLibraries = this.bookService.GetCountOfAllBooks();
-            model.LibrariesCount = this.libraryService.GetCountOfAllLibraries();
+            LibraryDetailsViewModel model = new LibraryDetailsViewModel
+            {
+                UsersCount = this.userService.GetUsersCount(),
+                BooksCountForAllLibraries = this.bookService.GetCountOfAllBooks(),
+                LibrariesCount = this.libraryService.GetCountOfAllLibraries()
+            };
 
             if (libraryId != null)
             {

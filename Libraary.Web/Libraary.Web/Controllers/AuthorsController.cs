@@ -1,11 +1,12 @@
 ﻿namespace Libraary.Web.Controllers
 {
     using AutoMapper;
-    using Libraary.Services.DTOs.Author;
-    using Libraary.Web.Models.Books;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Authors;
+    using Models.Books;
     using Services;
+    using Services.DTOs.Author;
 
     public class AuthorsController : Controller
     {
@@ -22,6 +23,7 @@
             this.userService = userService;
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult All()
         {
             var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
@@ -31,11 +33,13 @@
             return this.View(model);
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult Add()
         {
             return this.View();
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         [HttpPost]
         public IActionResult Add(AuthorBindingModel model)
         {
@@ -46,6 +50,7 @@
             return this.RedirectToAction("All");
         }
 
+        [Authorize(Roles = "Owner, Librarian")]
         public IActionResult Details(string authorId)
         {
             var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);

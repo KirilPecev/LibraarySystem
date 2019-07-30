@@ -1,12 +1,11 @@
 ﻿namespace Libraary.Web.Controllers
 {
     using AutoMapper;
-    using Libraary.Services.DTOs.Library;
-    using Libraary.Web.Models;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Libraries;
     using Services;
-    using System.Diagnostics;
+    using Services.DTOs.Library;
 
     public class LibrariesController : Controller
     {
@@ -19,6 +18,7 @@
             this.libraryService = libraryService;
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult All()
         {
             var libraries = this.libraryService.GetAll();
@@ -27,11 +27,13 @@
             return this.View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             return this.View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Add(AddLibraryInputModel model)
         {
@@ -42,7 +44,7 @@
             return this.Redirect("/");
         }
 
-
+        [Authorize(Roles = "Admin, Owner")]
         public IActionResult Details(string libraryId)
         {
             var library = this.libraryService.GetLibraryDetails(libraryId);
