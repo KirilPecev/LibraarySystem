@@ -102,7 +102,7 @@
                 .LibraryBooks
                 .Where(lb => lb.LibraryId == libraryId && lb.Book.IsRemoved == false)
                 .Select(b => b.Book)
-                .Include(x=>x.Rating)
+                .Include(x => x.Rating)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
@@ -127,6 +127,7 @@
                 .LibraryBooks
                 .Where(lb => lb.LibraryId == libraryId && lb.Book.IsRented == true && lb.Book.IsRemoved == false)
                 .Select(b => b.Book)
+                .Include(x => x.Rating)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
@@ -148,7 +149,7 @@
             var currentBook = this.db
                 .Books
                 .Where(book => book.Id == bookId)
-                .Include(x=>x.Rating)
+                .Include(x => x.Rating)
                 .Select(book => new BookDetailsDTO
                 {
                     Id = book.Id,
@@ -199,7 +200,13 @@
 
         public void RemoveBook(string bookId)
         {
-            this.GetBookById(bookId).IsRemoved = true;
+            var book = this.GetBookById(bookId);
+
+            if (!book.IsRented)
+            {
+                book.IsRemoved = true;
+            }
+
             this.db.SaveChanges();
         }
 
@@ -300,7 +307,7 @@
             return this.db
                 .Books
                 .Where(book => book.IsRemoved == false && book.IsRented == false)
-                .Include(x=>x.Rating)
+                .Include(x => x.Rating)
                 .OrderBy(b => b.Name)
                 .ThenBy(b => b.BookCategories
                     .Select(c => c.Category.CategoryName))
