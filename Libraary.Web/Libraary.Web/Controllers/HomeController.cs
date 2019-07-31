@@ -6,7 +6,6 @@
     using Models.Libraries;
     using Services;
     using System.Diagnostics;
-    using Microsoft.AspNetCore.Authorization;
 
     public class HomeController : Controller
     {
@@ -30,24 +29,6 @@
                 return this.Redirect("/Identity/Account/Login");
             }
 
-            if (this.User.IsInRole("Owner") || this.User.IsInRole("Librarian"))
-            {
-                string id = this.userService.GetUserLibraryId(this.User.Identity.Name);
-
-                return this.RedirectToAction("Home", new { LibraryId = id });
-            }
-
-            if (this.User.IsInRole("User"))
-            {
-                return this.RedirectToAction("All", "Books");
-            }
-
-            return this.RedirectToAction("Home");
-        }
-
-        [Authorize(Roles = "Owner, Librarian, Admin")]
-        public IActionResult Home(string libraryId = null)
-        {
             LibraryDetailsViewModel model = new LibraryDetailsViewModel
             {
                 UsersCount = this.userService.GetUsersCount(),
@@ -55,10 +36,18 @@
                 LibrariesCount = this.libraryService.GetCountOfAllLibraries()
             };
 
-            if (libraryId != null)
+            if (this.User.IsInRole("Owner") || this.User.IsInRole("Librarian"))
             {
+                string libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
                 var library = this.libraryService.GetLibraryDetails(libraryId);
                 model = this.mapper.Map<LibraryDetailsViewModel>(library);
+
+                return this.View(model);
+            }
+
+            if (this.User.IsInRole("User"))
+            {
+                return this.RedirectToAction("All", "Books");
             }
 
             return this.View(model);
