@@ -16,6 +16,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Profiles;
     using Services;
+    using Services.BlobStorage;
 
     public class Startup
     {
@@ -91,6 +92,7 @@
             services.AddTransient<IAuthorService, AuthorService>();
             services.AddTransient<IPublisherService, PublisherService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IBlobStorageService, BlobStorageService>();
 
             IdentityExtensions.userService = services.BuildServiceProvider().GetService<IUserService>();
         }
