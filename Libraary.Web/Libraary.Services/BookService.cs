@@ -1,8 +1,9 @@
 ﻿namespace Libraary.Services
 {
+    using BlobStorage;
+    using Data;
+    using Domain;
     using DTOs.Book;
-    using Libraary.Data;
-    using Libraary.Domain;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
@@ -17,14 +18,16 @@
         private readonly IPublisherService publisherService;
         private readonly IUserService userService;
         private readonly ICategoryService categoryService;
+        private readonly IBlobStorageService blobStorage;
 
-        public BookService(LibraaryDbContext db, IAuthorService authorService, IPublisherService publisherService, IUserService userService, ICategoryService categoryService)
+        public BookService(LibraaryDbContext db, IAuthorService authorService, IPublisherService publisherService, IUserService userService, ICategoryService categoryService, IBlobStorageService blobStorage)
         {
             this.db = db;
             this.authorService = authorService;
             this.publisherService = publisherService;
             this.userService = userService;
             this.categoryService = categoryService;
+            this.blobStorage = blobStorage;
         }
 
         public bool Add(AddBookDTO bookDto, string libraryId)
@@ -40,25 +43,24 @@
                 var categories = bookDto.Categories;
                 var rating = new Rating();
 
+                var imageUri = string.Empty;
+                using (var ms = new MemoryStream())
+                {
+                    bookDto.Picture.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    imageUri = this.blobStorage.UploadFileToBlob(bookDto.Picture.FileName, fileBytes, bookDto.Picture.ContentType);
+                }
+
                 book = new Book
                 {
                     Name = bookDto.Name,
                     Publisher = publisher,
                     Rating = rating,
-                    PictureName = bookDto.Picture.FileName,
+                    PictureName = imageUri,
                     IsRented = false,
                     IsRemoved = false,
                     Summary = bookDto.Summary
                 };
-
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Pictures");
-
-                filePath += $@"\{book.PictureName}";
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    bookDto.Picture.CopyTo(stream);
-                }
 
                 publisher.Books.Add(book);
 
@@ -233,8 +235,7 @@
 
             if (model.NewPicture != null)
             {
-                var fileForDeletePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Pictures", book.PictureName);
-                File.Delete(fileForDeletePath);
+                this.blobStorage.DeleteBlobData(book.PictureName);
             }
 
             this.db.Remove(book);
@@ -243,10 +244,16 @@
             var publisher = this.publisherService.GetPublisher(model.Publisher);
             var categories = model.Categories;
 
-            var pictureName = book.PictureName;
+            var pictureUri = book.PictureName;
             if (model.NewPicture != null)
             {
-                pictureName = model.NewPicture.FileName;
+                var imageUri = string.Empty;
+                using (var ms = new MemoryStream())
+                {
+                    model.NewPicture.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    pictureUri = this.blobStorage.UploadFileToBlob(model.NewPicture.FileName, fileBytes, model.NewPicture.ContentType);
+                }
             }
 
             var editedBook = new Book
@@ -254,23 +261,11 @@
                 Name = model.Name,
                 Publisher = publisher,
                 Rating = book.Rating,
-                PictureName = pictureName,
+                PictureName = pictureUri,
                 IsRented = book.IsRented,
                 IsRemoved = book.IsRemoved,
                 Summary = model.Summary
             };
-
-            if (model.NewPicture != null)
-            {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Pictures");
-
-                filePath += $@"\{editedBook.PictureName}";
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    model.NewPicture.CopyTo(stream);
-                }
-            }
 
             publisher.Books.Add(editedBook);
             foreach (var category in categories)
