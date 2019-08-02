@@ -3,22 +3,24 @@
     ViewData["Title"] = "Add Librarian";
 }
 
+
 <form method="post">
     <div class="form-group">
         <label asp-for="LibraryId"></label>
         <input asp-for="LibraryId" class="form-control">
+        <span asp-validation-for="LibraryId" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Email"></label>
         <input asp-for="Email" class="form-control">
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div>
         <button type="submit" class="btn btn-primary">Add owner</button>
     </div>
 </form>
 
-@RenderSection("Scripts");
-
-<script>
-    confirm("Your librarian has to be registered!");
-</script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>confirmThis();</script>
+}

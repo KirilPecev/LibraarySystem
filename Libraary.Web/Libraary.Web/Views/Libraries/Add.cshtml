@@ -66,12 +66,9 @@
     </div>
 </form>
 
-@RenderSection("Scripts");
-
-<script>
-    confirm("Owner has to be registered!");
-
-    $("#target").keyup(function () {
-        $("button").prop("disabled", !this.value);
-    });
-</script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        confirmThisForOwner();
+    </script>
+}

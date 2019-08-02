@@ -6,6 +6,13 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\Pictures\**" />
+    <Content Remove="wwwroot\Pictures\**" />
+    <EmbeddedResource Remove="wwwroot\Pictures\**" />
+    <None Remove="wwwroot\Pictures\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
@@ -24,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Authors\" />
-    <Folder Include="wwwroot\Pictures\" />
   </ItemGroup>
 
 </Project>

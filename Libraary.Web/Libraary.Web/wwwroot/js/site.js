@@ -1,23 +1,11 @@
-﻿(function($) {
-    function Rating() {
-        var $this = this;
+﻿function confirmThisForLibrarian(parameters) {
+    confirm("Your librarian has to be registered!");
+}
 
-        function initialize() {
-            $(".star").click(function() {
-                $(".star").removeClass('active');
-                $(this).addClass('active');
-                var starValue = $(this).data("value");
-                $("#Rating").val(starValue);
-            });
-        }
+$("#target").keyup(function () {
+    $("button").prop("disabled", !this.value);
+});
 
-        $this.init = function() {
-            initialize();
-        }
-    }
-
-    $(function() {
-        var self = new Rating();
-        self.init();
-    });
-}(jQuery));
+function confirmThisForOwner(parameters) {
+    confirm("Owner has to be registered!");
+}
