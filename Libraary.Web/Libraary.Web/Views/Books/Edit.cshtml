@@ -1,14 +1,15 @@
-﻿@model Libraary.Web.Models.Books.BookEditInputModel
-@inject Libraary.Services.ICategoryService  CategoryService
-@inject Libraary.Services.IAuthorService  AuthorService
-@inject Libraary.Services.IPublisherService  PublisherService
+﻿@using Libraary.Services
+@model Libraary.Web.Models.Books.BookEditInputModel
+@inject ICategoryService CategoryService
+@inject IAuthorService AuthorService
+@inject IPublisherService PublisherService
 @{
     ViewData["Title"] = "Edit Book";
 }
 
 <form method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <img src="~/Pictures/@Model.Picture" width="80" height="80" />
+        <img src="@Model.Picture" width="80" height="80" />
     </div>
     <div class="form-group">
         <div class="col-md-10">
@@ -63,7 +64,6 @@
                     <input type="checkbox" name="Publisher" value="@item">
                     <label asp-for="@item">@item</label>
                 </div>
-
             }
         }
     </fieldset>
@@ -92,7 +92,4 @@
     </div>
 </form>
 
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+@RenderSection("Scripts");

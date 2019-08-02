@@ -4,7 +4,7 @@
 }
 
 
-@if (this.User.IsInRole("Owner") || this.User.IsInRole("Librarian"))
+@if (User.IsInRole("Owner") || User.IsInRole("Librarian"))
 {
     <partial name="/Views/Home/_OwnerHomePartial.cshtml" model="@Model" />
 }

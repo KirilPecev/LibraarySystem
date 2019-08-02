@@ -5,9 +5,9 @@
 
 <main class="mt-3">
     <h1 class="text-center">Book Details for @Model.Name</h1>
-    <hr class="hr-2">
+    <hr>
     <div class="mx-auto">
-        <div class="address-and-date-holder d-flex justify-content-around">
+        <div class="d-flex justify-content-around">
             <div class="d-flex flex-column">
                 <img src="@Model.Picture" width="80" height="80" />
             </div>
@@ -20,8 +20,8 @@
                 <h3 class="text-center mt-1">@Model.Publisher</h3>
             </div>
         </div>
-        <hr class="hr-2">
-        <div class="w-75 mx-auto weight-and-recipient-holder d-flex justify-content-between">
+        <hr>
+        <div class="w-75 mx-auto d-flex justify-content-between">
             <div class="d-flex flex-column w-50">
                 <h2 class="text-center">Rating</h2>
                 <h3 class="text-center mt-1">@Model.Rating</h3>
@@ -31,8 +31,8 @@
                 <h3 class="text-center mt-1">@Model.IsRented</h3>
             </div>
         </div>
-        <hr class="hr-2 w-75">
-        <div class="w-75 mx-auto weight-and-recipient-holder d-flex justify-content-between">
+        <hr class="w-75">
+        <div class="w-75 mx-auto d-flex justify-content-between">
             <div class="d-flex flex-column w-50">
                 <h2 class="text-center">Category</h2>
                 <h3 class="text-center mt-1">@string.Join(", ", Model.Categories)</h3>
@@ -42,9 +42,9 @@
                 <h3 class="text-center mt-1">@Model.Summary</h3>
             </div>
         </div>
-        @if (this.User.IsInRole("Librarian") && Model.IsRented == true)
+        @if (User.IsInRole("Librarian") && Model.IsRented)
         {
-            <div class="w-75 mx-auto weight-and-recipient-holder d-flex justify-content-between">
+            <div class="w-75 mx-auto d-flex justify-content-between">
                 <div class="d-flex flex-column w-50">
                     <h2 class="text-center">Rented by</h2>
                     <h3 class="text-center mt-1">@Model.User</h3>
@@ -56,24 +56,26 @@
             </div>
         }
     </div>
-    @if (this.User.IsInRole("User") && Model.IsRented == false)
+    @if (User.IsInRole("User") && Model.IsRented == false)
     {
         <div>
             <a asp-controller="Users"
                asp-action="Rent"
                asp-route-bookId="@Model.Id"
                class="btn btn-outline-info"
-               role="button">Rent</a>
+               role="button">
+                Rent
+            </a>
         </div>
     }
-    <form asp-controller="Books" asp-action="Rating" method="post" class="form-horizontal">
+    <form asp-controller="Books" asp-action="Rating" method="post">
         <h4>Star Rating</h4>
         <hr />
         <div class="form-group">
             <label asp-for="Rating" class="col-lg-2 col-sm-2">Rating</label>
             <div class="col-lg-8">
                 <span class="rating">
-                    @for (int i = 1; i <= 5; i++)
+                    @for (var i = 1; i <= 5; i++)
                     {
                         var starClass = "star";
                         if (Model.Rating == 6 - i)
@@ -88,7 +90,7 @@
             <input asp-for="Id" type="hidden" />
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-10">
                 <input type="submit" class="btn btn-primary" value="Submit" />
             </div>
         </div>

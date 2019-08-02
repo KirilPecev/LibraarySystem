@@ -3,43 +3,40 @@
     ViewData["Title"] = "Add Author";
 }
 
-    <form method="post">
-        <div class="form-group">
-            <label asp-for="FirstName"></label>
-            <input asp-for="FirstName" class="form-control" placeholder="First name">
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="LastName"></label>
-            <input asp-for="LastName" class="form-control" placeholder="Last name">
-            <span asp-validation-for="LastName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Address.Country"></label>
-            <input asp-for="Address.Country" class="form-control" placeholder="Country">
-            <span asp-validation-for="Address.Country" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Address.Town"></label>
-            <input asp-for="Address.Town" class="form-control" placeholder="Town">
-            <span asp-validation-for="Address.Town" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Address.Street"></label>
-            <input asp-for="Address.Street" class="form-control" placeholder="Street">
-            <span asp-validation-for="Address.Street" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Address.Zip"></label>
-            <input asp-for="Address.Zip" class="form-control" placeholder="Zip">
-            <span asp-validation-for="Address.Zip" class="text-danger"></span>
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </div>
-    </form>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" placeholder="First name">
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control" placeholder="Last name">
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Country"></label>
+        <input asp-for="Address.Country" class="form-control" placeholder="Country">
+        <span asp-validation-for="Address.Country" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Town"></label>
+        <input asp-for="Address.Town" class="form-control" placeholder="Town">
+        <span asp-validation-for="Address.Town" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Street"></label>
+        <input asp-for="Address.Street" class="form-control" placeholder="Street">
+        <span asp-validation-for="Address.Street" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Address.Zip"></label>
+        <input asp-for="Address.Zip" class="form-control" placeholder="Zip">
+        <span asp-validation-for="Address.Zip" class="text-danger"></span>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </div>
+</form>
 
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+@RenderSection("Scripts");

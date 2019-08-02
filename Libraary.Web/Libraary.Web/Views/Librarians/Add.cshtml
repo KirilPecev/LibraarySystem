@@ -17,10 +17,8 @@
     </div>
 </form>
 
+@RenderSection("Scripts");
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
+<script>
     confirm("Your librarian has to be registered!");
-    </script>
-}
+</script>
