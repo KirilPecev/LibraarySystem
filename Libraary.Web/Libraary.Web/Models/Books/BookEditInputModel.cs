@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
+    using CustomAttributes;
 
     public class BookEditInputModel
     {
@@ -21,6 +22,7 @@
         [Required]
         public string Publisher { get; set; }
 
+        [Image]
         [DataType(DataType.Upload)]
         public IFormFile NewPicture { get; set; }
 

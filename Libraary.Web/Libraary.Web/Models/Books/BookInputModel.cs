@@ -1,5 +1,6 @@
 ﻿namespace Libraary.Web.Models.Books
 {
+    using CustomAttributes;
     using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
 
@@ -23,6 +24,7 @@
 
         [Required]
         [DataType(DataType.Upload)]
+        [Image]
         public IFormFile Picture { get; set; }
 
         [Required]
