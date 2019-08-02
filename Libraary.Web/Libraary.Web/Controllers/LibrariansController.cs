@@ -43,6 +43,11 @@
         [HttpPost]
         public IActionResult Add(LibrarianBindingModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             var dto = this.mapper.Map<LibrarianDTO>(model);
             bool result = this.libraryService.AddLibrarian(dto);
 

@@ -59,11 +59,16 @@
 
         [Authorize(Roles = "Owner, Librarian")]
         [HttpPost]
-        public IActionResult Add(BookInputModel book)
+        public IActionResult Add(BookInputModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
-            var model = this.mapper.Map<AddBookDTO>(book);
-            this.bookService.Add(model, libraryId);
+            var mappedModel = this.mapper.Map<AddBookDTO>(model);
+            this.bookService.Add(mappedModel, libraryId);
 
             return this.Redirect("/");
         }
@@ -97,6 +102,11 @@
         [HttpPost]
         public IActionResult Edit(BookEditInputModel model, string bookId)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
             var mappedModel = this.mapper.Map<EditBookDto>(model);
             this.bookService.EditBookById(bookId, mappedModel, libraryId);

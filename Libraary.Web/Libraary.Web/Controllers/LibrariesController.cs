@@ -37,6 +37,11 @@
         [HttpPost]
         public IActionResult Add(AddLibraryInputModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             var library = this.mapper.Map<AddLibraryDTO>(model);
 
             var id = this.libraryService.Add(library);

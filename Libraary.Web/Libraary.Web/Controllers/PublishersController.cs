@@ -30,6 +30,11 @@
         [HttpPost]
         public IActionResult Add(PublisherBindingModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             var mappedModel = this.mapper.Map<AddPublisherDTO>(model);
             this.publisherService.Add(mappedModel);
 

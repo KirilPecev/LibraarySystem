@@ -43,9 +43,14 @@
         [HttpPost]
         public IActionResult Add(AuthorBindingModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
             var mappedModel = this.mapper.Map<AddAuthorDTO>(model);
 
-            this.authorService.Add(mappedModel);
+            var result = this.authorService.Add(mappedModel);
 
             return this.RedirectToAction("All");
         }
