@@ -8,10 +8,6 @@
 {
     <partial name="/Views/Home/_OwnerHomePartial.cshtml" model="@Model" />
 }
-else if (this.User.IsInRole("Admin"))
-{
-    <partial name="/Views/Home/_AdminHomePartial.cshtml" model="@Model" />
-}
 else
 {
     <partial name="/Views/Home/_UserHomePartial.cshtml" />

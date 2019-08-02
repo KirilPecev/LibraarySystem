@@ -29,28 +29,21 @@
                 return this.Redirect("/Identity/Account/Login");
             }
 
-            LibraryDetailsViewModel model = new LibraryDetailsViewModel
-            {
-                UsersCount = this.userService.GetUsersCount(),
-                BooksCountForAllLibraries = this.bookService.GetCountOfAllBooks(),
-                LibrariesCount = this.libraryService.GetCountOfAllLibraries()
-            };
-
-            if (this.User.IsInRole("Owner") || this.User.IsInRole("Librarian"))
-            {
-                string libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
-                var library = this.libraryService.GetLibraryDetails(libraryId);
-                model = this.mapper.Map<LibraryDetailsViewModel>(library);
-
-                return this.View(model);
-            }
-
             if (this.User.IsInRole("User"))
             {
                 return this.RedirectToAction("All", "Books");
             }
 
-            return this.View(model);
+            if (this.User.IsInRole("Owner") || this.User.IsInRole("Librarian"))
+            {
+                string libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
+                var library = this.libraryService.GetLibraryDetails(libraryId);
+                var libraryModel = this.mapper.Map<LibraryDetailsViewModel>(library);
+
+                return this.View(libraryModel);
+            }
+
+            return this.RedirectToAction("Index", "Admin", new { Area = "Admin" });
         }
 
         public IActionResult Privacy()
