@@ -104,6 +104,8 @@
             {
                 var dbContext = serviceScope.ServiceProvider.GetRequiredService<LibraaryDbContext>();
 
+                dbContext.Database.EnsureCreated();
+
                 if (env.IsDevelopment())
                 {
                     dbContext.Database.Migrate();

@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-Libraary.Web-C3E81C2E-C466-4AF7-BF06-03AAB3561C3E</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <StartupObject></StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
