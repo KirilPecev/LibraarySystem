@@ -19,7 +19,8 @@
             builder
                 .HasOne(bc => bc.Library)
                 .WithMany(c => c.LibraryBooks)
-                .HasForeignKey(bc => bc.LibraryId);
+                .HasForeignKey(bc => bc.LibraryId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
