@@ -1,98 +1,109 @@
 ﻿@model Libraary.Web.Models.Books.BookDetailsViewModel
 @{
     ViewData["Title"] = "Home Page";
+    Layout = "_BookLayout";
 }
 
-<main class="mt-3">
-    <h1 class="text-center">Book Details for @Model.Name</h1>
-    <hr>
-    <div class="mx-auto">
-        <div class="d-flex justify-content-around">
-            <div class="d-flex flex-column">
-                <img src="@Model.Picture" width="80" height="80" />
-            </div>
-            <div class="d-flex flex-column">
-                <h2 class="text-center">Author</h2>
-                <h3 class="text-center mt-1">@string.Join(", ", Model.Authors)</h3>
-            </div>
-            <div class="d-flex flex-column">
-                <h2 class="text-center">Publisher</h2>
-                <h3 class="text-center mt-1">@Model.Publisher</h3>
-            </div>
-        </div>
-        <hr>
-        <div class="w-75 mx-auto d-flex justify-content-between">
-            <div class="d-flex flex-column w-50">
-                <h2 class="text-center">Rating</h2>
-                <h3 class="text-center mt-1">@Model.Rating</h3>
-            </div>
-            <div class="d-flex flex-column w-50">
-                <h2 class="text-center">Rented</h2>
-                <h3 class="text-center mt-1">@Model.IsRented</h3>
-            </div>
-        </div>
-        <hr class="w-75">
-        <div class="w-75 mx-auto d-flex justify-content-between">
-            <div class="d-flex flex-column w-50">
-                <h2 class="text-center">Category</h2>
-                <h3 class="text-center mt-1">@string.Join(", ", Model.Categories)</h3>
-            </div>
-            <div class="d-flex flex-column w-50">
-                <h2 class="text-center">Summary</h2>
-                <h3 class="text-center mt-1">@Model.Summary</h3>
-            </div>
-        </div>
-        @if (User.IsInRole("Librarian") && Model.IsRented)
-        {
-            <div class="w-75 mx-auto d-flex justify-content-between">
-                <div class="d-flex flex-column w-50">
-                    <h2 class="text-center">Rented by</h2>
-                    <h3 class="text-center mt-1">@Model.User</h3>
-                </div>
-                <div class="d-flex flex-column w-50">
-                    <h2 class="text-center">Rented on</h2>
-                    <h3 class="text-center mt-1">@Model.RentDate</h3>
-                </div>
-            </div>
-        }
-    </div>
-    @if (User.IsInRole("User") && Model.IsRented == false)
-    {
-        <div>
-            <a asp-controller="Users"
-               asp-action="Rent"
-               asp-route-bookId="@Model.Id"
-               class="btn btn-outline-info"
-               role="button">
-                Rent
-            </a>
-        </div>
-    }
-    <form asp-controller="Books" asp-action="Rating" method="post">
-        <h4>Star Rating</h4>
+<div id="headerBackground">
+    <h1>@Model.Name</h1>
+</div>
+<div id="header">
+    <h1>@Model.Name</h1>
+</div>
+
+<div id="page">
+    <div id="frontpage">
+        <img src="@Model.Picture" width="350" height="495" />
+        <br>
         <hr />
-        <div class="form-group">
-            <label asp-for="Rating" class="col-lg-2 col-sm-2">Rating</label>
-            <div class="col-lg-8">
-                <span class="rating">
-                    @for (var i = 1; i <= 5; i++)
-                    {
-                        var starClass = "star";
-                        if (Model.Rating == 6 - i)
+        <small class="text-left">@Model.Categories</small>
+        </br>
+        <form asp-controller="Books" asp-action="Rating" method="post">
+            <hr />
+            <div class="form-group">
+                <div class="col-lg-8">
+                    <span class="rating">
+                        @for (var i = 1; i <= 5; i++)
                         {
-                            starClass += " active";
+                            var starClass = "star";
+                            if (Model.Rating == 6 - i)
+                            {
+                                starClass += " active";
+                            }
+                            <span data-value="@(6 - i)" class="@starClass"></span>
                         }
-                        <span data-value="@(6 - i)" class="@starClass"></span>
-                    }
-                </span>
+                    </span>
+                </div>
+                <input asp-for="Rating" type="hidden" />
+                <input asp-for="Id" type="hidden" />
             </div>
-            <input asp-for="Rating" type="hidden" />
-            <input asp-for="Id" type="hidden" />
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <input type="submit" class="btn btn-primary" value="Submit" />
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+                </div>
             </div>
+        </form>
+    </div>
+</div>
+<div id="contents">
+    <ul class="contents mx-auto">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="entry-content" itemprop="text">
+                <blockquote class="blockquote text-left">
+                    <p>@Model.Summary</p>
+                </blockquote>
+            </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-column">
+                <h2 class="text-left">Author: @string.Join(", ", Model.Authors)</h2>
+            </div>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex flex-column">
+                <h2 class="text-left">Publisher: @Model.Publisher</h2>
+            </div>
+        </li>
+    </ul>
+</div>
+
+@if (User.IsInRole("User") && Model.IsRented == false)
+{
+<div class="w-75 mx-auto d-flex justify-content-between">
+    <a asp-controller="Users"
+       asp-action="Rent"
+       asp-route-bookId="@Model.Id"
+       class="btn btn-primary btn-lg btn-block"
+       role="button">
+        Rent
+    </a>
+</div>
+}
+@if (User.IsInRole("Librarian") && Model.IsRented)
+{
+    <div class="w-75 mx-auto d-flex justify-content-between">
+        <div class="d-flex flex-column w-50">
+            <h2 class="text-center">Rented by</h2>
+            <h3 class="text-center mt-1">@Model.User</h3>
         </div>
-    </form>
-</main>
+        <div class="d-flex flex-column w-50">
+            <h2 class="text-center">Rented on</h2>
+            <h3 class="text-center mt-1">@Model.RentDate</h3>
+        </div>
+    </div>
+}
+
+<script>
+    window.onscroll = function () { myFunction() };
+
+    var header = document.getElementById("headerBackground");
+    var sticky = header.offsetTop;
+
+    function myFunction() {
+        if (window.pageYOffset > sticky) {
+            header.classList.add("sticky");
+        } else {
+            header.classList.remove("sticky");
+        }
+    }
+</script>

@@ -65,29 +65,103 @@ body {
     font-size: 30px;
 }
 
-.rating span.star, .rating span.star {
-    font-family: FontAwesome;
-    font-weight: normal;
-    font-style: normal;
-    display: inline-block;
+    .rating span.star, .rating span.star {
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-style: normal;
+        display: inline-block;
+    }
+
+        .rating span.star:hover, .rating span.star:hover {
+            cursor: pointer;
+        }
+
+        .rating span.star:before, .rating span.star:before {
+            content: "★";
+            padding-right: 5px;
+            color: #BEC3C7;
+        }
+
+        .rating span.star:hover:before, .rating span.star:hover:before, .rating span.star:hover ~ span.star:before, .rating span.star:hover ~ span.star:before {
+            content: "★";
+            color: #41CAC0;
+        }
+
+        .rating span.star.active::before, .rating span.star.active::before, .rating span.star.active ~ span.star::before, .rating span.star.active ~ span.star::before {
+            color: #41cac0;
+            content: "★";
+        }
+
+#headerBackground {
+    width: 100%;
+    min-height: 50px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: #ffffff;
+    z-index: 3;
+    opacity: 0.6;
+    box-shadow: 0px 0px 18px 0px #cccccc;
+    text-align: center;
 }
 
-.rating span.star:hover, .rating span.star:hover {
-    cursor: pointer;
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
-.rating span.star:before, .rating span.star:before {
-    content: "★";
-    padding-right: 5px;
-    color: #BEC3C7;
+    .sticky + .content {
+        padding-top: 102px;
+    }
+
+#header {
+    width: 100%;
+    min-height: 50px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 4;
+    text-align: center;
 }
 
-.rating span.star:hover:before, .rating span.star:hover:before, .rating span.star:hover ~ span.star:before, .rating span.star:hover ~ span.star:before {
-    content: "★";
-    color: #41CAC0;
+#page {
+    margin: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 90px;
+    padding-bottom: 140px;
+    background-color: #ffffff;
+    max-width: 1100px;
 }
 
-.rating span.star.active::before, .rating span.star.active::before, .rating span.star.active ~ span.star::before, .rating span.star.active ~ span.star::before {
-    color: #41cac0;
-    content: "★";
+#frontpage {
+    float: left;
+    width: 45%;
+    text-align: right;
+    padding-right: 20px;
+    padding-top: 10px;
+}
+
+#contents {
+    float: left;
+    width: 45%;
+    text-align: left;
+}
+
+.entry-content {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+}
+
+.contents {
+    text-align: left;
+    list-style-type: none;
+    margin: auto;
+    column-count: 2;
+    font-size: 14px;
+    counter-reset: chapterCount 0 appendixCount 0;
 }
