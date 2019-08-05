@@ -29,15 +29,6 @@
                 <td>@Model[i].Publisher</td>
                 <td>@Model[i].Rating</td>
                 <td>@(Model[i].IsRented ? "No" : "Yes")</td>
-                <td>
-                    <a asp-controller="Books"
-                       asp-action="Details"
-                       asp-route-bookId="@Model[i].Id"
-                       class="btn btn-outline-info"
-                       role="button">
-                        Details
-                    </a>
-                </td>
             </tr>
         }
     </tbody>

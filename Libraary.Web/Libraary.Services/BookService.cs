@@ -322,18 +322,18 @@
         public IEnumerable<BookDTO> GetAllRentedByUserName(string user)
         {
             return this.userService.GetUser(user)
-                 .RentedBooks
-                 .Select(rent => new BookDTO
-                 {
-                     Id = rent.Book.Id,
-                     Name = rent.Book.Name,
-                     Authors = string.Join(", ", rent.Book.AuthorBooks.Select(ab => ab.Author.ToString())),
-                     Publisher = rent.Book.Publisher.Name,
-                     Rating = this.CalculateRating(rent.Book),
-                     Picture = rent.Book.PictureName,
-                     IsRented = rent.Book.IsRented,
-                 })
-                 .ToList();
+                .RentedBooks
+                .Select(rent => new BookDTO
+                {
+                    Id = rent.Book.Id,
+                    Name = rent.Book.Name,
+                    Authors = string.Join(", ", rent.Book.AuthorBooks.Select(ab => ab.Author.ToString())),
+                    Publisher = rent.Book.Publisher.Name,
+                    Rating = this.CalculateRating(rent.Book),
+                    Picture = rent.Book.PictureName,
+                    IsRented = rent.Book.IsRented,
+                })
+                .ToList();
         }
 
         public bool RentBook(string userName, string bookId)
