@@ -69,15 +69,15 @@
 
 @if (User.IsInRole("User") && Model.IsRented == false)
 {
-<div class="w-75 mx-auto d-flex justify-content-between">
-    <a asp-controller="Users"
-       asp-action="Rent"
-       asp-route-bookId="@Model.Id"
-       class="btn btn-primary btn-lg btn-block"
-       role="button">
-        Rent
-    </a>
-</div>
+    <div class="w-75 mx-auto d-flex justify-content-between">
+        <a asp-controller="Users"
+           asp-action="Rent"
+           asp-route-bookId="@Model.Id"
+           class="btn btn-primary btn-lg btn-block"
+           role="button">
+            Rent
+        </a>
+    </div>
 }
 @if (User.IsInRole("Librarian") && Model.IsRented)
 {
@@ -90,6 +90,62 @@
             <h2 class="text-center">Rented on</h2>
             <h3 class="text-center mt-1">@Model.RentDate</h3>
         </div>
+    </div>
+}
+
+@if (User.IsInRole("Librarian"))
+{
+    <div class="w-75 mx-auto d-flex justify-content-between">
+        <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">
+            Remove
+        </button>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Do you really want to delete this book?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Close</button>
+                    <a asp-controller="Books"
+                       asp-action="Remove"
+                       asp-route-bookId="@Model.Id"
+                       class="btn btn-outline-warning"
+                       role="button">
+                        Yes, Remove
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-75 mx-auto d-flex justify-content-between">
+        <a asp-controller="Books"
+           asp-action="Edit"
+           asp-route-bookId="@Model.Id"
+           class="btn btn-primary btn-lg btn-block"
+           role="button">
+            Edit
+        </a>
+    </div>
+}
+@if (User.IsInRole("Librarian") && Model.IsRented)
+{
+    <div class="w-75 mx-auto d-flex justify-content-between">
+        <a asp-controller="Books"
+           asp-action="ReturnBook"
+           asp-route-bookId="@Model.Id"
+           class="btn btn-primary btn-lg btn-block"
+           role="button">
+            Return
+        </a>
     </div>
 }
 

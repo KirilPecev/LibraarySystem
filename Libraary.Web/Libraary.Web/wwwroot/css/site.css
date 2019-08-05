@@ -165,3 +165,18 @@ body {
     font-size: 14px;
     counter-reset: chapterCount 0 appendixCount 0;
 }
+
+.books {
+    margin: auto;
+    padding-bottom: 50px;
+    padding-top: 20px;
+}
+
+.bookContainer {
+    display: inline-block;
+}
+
+.grow {
+    transition: all .3s ease-in-out;
+    transform: scale(0.9);
+}
