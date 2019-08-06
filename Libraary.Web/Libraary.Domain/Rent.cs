@@ -15,5 +15,8 @@
 
         [Required]
         public DateTime IssuedOn { get; set; }
+
+        [Required]
+        public DateTime ReturnedOn { get; set; }
     }
 }

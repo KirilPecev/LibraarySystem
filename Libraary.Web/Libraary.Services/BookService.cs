@@ -168,8 +168,10 @@
 
             if (currentBook != null && currentBook.IsRented)
             {
-                currentBook.User = this.db.Rents.SingleOrDefault(rent => rent.BookId == currentBook.Id)?.User.ToString();
-                currentBook.RentDate = this.db.Rents.SingleOrDefault(rent => rent.BookId == currentBook.Id)
+                var timeInTheMoment = DateTime.UtcNow;
+
+                currentBook.User = this.db.Rents.SingleOrDefault(rent => rent.BookId == currentBook.Id && rent.ReturnedOn == DateTime.MinValue)?.User.ToString();
+                currentBook.RentDate = this.db.Rents.SingleOrDefault(rent => rent.BookId == currentBook.Id && rent.ReturnedOn == DateTime.MinValue)
                     ?.IssuedOn
                     .ToString(CultureInfo.InvariantCulture);
             }
@@ -331,6 +333,8 @@
                     Publisher = rent.Book.Publisher.Name,
                     Rating = this.CalculateRating(rent.Book),
                     Picture = rent.Book.PictureName,
+                    RentedOn = rent.IssuedOn.ToString(CultureInfo.InvariantCulture),
+                    ReturnedOn = rent.ReturnedOn == DateTime.MinValue ? null : rent.ReturnedOn.ToString(CultureInfo.InvariantCulture),
                     IsRented = rent.Book.IsRented,
                 })
                 .ToList();
@@ -355,8 +359,9 @@
 
         public bool ReturnBook(string bookId)
         {
-            this.GetBookById(bookId)
-                 .IsRented = false;
+            var book = this.GetBookById(bookId);
+            book.IsRented = false;
+            book.UserRents.FirstOrDefault(rent => rent.ReturnedOn == DateTime.MinValue).ReturnedOn = DateTime.UtcNow;
 
             int count = this.db.SaveChanges();
             return count != 0;
@@ -396,6 +401,7 @@
         {
             return this.db
                 .Books
+                .Include(x => x.UserRents)
                 .SingleOrDefault(book => book.Id == bookId);
         }
 

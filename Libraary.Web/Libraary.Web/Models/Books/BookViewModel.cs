@@ -15,5 +15,9 @@
         public string Picture { get; set; }
 
         public bool IsRented { get; set; }
+
+        public string RentedOn { get; set; }
+
+        public string ReturnedOn { get; set; }
     }
 }
