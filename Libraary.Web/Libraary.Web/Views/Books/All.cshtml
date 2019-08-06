@@ -3,6 +3,11 @@
     ViewData["Title"] = "Home Page";
 }
 
+<form class="form-inline" method="post" asp-controller="Books", asp-action="SearchedBooks">
+    <input class="form-control mr-sm-2 " style="width:92%" type="search" placeholder="Search" aria-label="Search" name="search"/>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+
 <div class="books">
     @for (var i = 0; i < Model.Length; i++)
     {

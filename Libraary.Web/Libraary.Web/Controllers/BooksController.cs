@@ -1,12 +1,13 @@
 ﻿namespace Libraary.Web.Controllers
 {
     using AutoMapper;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models.Books;
     using Services;
     using Services.DTOs.Book;
     using System.Collections.Generic;
-    using Microsoft.AspNetCore.Authorization;
+    using System.Linq;
 
     public class BooksController : Controller
     {
@@ -134,6 +135,38 @@
             this.bookService.SaveRatingFromUser(model.Id, model.Rating);
 
             return this.RedirectToAction("Details", new { bookId = model.Id });
+        }
+
+        [Authorize(Roles = "Owner, Librarian, User")]
+        public IActionResult SearchedBooks(string search)
+        {
+            if (search == null)
+            {
+                return this.RedirectToAction("All");
+            }
+
+            IEnumerable<BookDTO> modelDto;
+
+            if (this.User.IsInRole("Librarian"))
+            {
+                var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
+                modelDto = this.bookService.GetAllByLibraryId(libraryId)
+                    .Where(book => book.Name.ToLower().Contains(search.ToLower()));
+            }
+            else
+            {
+                modelDto = this.bookService.GetAll()
+                    .Where(book => book.Name.Contains(search));
+            }
+
+            if (!modelDto.Any())
+            {
+                return this.RedirectToAction("All");
+            }
+
+            var model = this.mapper.Map<BookViewModel[]>(modelDto);
+
+            return this.View("All", model);
         }
     }
 }
