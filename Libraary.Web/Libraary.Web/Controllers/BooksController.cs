@@ -72,7 +72,7 @@
             var isNameBusy = this.bookService.GetAllByLibraryId(libraryId).Any(book => book.Name == model.Name);
             if (isNameBusy)
             {
-                ModelState.AddModelError("Name","Already has book with this name!");
+                ModelState.AddModelError("Name", "Already has book with this name!");
                 return this.View(model);
             }
 

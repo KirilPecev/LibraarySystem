@@ -4,13 +4,13 @@
     Layout = "_BookLayout";
 }
 
+
 <div id="headerBackground">
     <h1>@Model.Name</h1>
 </div>
 <div id="header">
     <h1>@Model.Name</h1>
 </div>
-
 <div id="page">
     <div id="frontpage">
         <img src="@Model.Picture" width="350" height="495" />
@@ -95,37 +95,40 @@
 
 @if (User.IsInRole("Librarian"))
 {
-    <div class="w-75 mx-auto d-flex justify-content-between">
-        <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">
-            Remove
-        </button>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Do you really want to delete this book?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Close</button>
-                    <a asp-controller="Books"
-                       asp-action="Remove"
-                       asp-route-bookId="@Model.Id"
-                       class="btn btn-outline-warning"
-                       role="button">
-                        Yes, Remove
-                    </a>
+    if (Model.IsRented == false)
+    {
+        <div class="w-75 mx-auto d-flex justify-content-between">
+            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">
+                Remove
+            </button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Do you really want to delete this book?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Close</button>
+                        <a asp-controller="Books"
+                           asp-action="Remove"
+                           asp-route-bookId="@Model.Id"
+                           class="btn btn-outline-warning"
+                           role="button">
+                            Yes, Remove
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
     <div class="w-75 mx-auto d-flex justify-content-between">
         <a asp-controller="Books"
            asp-action="Edit"
