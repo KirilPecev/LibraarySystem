@@ -156,7 +156,7 @@
             else
             {
                 modelDto = this.bookService.GetAll()
-                    .Where(book => book.Name.Contains(search));
+                    .Where(book => book.Name.ToLower().Contains(search.ToLower()));
             }
 
             if (!modelDto.Any())

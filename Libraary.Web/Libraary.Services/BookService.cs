@@ -63,25 +63,8 @@
                 };
 
                 publisher.Books.Add(book);
-
-                foreach (var category in categories)
-                {
-                    var currentCategory = this.categoryService.GetCategory(category);
-
-                    book.BookCategories.Add(new BookCategory()
-                    {
-                        Category = currentCategory
-                    });
-                }
-
-                foreach (var author in authors)
-                {
-                    var currentAuthor = this.authorService.GetAuthorByFullName(author);
-                    book.AuthorBooks.Add(new AuthorBooks()
-                    {
-                        Author = currentAuthor
-                    });
-                }
+                SetCategories(categories, book);
+                SetAuthors(authors, book);
             }
 
             book.LibraryBooks.Add(new LibraryBook
@@ -270,6 +253,24 @@
             };
 
             publisher.Books.Add(editedBook);
+
+            SetCategories(categories, editedBook);
+            SetAuthors(authors, editedBook);
+
+            editedBook.LibraryBooks.Add(new LibraryBook
+            {
+                LibraryId = libraryId
+            });
+
+            this.db.Add(editedBook);
+            ChangeRents(book, editedBook);
+
+            int count = this.db.SaveChanges();
+            return count != 0;
+        }
+
+        private void SetCategories(string[] categories, Book editedBook)
+        {
             foreach (var category in categories)
             {
                 var currentCategory = this.categoryService.GetCategory(category);
@@ -279,7 +280,10 @@
                     Category = currentCategory
                 });
             }
+        }
 
+        private void SetAuthors(string[] authors, Book editedBook)
+        {
             foreach (var author in authors)
             {
                 var currentAuthor = this.authorService.GetAuthorByFullName(author);
@@ -288,15 +292,15 @@
                     Author = currentAuthor
                 });
             }
+        }
 
-            editedBook.LibraryBooks.Add(new LibraryBook
+        private void ChangeRents(Book book, Book editedBook)
+        {
+            var rents = this.db.Rents.Where(rent => rent.BookId == book.Id).ToList();
+            foreach (var rent in rents)
             {
-                LibraryId = libraryId
-            });
-
-            this.db.Add(editedBook);
-            int count = this.db.SaveChanges();
-            return count != 0;
+                rent.BookId = editedBook.Id;
+            }
         }
 
         public IEnumerable<BookDTO> GetAll()

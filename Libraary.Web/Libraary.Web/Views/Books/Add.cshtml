@@ -10,8 +10,9 @@
 <form method="post" enctype="multipart/form-data">
     <div class="form-group">
         <div class="col-md-10">
-            <p>Upload picture:</p>
-            <input asp-for="Picture">
+            <p>Upload picture</p>
+            <input class="btn btn-outline-info" asp-for="Picture">
+            <span asp-validation-for="Picture" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
@@ -25,35 +26,54 @@
         <span asp-validation-for="Summary" class="text-danger"></span>
     </div>
     <fieldset>
-        <legend>Choose author</legend>
-        @foreach (var item in AuthorService.GetAllAuthorsByName())
-        {
-            <div>
-                <input type="checkbox" name="Authors" value="@item">
-                <label asp-for="@item">@item</label>
-            </div>
-        }
+        <select class="form-control" multiple asp-for="Authors">
+            <option value="" disabled selected>Choose author</option>
+            @foreach (var item in AuthorService.GetAllAuthorsByName())
+            {
+                if (Model != null)
+                {
+                    if (Model.Authors.Any(x => x == item))
+                    {
+                        <option value="@item" selected>@item</option>
+                    }
+                    else
+                    {
+                        <option value="@item">@item</option>
+                    }
+                }
+                else
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+        </select>
+        <span asp-validation-for="Authors" class="text-danger"></span>
+        <p class="text-info">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
     </fieldset>
+    <hr />
     <fieldset>
-        <legend>Choose publisher</legend>
-        @foreach (var item in PublisherService.GetAllPublishersName())
-        {
-            <div>
-                <input type="checkbox" asp-for="Publisher" value="@item">
-                <label asp-for="@item">@item</label>
-            </div>
-        }
+        <select class="form-control" asp-for="Publisher">
+            <option value="" disabled selected>Choose publisher</option>
+            @foreach (var item in PublisherService.GetAllPublishersName())
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+        <span asp-validation-for="Publisher" class="text-danger"></span>
     </fieldset>
+    <hr />
     <fieldset>
-        <legend>Choose categories</legend>
-        @foreach (var item in CategoryService.GetCategories())
-        {
-            <div>
-                <input type="checkbox" name="Categories" value="@item">
-                <label asp-for="@item">@item</label>
-            </div>
-        }
+        <select class="form-control" multiple asp-for="Categories">
+            <option value="" disabled selected>Choose categories</option>
+            @foreach (var item in CategoryService.GetCategories())
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+        <span asp-validation-for="Categories" class="text-danger"></span>
+        <p class="text-info">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
     </fieldset>
+    <hr />
     <div>
         <button type="submit" class="btn btn-primary">Add</button>
     </div>

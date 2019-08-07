@@ -15,6 +15,7 @@
         <div class="col-md-10">
             <p>Upload new picture:</p>
             <input asp-for="NewPicture">
+            <span asp-validation-for="NewPicture" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group">
@@ -28,65 +29,54 @@
         <span asp-validation-for="Summary" class="text-danger"></span>
     </div>
     <fieldset>
-        <legend>Choose author</legend>
-        @foreach (var item in AuthorService.GetAllAuthorsByName())
-        {
-            if (Model.Authors.Contains(item))
+        <select class="form-control" multiple asp-for="Authors">
+            <option value="" disabled selected>Choose author</option>
+            @foreach (var item in AuthorService.GetAllAuthorsByName())
             {
-                <div>
-                    <input type="checkbox" name="Authors" value="@item" checked>
-                    <label asp-for="@item">@item</label>
-                </div>
+                if (Model != null)
+                {
+                    if (Model.Authors.Any(x => x == item))
+                    {
+                        <option value="@item" selected>@item</option>
+                    }
+                    else
+                    {
+                        <option value="@item">@item</option>
+                    }
+                }
+                else
+                {
+                    <option value="@item">@item</option>
+                }
             }
-            else
-            {
-                <div>
-                    <input type="checkbox" name="Authors" value="@item">
-                    <label asp-for="@item">@item</label>
-                </div>
-            }
-        }
+        </select>
+        <span asp-validation-for="Authors" class="text-danger"></span>
+        <p class="text-info">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
     </fieldset>
+    <hr />
     <fieldset>
-        <legend>Choose publisher</legend>
-        @foreach (var item in PublisherService.GetAllPublishersName())
-        {
-            if (Model.Publisher == item)
+        <select class="form-control" asp-for="Publisher">
+            <option value="" disabled selected>Choose publisher</option>
+            @foreach (var item in PublisherService.GetAllPublishersName())
             {
-                <div>
-                    <input type="checkbox" name="Publisher" value="@item" checked>
-                    <label asp-for="@item">@item</label>
-                </div>
+                <option value="@item">@item</option>
             }
-            else
-            {
-                <div>
-                    <input type="checkbox" name="Publisher" value="@item">
-                    <label asp-for="@item">@item</label>
-                </div>
-            }
-        }
+        </select>
+        <span asp-validation-for="Publisher" class="text-danger"></span>
     </fieldset>
+    <hr />
     <fieldset>
-        <legend>Choose categories</legend>
-        @foreach (var item in CategoryService.GetCategories())
-        {
-            if (Model.Categories.Contains(item))
+        <select class="form-control" multiple asp-for="Categories">
+            <option value="" disabled selected>Choose categories</option>
+            @foreach (var item in CategoryService.GetCategories())
             {
-                <div>
-                    <input type="checkbox" name="Categories" value="@item" checked>
-                    <label asp-for="@item">@item</label>
-                </div>
+                <option value="@item">@item</option>
             }
-            else
-            {
-                <div>
-                    <input type="checkbox" name="Categories" value="@item">
-                    <label asp-for="@item">@item</label>
-                </div>
-            }
-        }
+        </select>
+        <span asp-validation-for="Categories" class="text-danger"></span>
+        <p class="text-info">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
     </fieldset>
+    <hr />
     <div>
         <button type="submit" class="btn btn-primary">Edit</button>
     </div>

@@ -8,21 +8,49 @@
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var model = (BookInputModel) validationContext.ObjectInstance;
 
-            if(string.Equals(model.Picture.ContentType, "image/jpg", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(model.Picture.ContentType, "image/jpeg", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(model.Picture.ContentType, "image/pjpeg", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(model.Picture.ContentType, "image/x-png", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(model.Picture.ContentType, "image/png", StringComparison.OrdinalIgnoreCase))
+            try
             {
-                return ValidationResult.Success;
+                var model = (BookInputModel)validationContext.ObjectInstance;
+
+                if (Check(model.Picture.ContentType))
+                {
+                    return ValidationResult.Success;
+                }
+            }
+            catch (Exception e)
+            {
+                var model = (BookEditInputModel)validationContext.ObjectInstance;
+
+                if (model.NewPicture == null)
+                {
+                    return ValidationResult.Success;
+                }
+
+                if (Check(model.NewPicture.ContentType))
+                {
+                    return ValidationResult.Success;
+                }
             }
 
             return new ValidationResult(GetErrorMessage());
         }
 
-        public string GetErrorMessage()
+        private bool Check(string contentType)
+        {
+            if (string.Equals(contentType, "image/jpg", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(contentType, "image/jpeg", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(contentType, "image/pjpeg", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(contentType, "image/x-png", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(contentType, "image/png", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private string GetErrorMessage()
         {
             return $"Invalid image format! Please upload image with one of this formats: jpg, jpeg, pjpeg, x-png, png.";
         }
