@@ -342,7 +342,8 @@
                     ReturnedOn = rent.ReturnedOn == DateTime.MinValue ? null : rent.ReturnedOn.ToString(CultureInfo.InvariantCulture),
                     IsRented = rent.Book.IsRented,
                 })
-                .ToList();
+                .ToList()
+                .OrderByDescending(x => x.RentedOn);
         }
 
         public bool RentBook(string userName, string bookId)
