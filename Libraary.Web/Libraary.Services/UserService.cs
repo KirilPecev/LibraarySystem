@@ -44,7 +44,7 @@
 
         public LibraaryUser GetUser(string email)
         {
-            return this.db.Users.SingleOrDefault(u => u.Email == email);
+            return this.userManager.Users.SingleOrDefault(u => u.Email == email);
         }
 
         public string GetUserLibraryId(string email)
@@ -54,7 +54,7 @@
 
         public int GetUsersCount()
         {
-            return this.db.Users.Count();
+            return this.userManager.Users.Count();
         }
 
         public IList<LibraaryUser> GetUsersInRole(string role)
