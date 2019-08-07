@@ -67,10 +67,7 @@
                 SetAuthors(authors, book);
             }
 
-            book.LibraryBooks.Add(new LibraryBook
-            {
-                LibraryId = libraryId
-            });
+            SetLibraryBooks(libraryId, book);
 
             if (isNewBook)
             {
@@ -79,6 +76,14 @@
 
             var count = db.SaveChanges();
             return count != 0;
+        }
+
+        private static void SetLibraryBooks(string libraryId, Book book)
+        {
+            book.LibraryBooks.Add(new LibraryBook
+            {
+                LibraryId = libraryId
+            });
         }
 
         public IEnumerable<BookDTO> GetAllByLibraryId(string libraryId)
@@ -256,11 +261,7 @@
 
             SetCategories(categories, editedBook);
             SetAuthors(authors, editedBook);
-
-            editedBook.LibraryBooks.Add(new LibraryBook
-            {
-                LibraryId = libraryId
-            });
+            SetLibraryBooks(libraryId, editedBook);
 
             this.db.Add(editedBook);
             ChangeRents(book, editedBook);

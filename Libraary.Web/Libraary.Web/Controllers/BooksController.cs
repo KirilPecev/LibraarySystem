@@ -68,6 +68,14 @@
             }
 
             var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
+
+            var isNameBusy = this.bookService.GetAllByLibraryId(libraryId).Any(book => book.Name == model.Name);
+            if (isNameBusy)
+            {
+                ModelState.AddModelError("Name","Already has book with this name!");
+                return this.View(model);
+            }
+
             var mappedModel = this.mapper.Map<AddBookDTO>(model);
             this.bookService.Add(mappedModel, libraryId);
 
