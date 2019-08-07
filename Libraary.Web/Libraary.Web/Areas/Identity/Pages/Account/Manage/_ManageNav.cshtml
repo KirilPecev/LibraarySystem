@@ -1,4 +1,5 @@
-﻿@inject SignInManager<Libraary.Domain.LibraaryUser> SignInManager
+﻿@using Libraary.Domain
+@inject SignInManager<LibraaryUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
@@ -9,11 +10,5 @@
     {
         <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
     }
-    <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
-
-    @if (this.User.IsInRole("User"))
-    {
-        <li class="nav-item"><a class="nav-link" asp-controller="Users" asp-action="History">My history</a></li>
-    }
 </ul>

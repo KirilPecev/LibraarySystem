@@ -10,11 +10,13 @@
     {
         private readonly IMapper mapper;
         private readonly IBookService bookService;
+        private readonly IUserService userService;
 
-        public UsersController(IMapper mapper, IBookService bookService)
+        public UsersController(IMapper mapper, IBookService bookService, IUserService userService)
         {
             this.mapper = mapper;
             this.bookService = bookService;
+            this.userService = userService;
         }
 
         [Authorize(Roles = "User")]
@@ -30,13 +32,15 @@
         [Authorize(Roles = "User")]
         public IActionResult Rent(string bookId)
         {
+            //TODO:Add validation for phone number before rent 
             var userName = this.User.Identity.Name;
-            var result = this.bookService.RentBook(userName, bookId);
 
-            if (result == false)
+            if (this.userService.GetPhoneOfUserByName(userName) == null)
             {
-                return this.RedirectToAction("Error", "Home");
+                return this.RedirectToAction("Details", "Books", new { bookId = bookId });
             }
+
+            var result = this.bookService.RentBook(userName, bookId);
 
             return this.View();
         }
