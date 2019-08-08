@@ -133,7 +133,7 @@
                     .Select(c => c.Value).SingleOrDefault();
 
                 var address = new Address { Country = Input.Address.Country, Town = Input.Address.Town, Street = Input.Address.Street, Zip = Input.Address.Zip };
-                var user = new LibraaryUser { UserName = Input.Email, Email = Input.Email, FirstName = firstName, LastName = lastName, Address = address };
+                var user = new LibraaryUser { UserName = Input.Email, Email = Input.Email, FirstName = firstName, LastName = lastName, Address = address, EmailConfirmed = true};
                 var result = await _userManager.CreateAsync(user);
                 await _userManager.AddToRoleAsync(user, "User");
                 if (result.Succeeded)

@@ -70,34 +70,15 @@
 
 @if (User.IsInRole("User") && Model.IsRented == false)
 {
-    if (this.User.Identity.HavePhoneNumber())
-    {
-        <div class="w-75 mx-auto d-flex justify-content-between">
-            <a asp-controller="Users"
-               asp-action="Rent"
-               asp-route-bookId="@Model.Id"
-               class="btn btn-primary btn-lg btn-block"
-               role="button">
-                Rent
-            </a>
-        </div>
-    }
-    else
-    {
-        <div class="w-75 mx-auto d-flex justify-content-between">
-            <a asp-controller="Users"
-               asp-action="Rent"
-               asp-route-bookId="@Model.Id"
-               class="btn btn-primary btn-lg btn-block disabled"
-               role="button">
-                Rent
-            </a>
-        </div>
-        <div class="w-75 mx-auto d-flex">
-            <p class="text-info">You must to fill in your phone number in profile page before rent!</p>
-        </div>
-    }
-
+    <div class="w-75 mx-auto d-flex justify-content-between">
+        <a asp-controller="Users"
+           asp-action="Rent"
+           asp-route-bookId="@Model.Id"
+           class="btn btn-primary btn-lg btn-block"
+           role="button">
+            Rent
+        </a>
+    </div>
 }
 
 @if (User.IsInRole("Librarian") && Model.IsRented)

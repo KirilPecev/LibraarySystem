@@ -35,11 +35,6 @@
             //TODO:Add validation for phone number before rent 
             var userName = this.User.Identity.Name;
 
-            if (this.userService.GetPhoneOfUserByName(userName) == null)
-            {
-                return this.RedirectToAction("Details", "Books", new { bookId = bookId });
-            }
-
             var result = this.bookService.RentBook(userName, bookId);
 
             return this.View();

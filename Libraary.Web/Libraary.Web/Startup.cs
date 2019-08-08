@@ -10,6 +10,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI;
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -51,10 +52,12 @@
 
             services.AddIdentity<LibraaryUser, LibraaryRole>(config =>
                 {
+                    config.SignIn.RequireConfirmedEmail = true;
                     config.SignIn.RequireConfirmedPhoneNumber = false;
                 })
                     .AddDefaultUI(UIFramework.Bootstrap4)
-                    .AddEntityFrameworkStores<LibraaryDbContext>();
+                    .AddEntityFrameworkStores<LibraaryDbContext>()
+                    .AddDefaultTokenProviders();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -93,6 +96,10 @@
             services.AddTransient<IPublisherService, PublisherService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IBlobStorageService, BlobStorageService>();
+
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSender"));
+
+            services.AddTransient<IEmailSender, EmailSender>();
 
             IdentityExtensions.userService = services.BuildServiceProvider().GetService<IUserService>();
         }
