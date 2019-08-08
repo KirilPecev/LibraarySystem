@@ -15,5 +15,11 @@
             // Test for null to avoid issues during local testing
             return firstName ?? string.Empty;
         }
+
+        public static bool HavePhoneNumber(this IIdentity identity)
+        {
+            var email = identity.Name;
+            return userService.GetUser(email).PhoneNumber != null;
+        }
     }
 }

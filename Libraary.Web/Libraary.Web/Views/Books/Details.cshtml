@@ -1,4 +1,5 @@
-﻿@model Libraary.Web.Models.Books.BookDetailsViewModel
+﻿@using Libraary.Web.Extensions
+@model Libraary.Web.Models.Books.BookDetailsViewModel
 @{
     ViewData["Title"] = "Home Page";
     Layout = "_BookLayout";
@@ -69,16 +70,36 @@
 
 @if (User.IsInRole("User") && Model.IsRented == false)
 {
-    <div class="w-75 mx-auto d-flex justify-content-between">
-        <a asp-controller="Users"
-           asp-action="Rent"
-           asp-route-bookId="@Model.Id"
-           class="btn btn-primary btn-lg btn-block"
-           role="button">
-            Rent
-        </a>
-    </div>
+    if (this.User.Identity.HavePhoneNumber())
+    {
+        <div class="w-75 mx-auto d-flex justify-content-between">
+            <a asp-controller="Users"
+               asp-action="Rent"
+               asp-route-bookId="@Model.Id"
+               class="btn btn-primary btn-lg btn-block"
+               role="button">
+                Rent
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="w-75 mx-auto d-flex justify-content-between">
+            <a asp-controller="Users"
+               asp-action="Rent"
+               asp-route-bookId="@Model.Id"
+               class="btn btn-primary btn-lg btn-block disabled"
+               role="button">
+                Rent
+            </a>
+        </div>
+        <div class="w-75 mx-auto d-flex">
+            <p class="text-info">You must to fill in your phone number in profile page before rent!</p>
+        </div>
+    }
+
 }
+
 @if (User.IsInRole("Librarian") && Model.IsRented)
 {
     <div class="w-75 mx-auto d-flex justify-content-between">
