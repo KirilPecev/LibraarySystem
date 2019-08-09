@@ -8,7 +8,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
-            <th scope="col">Address</th>
+            <th scope="col">Nationality</th>
             <th scope="col">Books count</th>
         </tr>
     </thead>
@@ -18,17 +18,8 @@
             <tr>
                 <th scope="row">@(i + 1)</th>
                 <td>@Model[i].Name</td>
-                <td>@Model[i].Address</td>
+                <td>@Model[i].Nationality</td>
                 <td>@Model[i].BooksCount</td>
-                <td>
-                    <a asp-controller="Authors"
-                       asp-action="Details"
-                       asp-route-authorId="@Model[i].Id"
-                       class="btn btn-outline-info"
-                       role="button">
-                        Details
-                    </a>
-                </td>
             </tr>
         }
     </tbody>

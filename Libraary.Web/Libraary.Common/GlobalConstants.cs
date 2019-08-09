@@ -2,7 +2,7 @@
 {
     public static class GlobalConstants
     {
-        public const string AdministratorEmail = "admin1@admin.com";
+        public const string AdministratorEmail = "admin@admin.com";
 
         public const string AdministratorFirstName = "Admin";
 
@@ -54,6 +54,31 @@
             "Thriller",
             "Young adult",
             "Religion, spirituality, and new age"
+        };
+
+        public static readonly string[] Authors = new[]
+        {
+            "William Shakespeare English",
+            "Agatha Christie English",
+            "Barbara Cartland English",
+            "Danielle Steel American",
+            "Harold Robbins American",
+            "Georges Simenon Belgian",
+            "Enid Blyton English",
+            "Sidney Sheldon American",
+            "JK Rowling British",
+            "Gilbert Patten American",
+            "Dr. Seuss American",
+            "Eiichiro Oda Japanese"
+        };
+
+        public static readonly string[] Publishers = new[]
+        {
+            "Penguin Random House|https://www.penguinrandomhouse.com/",
+            "Hachette Livre|https://www.hachette.com/en/homepage/",
+            "Springer Nature|https://www.springernature.com/gp",
+            "Scholastic|http://emea.scholastic.com/en",
+            "Wiley|https://www.wiley.com/en-bg",
         };
     }
 }

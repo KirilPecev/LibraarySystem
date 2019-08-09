@@ -28,7 +28,7 @@
 
             if (user == null)
             {
-                var newUser = new LibraaryUser { UserName = email, Email = email, FirstName = firsName, LastName = lastName };
+                var newUser = new LibraaryUser { UserName = email, Email = email, FirstName = firsName, LastName = lastName, EmailConfirmed = true};
                 await userManager.UpdateSecurityStampAsync(newUser);
                 var result = await userManager.CreateAsync(newUser, password);
 

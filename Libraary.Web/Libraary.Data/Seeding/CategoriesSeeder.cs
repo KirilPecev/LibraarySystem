@@ -17,7 +17,6 @@
 
         private static async Task SeedCategoryAsync(LibraaryDbContext context, string[] categories)
         {
-            var result = false;
             foreach (var category in categories)
             {
                 if (!context.Categories.Any(c => c.CategoryName == category))

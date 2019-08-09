@@ -19,8 +19,7 @@
         public string LastName { get; set; }
 
         [Required]
-        public string AddressId { get; set; }
-        public virtual Address Address { get; set; }
+        public string Nationality { get; set; }
 
         public virtual ICollection<AuthorBooks> AuthorBooks { get; set; }
 

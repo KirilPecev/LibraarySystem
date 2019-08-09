@@ -25,13 +25,7 @@
                 {
                     FirstName = authorDto.FirstName,
                     LastName = authorDto.LastName,
-                    Address = new Address()
-                    {
-                        Country = authorDto.Address.Country,
-                        Town = authorDto.Address.Town,
-                        Street = authorDto.Address.Street,
-                        Zip = authorDto.Address.Zip
-                    }
+                    Nationality = authorDto.Nationality
                 });
             }
 
@@ -61,7 +55,7 @@
             {
                 Id = ab.Id,
                 Name = ab.ToString(),
-                Address = ab.Address.ToString(),
+                Nationality = ab.Nationality,
                 BooksCount = ab.AuthorBooks.Count()
             })
                 .ToList();

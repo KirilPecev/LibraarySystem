@@ -24,15 +24,7 @@
                 this.db.Publishers.Add(new Publisher
                 {
                     Name = dto.Name,
-                    PhoneNumber = dto.PhoneNumber,
                     URLAddress = dto.URLAddress,
-                    Address = new Address()
-                    {
-                        Country = dto.Address.Country,
-                        Town = dto.Address.Town,
-                        Street = dto.Address.Street,
-                        Zip = dto.Address.Zip
-                    }
                 });
             }
 
@@ -48,7 +40,6 @@
                .Select(book => new PublisherViewModelDTO
                {
                    Name = book.Book.Publisher.Name,
-                   Phone = book.Book.Publisher.PhoneNumber,
                    URL = book.Book.Publisher.URLAddress
                })
                  .Distinct()

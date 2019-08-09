@@ -1,6 +1,5 @@
 ﻿namespace Libraary.Web.Models.Publishers
 {
-    using Address;
     using System.ComponentModel.DataAnnotations;
 
     public class PublisherBindingModel
@@ -11,16 +10,8 @@
         public string Name { get; set; }
 
         [Required]
-        public AddressInputModel Address { get; set; }
-
-        [Required]
         [Url]
         [Display(Name = "Url address")]
         public string URLAddress { get; set; }
-
-        [Required]
-        [Phone]
-        [Display(Name = "Phone number")]
-        public string PhoneNumber { get; set; }
     }
 }
