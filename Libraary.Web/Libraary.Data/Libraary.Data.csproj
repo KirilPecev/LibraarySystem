@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190702144859_AddedEmailConfirm.cs" />
     <Compile Remove="Migrations\20190702144859_AddedEmailConfirm.Designer.cs" />
+    <Compile Remove="Migrations\20190809122630_InitialAzure.cs" />
+    <Compile Remove="Migrations\20190809122630_InitialAzure.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
