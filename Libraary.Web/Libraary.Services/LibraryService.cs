@@ -79,7 +79,6 @@
             return true;
         }
 
-
         public IEnumerable<LibraryDTO> GetAll()
         {
             var owners = this.userService.GetUsersInRole("Owner");

@@ -1,10 +1,8 @@
 ﻿namespace Libraary.Tests
 {
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using Common;
     using Services;
-    using Services.DTOs.Publisher;
+    using System.Linq;
     using Xunit;
 
     public class CategoryServiceTests

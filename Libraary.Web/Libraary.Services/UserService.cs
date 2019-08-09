@@ -23,11 +23,6 @@
             this.userManager.AddToRoleAsync(user, role).Wait();
         }
 
-        public string GetPhoneOfUserByName(string userName)
-        {
-            return this.userManager.Users.SingleOrDefault(u => u.UserName == userName).PhoneNumber;
-        }
-
         public void ChangeRoles(string email, string oldRole, string newRole)
         {
             var user = this.userManager.Users.SingleOrDefault(u => u.Email == email);

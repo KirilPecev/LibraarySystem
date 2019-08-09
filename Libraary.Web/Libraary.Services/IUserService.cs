@@ -20,7 +20,5 @@
         int GetUsersCount();
 
         void AddRole(string email, string v);
-
-        string GetPhoneOfUserByName(string userName);
     }
 }
