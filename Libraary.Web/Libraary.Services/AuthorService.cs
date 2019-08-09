@@ -51,7 +51,7 @@
                 .Distinct()
                 .ToList();
 
-            return authors.Select(ab => new AuthorViewDTO()
+            return authors?.Select(ab => new AuthorViewDTO()
             {
                 Id = ab.Id,
                 Name = ab.ToString(),

@@ -19,6 +19,7 @@
         public string LastName { get; set; }
 
         [Required]
+        [MaxLength(25)]
         public string Nationality { get; set; }
 
         public virtual ICollection<AuthorBooks> AuthorBooks { get; set; }
