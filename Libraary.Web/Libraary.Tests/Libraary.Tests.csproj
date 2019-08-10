@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Libraary.Data\Libraary.Data.csproj" />
     <ProjectReference Include="..\Libraary.Services\Libraary.Services.csproj" />
+    <ProjectReference Include="..\Libraary.Web\Libraary.Web.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,6 +8,7 @@
     using Services.DTOs.Book;
     using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
     public class BooksController : Controller
     {
@@ -27,7 +28,7 @@
         {
             IEnumerable<BookDTO> modelDto;
 
-            if (this.User.IsInRole("Librarian"))
+            if (this.User != null && this.User.IsInRole("Librarian"))
             {
                 var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
                 modelDto = this.bookService.GetAllByLibraryId(libraryId);
