@@ -3,7 +3,6 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Models;
-    using Models.Librarians;
     using Models.Libraries;
     using Services;
     using System.Diagnostics;

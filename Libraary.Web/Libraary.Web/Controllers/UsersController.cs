@@ -32,9 +32,7 @@
         [Authorize(Roles = "User")]
         public IActionResult Rent(string bookId)
         {
-            //TODO:Add validation for phone number before rent 
             var userName = this.User.Identity.Name;
-
             var result = this.bookService.RentBook(userName, bookId);
 
             return this.View();

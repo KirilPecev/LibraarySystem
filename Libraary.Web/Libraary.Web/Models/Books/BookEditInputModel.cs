@@ -1,8 +1,8 @@
 ﻿namespace Libraary.Web.Models.Books
 {
+    using CustomAttributes;
     using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
-    using CustomAttributes;
 
     public class BookEditInputModel
     {

@@ -8,7 +8,6 @@
     using Services.DTOs.Book;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
     public class BooksController : Controller
     {

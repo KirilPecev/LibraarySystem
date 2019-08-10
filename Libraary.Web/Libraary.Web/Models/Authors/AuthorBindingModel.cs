@@ -1,6 +1,5 @@
 ﻿namespace Libraary.Web.Models.Authors
 {
-    using Address;
     using System.ComponentModel.DataAnnotations;
 
     public class AuthorBindingModel
