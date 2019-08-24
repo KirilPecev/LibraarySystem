@@ -24,12 +24,7 @@
 
         public IActionResult Index()
         {
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                return this.Redirect("/Identity/Account/Login");
-            }
-
-            if (this.User.IsInRole("User"))
+            if (this.User.IsInRole("User") || !this.User.Identity.IsAuthenticated)
             {
                 return this.RedirectToAction("All", "Books");
             }

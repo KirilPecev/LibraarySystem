@@ -22,7 +22,6 @@
             this.bookService = bookService;
         }
 
-        [Authorize(Roles = "Owner, Librarian, User")]
         public IActionResult All()
         {
             IEnumerable<BookDTO> modelDto;
@@ -82,7 +81,6 @@
             return this.Redirect("/");
         }
 
-        [Authorize(Roles = "Owner, Librarian, User")]
         public IActionResult Details(string bookId)
         {
             var booksDto = this.bookService.GetBookDetails(bookId);
@@ -145,7 +143,6 @@
             return this.RedirectToAction("Details", new { bookId = model.Id });
         }
 
-        [Authorize(Roles = "Owner, Librarian, User")]
         public IActionResult SearchedBooks(string search)
         {
             if (search == null)
