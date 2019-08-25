@@ -1,6 +1,6 @@
 ﻿namespace Libraary.Web.Areas.Identity.Pages.Account
 {
-    using Libraary.Domain;
+    using Domain;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
