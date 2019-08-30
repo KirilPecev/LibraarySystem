@@ -69,6 +69,17 @@
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
+            if (ModelState.ContainsKey("RememberMe"))
+            {
+                Input.RememberMe = true;
+            }
+            else
+            {
+                Input.RememberMe = false;
+            }
+
+            ModelState.Remove("RememberMe");
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
