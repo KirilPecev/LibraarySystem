@@ -9,60 +9,62 @@
 <div>
     <br />
     <div asp-validation-summary="All" class="text-danger"></div>
-    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-        <div class="form-row">
-            <div class="form-group col-md-4">
-                <label asp-for="Input.Email">Email</label>
-                <input asp-for="Input.Email" class="form-control" placeholder="Email">
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+    <div class="card register">
+        <form class="form-signin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div class="form-row">
+                <div class="form-label-group col-md-4">
+                    <input asp-for="Input.Email" class="form-control" placeholder="Email" required autofocus>
+                    <label asp-for="Input.Email">Email</label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-label-group col-md-4">
+                    <input asp-for="Input.Password" class="form-control" placeholder="Password" required>
+                    <label asp-for="Input.Password">Password</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-label-group col-md-4">
+                    <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm password" required>
+                    <label asp-for="Input.ConfirmPassword">Confirm password</label>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group col-md-4">
-                <label asp-for="Input.Password">Password</label>
-                <input asp-for="Input.Password" class="form-control" placeholder="Password">
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-label-group col-md-6">
+                    <input asp-for="Input.FirstName" class="form-control" placeholder="First name" required>
+                    <label asp-for="Input.FirstName">First name</label>
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-label-group col-md-6">
+                    <input asp-for="Input.LastName" class="form-control" placeholder="Last name" required>
+                    <label asp-for="Input.LastName">Last name</label>
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group col-md-4">
-                <label asp-for="Input.ConfirmPassword">Confirm password</label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm password">
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            <div class="form-label-group">
+                <input asp-for="Input.Street" class="form-control" placeholder="1234 Main St" required>
+                <label asp-for="Input.Street">Address</label>
+                <span asp-validation-for="Input.Street" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label asp-for="Input.FirstName">First name</label>
-                <input asp-for="Input.FirstName" class="form-control" placeholder="First name">
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-label-group col-md-6">
+                    <input asp-for="Input.Town" class="form-control" placeholder="City" required />
+                    <label asp-for="Input.Town">City</label>
+                    <span asp-validation-for="Input.Town" class="text-danger"></span>
+                </div>
+                <div class="form-label-group col-md-4">
+                    <input asp-for="Input.Country" class="form-control" placeholder="Country" required />
+                    <label asp-for="Input.Country">Country</label>
+                    <span asp-validation-for="Input.Country" class="text-danger"></span>
+                </div>
+                <div class="form-label-group col-md-2">
+                    <input asp-for="Input.Zip" class="form-control" placeholder="Zip" required>
+                    <label asp-for="Input.Zip">Zip</label>
+                    <span asp-validation-for="Input.Zip" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group col-md-6">
-                <label asp-for="Input.LastName">Last name</label>
-                <input asp-for="Input.LastName" class="form-control" placeholder="Last name">
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Input.Street">Address</label>
-            <input asp-for="Input.Street" class="form-control" placeholder="1234 Main St">
-            <span asp-validation-for="Input.Street" class="text-danger"></span>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label asp-for="Input.Town">City</label>
-                <input asp-for="Input.Town" class="form-control" placeholder="City">
-                <span asp-validation-for="Input.Town" class="text-danger"></span>
-            </div>
-            <div class="form-group col-md-4">
-                <label asp-for="Input.Country">Country</label>
-                <input asp-for="Input.Country" class="form-control" placeholder="Country">
-                <span asp-validation-for="Input.Country" class="text-danger"></span>
-            </div>
-            <div class="form-group col-md-2">
-                <label asp-for="Input.Zip">Zip</label>
-                <input asp-for="Input.Zip" class="form-control" placeholder="Zip">
-                <span asp-validation-for="Input.Zip" class="text-danger"></span>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
-    </form>
+            <button type="submit" class="btn btn-outline-primary">Sign in</button>
+        </form>
+    </div>
 </div>
 
 @section Scripts {
