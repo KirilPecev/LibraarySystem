@@ -3,68 +3,25 @@
 @inject SignInManager<Libraary.Domain.LibraaryUser> SignInManager
 @inject UserManager<Libraary.Domain.LibraaryUser> UserManager
 
-<ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"> Hello @User.Identity.GetFirstName()!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-        <li class="nav-item">
-            <a id="modalBtn" class="nav-link text-dark btn" data-toggle="modal">Sign in</a>
-            <div id="loginModal" class="modal fade" tabindex="-1" data-backdrop="false">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                            <div class="card card-signin my-5">
-                                <div class="card-body">
-                                    <h5 class="card-title text-center">Sign In</h5>
-                                    <form class="form-signin" method="post" asp-area="Identity" asp-page="/Account/Login">
-                                        <div class="form-label-group">
-                                            <input type="email" id="Email" name="Email" class="form-control" placeholder="Email address" required autofocus>
-                                            <label for="Email">Email address</label>
-                                        </div>
-
-                                        <div class="form-label-group">
-                                            <input type="password" id="Password" name="Password" class="form-control" placeholder="Password" required>
-                                            <label for="Password">Password</label>
-                                        </div>
-
-                                        <div class="custom-control custom-checkbox mb-3">
-                                            <input type="checkbox" class="custom-control-input" id="RememberMe" name="RememberMe">
-                                            <label class="custom-control-label" for="RememberMe">Remember password</label>
-                                        </div>
-                                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
-                                        <hr class="my-4">
-                                        <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
-                                        <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    }
-</ul>
-
-<script>
-    $(document).ready(function () {
-        $("#modalBtn").click(function () {
-            $("#loginModal").modal();
-        });
-    });
-</script>
-
-
+    <ul class="navbar-nav">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"> Hello @User.Identity.GetFirstName()!</a>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Sign In</a>
+            </li>
+        }
+    </ul>
