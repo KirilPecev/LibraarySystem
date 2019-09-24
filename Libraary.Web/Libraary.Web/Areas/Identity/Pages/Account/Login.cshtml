@@ -14,28 +14,26 @@
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <form class="form-signin" method="post" asp-area="Identity" asp-page="/Account/Login">
                         <div class="form-label-group">
-                            <input type="email" id="Email" name="Email" class="form-control" placeholder="Email address" required autofocus>
-                            <label for="Email">Email address</label>
+                            <input asp-for="Input.Email" class="form-control" placeholder="Email address" required autofocus>
+                            <label asp-for="Input.Email">Email address</label>
                         </div>
-
                         <div class="form-label-group">
-                            <input type="password" id="Password" name="Password" class="form-control" placeholder="Password" required>
-                            <label for="Password">Password</label>
+                            <input asp-for="Input.Password" class="form-control" placeholder="Password" required>
+                            <label asp-for="Input.Password">Password</label>
                         </div>
-
                         <div class="custom-control custom-checkbox mb-3">
-                            <input type="checkbox" class="custom-control-input" id="RememberMe" name="RememberMe">
-                            <label class="custom-control-label" for="RememberMe">Remember password</label>
+                            <input type="checkbox" class="custom-control-input">
+                            <label asp-for="Input.RememberMe" class="custom-control-label">Remember password</label>
                         </div>
                         <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
                         <hr class="my-4">
                     </form>
                     <form class="form-signin" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                         <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit" name="provider" value="Google">
-                            <i class="fab fa-google mr-2"></i> Sign in with Google
+                            <i class="mr-2"></i> Sign in with Google
                         </button>
                         <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit" name="provider" value="Facebook">
-                            <i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook
+                            <i class="mr-2"></i> Sign in with Facebook
                         </button>
                     </form>
                     <hr class="my-4">
