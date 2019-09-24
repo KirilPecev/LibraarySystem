@@ -332,3 +332,15 @@ body {
     .register .form-signin .btn {
         width: 100%;
     }
+
+/*Footer
+-------------------------------------------------- */
+.footerStyle {
+    justify-content: center;
+    color: #e5e5e5;
+}
+
+.footerStyle > a {
+    color: #e5e5e5;
+    margin-left: 0.3rem;
+}
