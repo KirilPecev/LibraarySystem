@@ -24,6 +24,9 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-book-open" style="margin-right: 0.35rem;"></i>Libraary</a>
+                <form id="demo-2" method="post" asp-controller="Books" , asp-action="SearchedBooks">
+                    <input type="search" placeholder="Search" aria-label="Search" name="search">
+                </form>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

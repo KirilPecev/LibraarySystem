@@ -3,13 +3,8 @@
     ViewData["Title"] = "All Books";
 }
 
-<div class="container-fluid" style="position: relative; top:75px">
-    <form class="form-inline" method="post" asp-controller="Books" , asp-action="SearchedBooks">
-        <input class="form-control mr-sm-2 " style="width:88.5%" type="search" placeholder="Search" aria-label="Search" name="search" />
-        <button class="btn btn-outline-success my-2 my-sm-0" style="position: center" type="submit">Search</button>
-    </form>
-</div>
-<div class="books" style="position: relative; top: 50px">
+
+<div class="books" style="position: relative;">
     @for (var i = 0; i < Model.Length; i++)
     {
         <div class="bookContainer grow">
