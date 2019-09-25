@@ -17,12 +17,13 @@
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Libraary</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-book-open" style="margin-right: 0.35rem;"></i>Libraary</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -49,8 +50,7 @@
         <div class="container">
             <div class="row footerStyle">
                 &copy; 2019 - Libraary System - Kiril Pecev -
-                <a
-                   asp-controller="Home"
+                <a asp-controller="Home"
                    asp-action="Privacy"
                    role="button">Privacy</a>
             </div>
