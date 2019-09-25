@@ -13,7 +13,8 @@
     @for (var i = 0; i < Model.Length; i++)
     {
         <div class="bookContainer grow">
-            <a asp-controller="Books"
+            <a style="color: aliceblue"
+               asp-controller="Books"
                asp-action="Details"
                asp-route-bookId="@Model[i].Id"
                target="_blank">
