@@ -334,6 +334,12 @@ body {
         width: 100%;
     }
 
+    .register .card-title {
+        margin-bottom: 3rem;
+        font-weight: 300;
+        font-size: 1.5rem;
+    }
+
 /*Footer
 -------------------------------------------------- */
 .footerStyle {
@@ -422,5 +428,3 @@ input {
 #demo-2 input::-webkit-input-placeholder {
     color: transparent;
 }
-
-

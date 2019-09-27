@@ -3,22 +3,29 @@
     ViewData["Title"] = "Add Librarian";
 }
 
-
-<form method="post">
-    <div class="form-group">
-        <label asp-for="LibraryId"></label>
-        <input asp-for="LibraryId" class="form-control">
-        <span asp-validation-for="LibraryId" class="text-danger"></span>
+<div class="card-body">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card register" style="margin-top: 5rem;">
+            <h5 class="card-title text-center">Librarian</h5>
+            <form method="post" class="form-signin">
+                <div class="form-label-group">
+                    <input asp-for="Library" class="form-control" placeholder="Library" disabled="disabled">
+                    <label asp-for="Library"></label>
+                    <span asp-validation-for="Library" class="text-danger"></span>
+                </div>
+                <div class="form-label-group">
+                    <input asp-for="Email" class="form-control"  placeholder="Email">
+                    <label asp-for="Email"></label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <input asp-for="LibraryId" type="hidden" />
+                <div>
+                    <button type="submit" class="btn btn-primary">Add owner</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control">
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div>
-        <button type="submit" class="btn btn-primary">Add owner</button>
-    </div>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

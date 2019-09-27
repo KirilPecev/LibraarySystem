@@ -4,6 +4,8 @@
     {
         public string LibraryId { get; set; }
 
+        public string Library { get; set; }
+
         public string Email { get; set; }
     }
 }

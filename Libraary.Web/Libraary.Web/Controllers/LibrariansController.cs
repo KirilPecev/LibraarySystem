@@ -35,7 +35,7 @@
         {
             LibrarianBindingModel model = new LibrarianBindingModel();
             model.LibraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
-
+            model.Library = this.libraryService.GetLibraryDetails(model.LibraryId).Name;
             return this.View(model);
         }
 
