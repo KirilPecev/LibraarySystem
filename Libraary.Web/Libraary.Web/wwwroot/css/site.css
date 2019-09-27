@@ -155,7 +155,6 @@ body {
     margin-right: auto;
 }
 
-}
 
 .contents {
     text-align: left;
@@ -170,6 +169,7 @@ body {
     margin: auto;
     padding-bottom: 50px;
     padding-top: 20px;
+    margin-top: 2rem;
 }
 
 .bookContainer {
@@ -192,6 +192,7 @@ body {
 }
 
 .card-signin {
+    margin-top: 5rem;
     border: 0;
     border-radius: 1rem;
     box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
@@ -421,3 +422,5 @@ input {
 #demo-2 input::-webkit-input-placeholder {
     color: transparent;
 }
+
+
