@@ -18,7 +18,7 @@
                     return ValidationResult.Success;
                 }
             }
-            catch (Exception e)
+            catch
             {
                 var model = (BookEditInputModel)validationContext.ObjectInstance;
 

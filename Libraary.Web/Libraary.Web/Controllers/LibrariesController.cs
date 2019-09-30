@@ -44,7 +44,7 @@
 
             var library = this.mapper.Map<AddLibraryDTO>(model);
 
-            var id = this.libraryService.Add(library);
+            this.libraryService.Add(library);
 
             return this.Redirect("/");
         }

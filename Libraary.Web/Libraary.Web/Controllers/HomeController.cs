@@ -12,14 +12,12 @@
         private readonly IMapper mapper;
         private readonly ILibraryService libraryService;
         private readonly IUserService userService;
-        private readonly IBookService bookService;
 
         public HomeController(IMapper mapper, ILibraryService libraryService, IUserService userService, IBookService bookService)
         {
             this.mapper = mapper;
             this.libraryService = libraryService;
             this.userService = userService;
-            this.bookService = bookService;
         }
 
         public IActionResult Index()

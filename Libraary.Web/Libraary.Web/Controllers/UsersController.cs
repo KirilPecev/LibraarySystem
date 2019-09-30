@@ -33,7 +33,7 @@
         public IActionResult Rent(string bookId)
         {
             var userName = this.User.Identity.Name;
-            var result = this.bookService.RentBook(userName, bookId);
+            this.bookService.RentBook(userName, bookId);
 
             return this.View();
         }
