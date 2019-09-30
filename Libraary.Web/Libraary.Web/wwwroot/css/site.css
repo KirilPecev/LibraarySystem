@@ -324,6 +324,7 @@ body {
 -------------------------------------------------- */
 
 .register {
+    margin-top: 5rem;
     padding: 2rem;
     border: 0;
     border-radius: 2rem;
@@ -335,7 +336,7 @@ body {
     }
 
     .register .card-title {
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
         font-weight: 300;
         font-size: 1.5rem;
     }
