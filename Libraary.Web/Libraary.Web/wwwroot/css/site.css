@@ -429,3 +429,10 @@ input {
 #demo-2 input::-webkit-input-placeholder {
     color: transparent;
 }
+
+.custom-label {
+    margin-left: 8.5px;
+    margin-bottom: 0;
+    color: #495057;
+    border: 1px solid transparent;
+}

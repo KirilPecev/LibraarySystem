@@ -7,79 +7,81 @@
     ViewData["Title"] = "Add Book";
 }
 
-<form method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <div class="col-md-10">
-            <p>Upload picture</p>
-            <input class="btn btn-outline-info" asp-for="Picture">
-            <span asp-validation-for="Picture" class="text-danger"></span>
+<div class="card-body">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card register">
+            <h5 class="card-title text-center">Book</h5>
+            <form method="post" enctype="multipart/form-data" class="form-signin">
+                <div class="form-group">
+                    <label class="custom-label">Upload picture</label>
+                        <input class="btn btn-outline-info" asp-for="Picture">
+                        <span asp-validation-for="Picture" class="text-danger"></span>
+                    </div>
+                <div class="form-label-group">
+                    <input asp-for="Name" class="form-control" placeholder="Book name">
+                    <label asp-for="Name"></label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-label-group">
+                    <textarea rows="6" asp-for="Summary" class="form-control" placeholder="Summary"> </textarea>
+                    <span asp-validation-for="Summary" class="text-danger"></span>
+                </div>
+                <fieldset>
+                    <select class="form-control" multiple asp-for="Authors">
+                        <option value="" disabled selected>Choose author</option>
+                        @foreach (var item in AuthorService.GetAllAuthorsByName())
+                        {
+                            if (Model != null)
+                            {
+                                if (Model.Authors.Any(x => x == item))
+                                {
+                                    <option value="@item" selected>@item</option>
+                                }
+                                else
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="Authors" class="text-danger"></span>
+                    <small class="text-info">Tip: Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small>
+                </fieldset>
+                <hr />
+                <fieldset>
+                    <select class="form-control" asp-for="Publisher">
+                        <option value="" disabled selected>Choose publisher</option>
+                        @foreach (var item in PublisherService.GetAllPublishersName())
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Publisher" class="text-danger"></span>
+                </fieldset>
+                <hr />
+                <fieldset>
+                    <select class="form-control" multiple asp-for="Categories">
+                        <option value="" disabled selected>Choose categories</option>
+                        @foreach (var item in CategoryService.GetCategories())
+                        {
+                            <option value="@item">@item</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Categories" class="text-danger"></span>
+                    <small class="text-info">Tip: Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small>
+                </fieldset>
+                <hr />
+                <div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" placeholder="Book name">
-        <span asp-validation-for="Name" class="text-danger"></span>
-
-    </div>
-    <div class="form-group">
-        <label asp-for="Summary"></label>
-        <input asp-for="Summary" class="form-control" placeholder="Summary">
-        <span asp-validation-for="Summary" class="text-danger"></span>
-    </div>
-    <fieldset>
-        <select class="form-control" multiple asp-for="Authors">
-            <option value="" disabled selected>Choose author</option>
-            @foreach (var item in AuthorService.GetAllAuthorsByName())
-            {
-                if (Model != null)
-                {
-                    if (Model.Authors.Any(x => x == item))
-                    {
-                        <option value="@item" selected>@item</option>
-                    }
-                    else
-                    {
-                        <option value="@item">@item</option>
-                    }
-                }
-                else
-                {
-                    <option value="@item">@item</option>
-                }
-            }
-        </select>
-        <span asp-validation-for="Authors" class="text-danger"></span>
-        <p class="text-info">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
-    </fieldset>
-    <hr />
-    <fieldset>
-        <select class="form-control" asp-for="Publisher">
-            <option value="" disabled selected>Choose publisher</option>
-            @foreach (var item in PublisherService.GetAllPublishersName())
-            {
-                <option value="@item">@item</option>
-            }
-        </select>
-        <span asp-validation-for="Publisher" class="text-danger"></span>
-    </fieldset>
-    <hr />
-    <fieldset>
-        <select class="form-control" multiple asp-for="Categories">
-            <option value="" disabled selected>Choose categories</option>
-            @foreach (var item in CategoryService.GetCategories())
-            {
-                <option value="@item">@item</option>
-            }
-        </select>
-        <span asp-validation-for="Categories" class="text-danger"></span>
-        <p class="text-info">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</p>
-    </fieldset>
-    <hr />
-    <div>
-        <button type="submit" class="btn btn-primary">Add</button>
-    </div>
-</form>
-
+</div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
