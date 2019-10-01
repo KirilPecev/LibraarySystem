@@ -3,22 +3,21 @@
     ViewData["Title"] = "All Librarians";
 }
 
-<table class="table">
-    <thead class="thead-light">
+<div class="custom-table">
+    <div class="header">Librarians</div>
+    <table>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Address</th>
+            <th>Full Name</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Phone</th>
         </tr>
-    </thead>
-    <tbody>
-        @for (var i = 0; i < Model.Length; i++)
+        @foreach (var librarian in Model)
         {
             <tr>
-                <th scope="row">@(i + 1)</th>
-                <td>@Model[i].FullName</td>
-                <td>@Model[i].Address</td>
+                <td>@librarian.FullName</td>
+                <td>@librarian.Address</td>
             </tr>
         }
-    </tbody>
-</table>
+    </table>
+</div>
