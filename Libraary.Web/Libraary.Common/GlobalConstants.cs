@@ -51,7 +51,6 @@
             "Humor",
             "Short story",
             "Suspense",
-            "Thriller",
             "Young adult",
             "Religion, spirituality, and new age"
         };

@@ -38,7 +38,7 @@
             CloudBlobDirectory blobDirectory = cloudBlobContainer.GetDirectoryReference(pathPrefix);
             CloudBlockBlob blockBlob = blobDirectory.GetBlockBlobReference(blobName);
 
-            await blockBlob.DeleteAsync();
+            await blockBlob.DeleteIfExistsAsync();
         }
 
         private string GenerateFileName(string fileName)

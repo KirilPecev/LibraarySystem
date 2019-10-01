@@ -221,30 +221,14 @@
 
         public bool EditBookById(string bookId, EditBookDto model, string libraryId)
         {
-            var book = this.GetBookById(bookId);
-
-            if (model.NewPicture != null)
-            {
-                this.blobStorage.DeleteBlobData(book.PictureName);
-            }
-
-            this.db.Remove(book);
+            var book = RemoveBook(bookId, model);
 
             var authors = model.Authors;
             var publisher = this.publisherService.GetPublisher(model.Publisher);
             var categories = model.Categories;
-
             var pictureUri = book.PictureName;
-            if (model.NewPicture != null)
-            {
-                var imageUri = string.Empty;
-                using (var ms = new MemoryStream())
-                {
-                    model.NewPicture.CopyTo(ms);
-                    var fileBytes = ms.ToArray();
-                    pictureUri = this.blobStorage.UploadFileToBlob(model.NewPicture.FileName, fileBytes, model.NewPicture.ContentType);
-                }
-            }
+
+            pictureUri = GetTheNewBlobUri(model, pictureUri);
 
             var editedBook = new Book
             {
@@ -268,6 +252,36 @@
 
             int count = this.db.SaveChanges();
             return count != 0;
+        }
+
+        private string GetTheNewBlobUri(EditBookDto model, string pictureUri)
+        {
+            if (model.NewPicture != null)
+            {
+                var imageUri = string.Empty;
+                using (var ms = new MemoryStream())
+                {
+                    model.NewPicture.CopyTo(ms);
+                    var fileBytes = ms.ToArray();
+                    pictureUri =
+                        this.blobStorage.UploadFileToBlob(model.NewPicture.FileName, fileBytes, model.NewPicture.ContentType);
+                }
+            }
+
+            return pictureUri;
+        }
+
+        private Book RemoveBook(string bookId, EditBookDto model)
+        {
+            var book = this.GetBookById(bookId);
+
+            if (model.NewPicture != null)
+            {
+                this.blobStorage.DeleteBlobData(book.PictureName);
+            }
+
+            this.db.Remove(book);
+            return book;
         }
 
         private void SetCategories(string[] categories, Book editedBook)
