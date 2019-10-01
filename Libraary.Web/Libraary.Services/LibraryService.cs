@@ -103,7 +103,9 @@
                 .Select(librarian => new LibrarianDetailsDTO()
                 {
                     FullName = librarian.ToString(),
-                    Address = this.db.Addresses.Find(librarian.AddressId).ToString()
+                    Address = this.db.Addresses.Find(librarian.AddressId).ToString(),
+                    Email = librarian.Email,
+                    Phone = librarian.PhoneNumber ?? "Not added"
                 })
                 .ToList();
 
