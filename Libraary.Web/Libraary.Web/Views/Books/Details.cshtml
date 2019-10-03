@@ -11,147 +11,152 @@
 <div id="header">
     <h1>@Model.Name</h1>
 </div>
-<div id="page">
-    <div id="frontpage">
-        <img src="@Model.Picture" width="350" height="495" />
-        <br>
-        <hr />
-        <small class="text-left">@Model.Categories</small>
-        </br>
-        <form asp-controller="Books" asp-action="Rating" method="post">
-            <hr />
-            <div class="form-group">
-                <div class="col-lg-8">
-                    <span class="rating">
-                        @for (var i = 1; i <= 5; i++)
-                        {
-                            var starClass = "star";
-                            if (Model.Rating == 6 - i)
-                            {
-                                starClass += " active";
-                            }
-                            <span data-value="@(6 - i)" class="@starClass"></span>
-                        }
-                    </span>
+<div class="container">
+    <div class="row justify-content-center" style="margin-top:7rem;">
+        <div class="col-4">
+            <img src="@Model.Picture" width="350" height="450" />
+        </div>
+        <div class="col-6">
+            <dl class="customDL">
+                <dt>Author:</dt>
+                <dd>@Model.Authors</dd>
+                <dt>Publisher: </dt>
+                <dd>@Model.Publisher</dd>
+                <dt>Category: </dt>
+                <dd>@Model.Categories + blqblq</dd>
+                @if (User.IsInRole("Librarian") && Model.IsRented)
+                {
+                    <dt>Rented by: </dt>
+                    <dd>@Model.User</dd>
+                    <dt>Rented on: </dt>
+                    <dd>@Model.RentDate</dd>
+                }
+            </dl>
+            <div class="starForm">
+                <form asp-controller="Books" asp-action="Rating" method="post">
+                    <div class="form-group">
+                        <div class="col-lg-8">
+                            <span class="rating">
+                                @for (var i = 1; i <= 5; i++)
+                                {
+                                    var starClass = "star";
+                                    if (Model.Rating == 6 - i)
+                                    {
+                                        starClass += " active";
+                                    }
+                                    <span data-value="@(6 - i)" class="@starClass"></span>
+                                }
+                            </span>
+                        </div>
+                        <input asp-for="Rating" type="hidden" />
+                        <input asp-for="Id" type="hidden" />
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" class="btn btn-primary" value="Submit" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            @if (User.IsInRole("User") && Model.IsRented == false)
+            {
+                <div class="customButton">
+                    <a asp-controller="Users"
+                       asp-action="Rent"
+                       asp-route-bookId="@Model.Id"
+                       class="btn btn-primary btn-lg btn-block"
+                       role="button">
+                        Rent
+                    </a>
                 </div>
-                <input asp-for="Rating" type="hidden" />
-                <input asp-for="Id" type="hidden" />
-            </div>
-            <div class="form-group">
-                <div class="col-md-10">
-                    <input type="submit" class="btn btn-primary" value="Submit" />
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<div id="contents">
-    <ul class="contents mx-auto">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="entry-content" itemprop="text">
-                <blockquote class="blockquote text-left">
-                    <p>@Model.Summary</p>
-                </blockquote>
-            </div>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="d-flex flex-column">
-                <h2 class="text-left">Author: @string.Join(", ", Model.Authors)</h2>
-            </div>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="d-flex flex-column">
-                <h2 class="text-left">Publisher: @Model.Publisher</h2>
-            </div>
-        </li>
-    </ul>
-</div>
+            }
 
-@if (User.IsInRole("User") && Model.IsRented == false)
-{
-    <div class="w-75 mx-auto d-flex justify-content-between">
-        <a asp-controller="Users"
-           asp-action="Rent"
-           asp-route-bookId="@Model.Id"
-           class="btn btn-primary btn-lg btn-block"
-           role="button">
-            Rent
-        </a>
-    </div>
-}
-
-@if (User.IsInRole("Librarian") && Model.IsRented)
-{
-    <div class="w-75 mx-auto d-flex justify-content-between">
-        <div class="d-flex flex-column w-50">
-            <h2 class="text-center">Rented by</h2>
-            <h3 class="text-center mt-1">@Model.User</h3>
-        </div>
-        <div class="d-flex flex-column w-50">
-            <h2 class="text-center">Rented on</h2>
-            <h3 class="text-center mt-1">@Model.RentDate</h3>
-        </div>
-    </div>
-}
-
-@if (User.IsInRole("Librarian"))
-{
-    if (Model.IsRented == false)
-    {
-        <div class="w-75 mx-auto d-flex justify-content-between">
-            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">
-                Remove
-            </button>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+            @if (User.IsInRole("Librarian"))
+            {
+                if (Model.IsRented == false)
+                {
+                    <div class="customButton">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">
+                            Remove
                         </button>
                     </div>
-                    <div class="modal-body">
-                        Do you really want to delete this book?
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Do you really want to delete this book?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Close</button>
+                                    <a asp-controller="Books"
+                                       asp-action="Remove"
+                                       asp-route-bookId="@Model.Id"
+                                       class="btn btn-outline-warning"
+                                       role="button">
+                                        Yes, Remove
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Close</button>
+                }
+
+                @if (Model.IsRented == true)
+                {
+                    <div class="customButton">
                         <a asp-controller="Books"
-                           asp-action="Remove"
+                           asp-action="Edit"
                            asp-route-bookId="@Model.Id"
-                           class="btn btn-outline-warning"
+                           class="btn btn-primary btn-lg btn-block"
                            role="button">
-                            Yes, Remove
+                            Edit
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="customButton" style="margin-top: 0.5rem;">
+                        <a asp-controller="Books"
+                           asp-action="Edit"
+                           asp-route-bookId="@Model.Id"
+                           class="btn btn-primary btn-lg btn-block"
+                           role="button">
+                            Edit
+                        </a>
+                    </div>
+                }
+            }
+
+            @if (User.IsInRole("Librarian") && Model.IsRented)
+            {
+                <div style="margin-top: 3.54rem;">
+                    <div class="customButton">
+                        <a asp-controller="Books"
+                           asp-action="ReturnBook"
+                           asp-route-bookId="@Model.Id"
+                           class="btn btn-primary btn-lg btn-block"
+                           role="button">
+                            Return
                         </a>
                     </div>
                 </div>
-            </div>
+            }
         </div>
-    }
-    <div class="w-75 mx-auto d-flex justify-content-between">
-        <a asp-controller="Books"
-           asp-action="Edit"
-           asp-route-bookId="@Model.Id"
-           class="btn btn-primary btn-lg btn-block"
-           role="button">
-            Edit
-        </a>
     </div>
-}
-@if (User.IsInRole("Librarian") && Model.IsRented)
-{
-    <div class="w-75 mx-auto d-flex justify-content-between">
-        <a asp-controller="Books"
-           asp-action="ReturnBook"
-           asp-route-bookId="@Model.Id"
-           class="btn btn-primary btn-lg btn-block"
-           role="button">
-            Return
-        </a>
+    <div class="row">
+        <div class="summary">
+            <label>Summary</label>
+            <p>@Model.Summary</p>
+        </div>
     </div>
-}
+</div>
 
 <script>
     window.onscroll = function () { myFunction() };
