@@ -4,6 +4,7 @@
     using Data;
     using Data.Seeding;
     using Domain;
+    using Emails;
     using Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -97,9 +98,8 @@
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IBlobStorageService, BlobStorageService>();
 
-            services.Configure<EmailSettings>(Configuration.GetSection("EmailSender"));
-
             services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
 
             IdentityExtensions.userService = services.BuildServiceProvider().GetService<IUserService>();
         }

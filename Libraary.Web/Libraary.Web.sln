@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libraary.Services", "Libraa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libraary.Common", "Libraary.Common\Libraary.Common.csproj", "{672DA54D-F859-4EC4-8595-20238FBF51F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libraary.Tests", "Libraary.Tests\Libraary.Tests.csproj", "{1B08A264-7D8D-44C9-8A9F-A2CD3A5E8903}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Libraary.Tests", "Libraary.Tests\Libraary.Tests.csproj", "{1B08A264-7D8D-44C9-8A9F-A2CD3A5E8903}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Libraary.Emails", "Libraary.Emails\Libraary.Emails.csproj", "{92D7E1B1-1924-48F3-8359-81418BB90371}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{1B08A264-7D8D-44C9-8A9F-A2CD3A5E8903}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B08A264-7D8D-44C9-8A9F-A2CD3A5E8903}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B08A264-7D8D-44C9-8A9F-A2CD3A5E8903}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92D7E1B1-1924-48F3-8359-81418BB90371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92D7E1B1-1924-48F3-8359-81418BB90371}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92D7E1B1-1924-48F3-8359-81418BB90371}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92D7E1B1-1924-48F3-8359-81418BB90371}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
