@@ -1,7 +1,6 @@
-﻿
-namespace Libraary.Web.Areas.Identity.Pages.Account
+﻿namespace Libraary.Web.Areas.Identity.Pages.Account
 {
-    using Libraary.Domain;
+    using Domain;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -12,11 +11,11 @@ namespace Libraary.Web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<LibraaryUser> _userManager;
+        private readonly UserManager<LibraaryUser> userManager;
 
         public ResetPasswordModel(UserManager<LibraaryUser> userManager)
         {
-            _userManager = userManager;
+            this.userManager = userManager;
         }
 
         [BindProperty]
@@ -64,14 +63,14 @@ namespace Libraary.Web.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            var user = await _userManager.FindByEmailAsync(Input.Email);
+            var user = await userManager.FindByEmailAsync(Input.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
 
-            var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+            var result = await userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
                 return RedirectToPage("./ResetPasswordConfirmation");
