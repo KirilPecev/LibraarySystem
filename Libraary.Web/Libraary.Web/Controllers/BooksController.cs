@@ -3,28 +3,40 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Microsoft.Extensions.DependencyInjection;
     using Models.Books;
+    using Newtonsoft.Json;
     using Services;
     using Services.DTOs.Book;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    public class BooksController : Controller
+    public class BooksController : BaseController
     {
         private readonly IMapper mapper;
+        private readonly IDistributedCache cache;
         private readonly IUserService userService;
         private readonly IBookService bookService;
 
-        public BooksController(IMapper mapper, IUserService userService, IBookService bookService)
+        public BooksController(
+            IMapper mapper,
+            IDistributedCache cache,
+            IUserService userService,
+            IBookService bookService,
+            IServiceProvider provider,
+            IServiceScopeFactory factory) : base(provider, factory)
         {
             this.mapper = mapper;
+            this.cache = cache;
             this.userService = userService;
             this.bookService = bookService;
         }
 
         public IActionResult All()
         {
-            IEnumerable<BookDTO> modelDto;
+            IEnumerable<BookDTO> modelDto = new List<BookDTO>();
 
             if (this.User != null && this.User.IsInRole("Librarian"))
             {
@@ -33,7 +45,12 @@
             }
             else
             {
-                modelDto = this.bookService.GetAll();
+                var books = this.cache.GetString("books");
+
+                if (!string.IsNullOrEmpty(books))
+                {
+                    modelDto = JsonConvert.DeserializeObject<BookDTO[]>(books);
+                }
             }
 
             var model = this.mapper.Map<BookViewModel[]>(modelDto);
@@ -78,6 +95,8 @@
             var mappedModel = this.mapper.Map<AddBookDTO>(model);
             this.bookService.Add(mappedModel, libraryId);
 
+            base.UpdateBooksInCache().Wait();
+
             return this.Redirect("/");
         }
 
@@ -93,6 +112,9 @@
         public IActionResult Remove(string bookId)
         {
             this.bookService.RemoveBook(bookId);
+
+            base.UpdateBooksInCache().Wait();
+
             return this.RedirectToAction("All");
         }
 
@@ -116,7 +138,9 @@
 
             var libraryId = this.userService.GetUserLibraryId(this.User.Identity.Name);
             var mappedModel = this.mapper.Map<EditBookDto>(model);
+
             this.bookService.EditBookById(bookId, mappedModel, libraryId);
+            base.UpdateBooksInCache().Wait();
 
             return this.RedirectToAction("All");
         }

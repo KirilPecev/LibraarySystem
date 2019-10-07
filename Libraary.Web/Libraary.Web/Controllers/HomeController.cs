@@ -7,13 +7,16 @@
     using Services;
     using System.Diagnostics;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IMapper mapper;
         private readonly ILibraryService libraryService;
         private readonly IUserService userService;
 
-        public HomeController(IMapper mapper, ILibraryService libraryService, IUserService userService, IBookService bookService)
+        public HomeController(
+            IMapper mapper,
+            ILibraryService libraryService,
+            IUserService userService)
         {
             this.mapper = mapper;
             this.libraryService = libraryService;

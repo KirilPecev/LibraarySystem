@@ -10,4 +10,8 @@
     <PackageReference Include="ncrontab" Version="3.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Libraary.Services\Libraary.Services.csproj" />
+  </ItemGroup>
+
 </Project>

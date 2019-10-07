@@ -20,6 +20,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.6" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
@@ -27,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Libraary.Data\Libraary.Data.csproj" />
     <ProjectReference Include="..\Libraary.Emails\Libraary.Emails.csproj" />
+    <ProjectReference Include="..\Libraary.Scheduler\Libraary.Scheduler.csproj" />
     <ProjectReference Include="..\Libraary.Services\Libraary.Services.csproj" />
   </ItemGroup>
 

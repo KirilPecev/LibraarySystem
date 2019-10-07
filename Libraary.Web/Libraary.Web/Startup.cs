@@ -16,9 +16,12 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Profiles;
+    using Scheduler.ScheduledTasks;
     using Services;
     using Services.BlobStorage;
+    using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
     public class Startup
     {
@@ -72,6 +75,12 @@
                     googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                 });
 
+            services.AddDistributedRedisCache(option =>
+            {
+                option.Configuration = Configuration["Redis"];
+                option.InstanceName = "SampleInstance";
+            });
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
@@ -103,8 +112,11 @@
             services.AddTransient<IPublisherService, PublisherService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IBlobStorageService, BlobStorageService>();
-
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddSingleton<IHostedService, BooksTask>();
+
+
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
             IdentityExtensions.userService = services.BuildServiceProvider().GetService<IUserService>();

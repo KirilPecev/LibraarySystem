@@ -7,12 +7,14 @@
     using Services;
     using Services.DTOs.Library;
 
-    public class LibrariesController : Controller
+    public class LibrariesController : BaseController
     {
         private readonly IMapper mapper;
         private readonly ILibraryService libraryService;
 
-        public LibrariesController(IMapper mapper, ILibraryService libraryService)
+        public LibrariesController(
+            IMapper mapper,
+            ILibraryService libraryService)
         {
             this.mapper = mapper;
             this.libraryService = libraryService;

@@ -7,13 +7,16 @@
     using Services;
     using Services.DTOs.Publisher;
 
-    public class PublishersController : Controller
+    public class PublishersController : BaseController
     {
         private readonly IMapper mapper;
         private readonly IPublisherService publisherService;
         private readonly IUserService userService;
 
-        public PublishersController(IMapper mapper, IPublisherService publisherService, IUserService userService)
+        public PublishersController(
+            IMapper mapper,
+            IPublisherService publisherService,
+            IUserService userService)
         {
             this.mapper = mapper;
             this.publisherService = publisherService;

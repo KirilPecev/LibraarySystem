@@ -8,14 +8,18 @@
     using Services;
     using Services.DTOs.Author;
 
-    public class AuthorsController : Controller
+    public class AuthorsController : BaseController
     {
         private readonly IMapper mapper;
         private readonly IAuthorService authorService;
         private readonly IBookService bookService;
         private readonly IUserService userService;
 
-        public AuthorsController(IMapper mapper, IAuthorService authorService, IBookService bookService, IUserService userService)
+        public AuthorsController(
+            IMapper mapper,
+            IAuthorService authorService,
+            IBookService bookService,
+            IUserService userService)
         {
             this.mapper = mapper;
             this.authorService = authorService;

@@ -6,17 +6,17 @@
     using Models.Books;
     using Services;
 
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private readonly IMapper mapper;
         private readonly IBookService bookService;
-        private readonly IUserService userService;
 
-        public UsersController(IMapper mapper, IBookService bookService, IUserService userService)
+        public UsersController(
+            IMapper mapper,
+            IBookService bookService)
         {
             this.mapper = mapper;
             this.bookService = bookService;
-            this.userService = userService;
         }
 
         [Authorize(Roles = "User")]
