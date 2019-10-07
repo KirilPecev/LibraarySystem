@@ -36,7 +36,7 @@
 
         public IActionResult All()
         {
-            IEnumerable<BookDTO> modelDto = new List<BookDTO>();
+            IEnumerable<BookDTO> modelDto;
 
             if (this.User != null && this.User.IsInRole("Librarian"))
             {
@@ -45,17 +45,21 @@
             }
             else
             {
-                var books = this.cache.GetString("books");
-
-                if (!string.IsNullOrEmpty(books))
-                {
-                    modelDto = JsonConvert.DeserializeObject<BookDTO[]>(books);
-                }
+                modelDto = this.GetAllBooksFromCache();
             }
 
             var model = this.mapper.Map<BookViewModel[]>(modelDto);
 
             return this.View(model);
+        }
+
+        private IEnumerable<BookDTO> GetAllBooksFromCache()
+        {
+            var books = this.cache.GetString("books");
+
+            var result = JsonConvert.DeserializeObject<BookDTO[]>(books).ToList();
+
+            return result;
         }
 
         [Authorize(Roles = "Owner, Librarian")]
