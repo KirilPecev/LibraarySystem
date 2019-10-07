@@ -23,7 +23,7 @@
                 <dt>Publisher: </dt>
                 <dd>@Model.Publisher</dd>
                 <dt>Category: </dt>
-                <dd>@Model.Categories + blqblq</dd>
+                <dd>@Model.Categories</dd>
                 @if (User.IsInRole("Librarian") && Model.IsRented)
                 {
                     <dt>Rented by: </dt>
