@@ -3,39 +3,36 @@
     ViewData["Title"] = "My History";
 }
 
-<h1 style="text-align: center">My History of rented books</h1>
-<hr />
-<table class="table">
-    <thead class="thead-light">
+<<div class="custom-table">
+    <div class="header">My History of rented books</div>
+    <table>
         <tr>
-            <th scope="col">Picture</th>
-            <th scope="col">Name</th>
-            <th scope="col">Author</th>
-            <th scope="col">Publisher</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Rented on</th>
-            <th scope="col">Returned on</th>
+            <th>Picture</th>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>Rating</th>
+            <th>Rented on</th>
+            <th>Returned on</th>
         </tr>
-    </thead>
-    <tbody>
-        @for (var i = 0; i < Model.Length; i++)
+        @foreach (var book in Model)
         {
             <tr>
                 <th>
                     <a asp-controller="Books"
                        asp-action="Details"
-                       asp-route-bookId="@Model[i].Id"
+                       asp-route-bookId="@book.Id"
                        target="_blank">
-                        <img src="@Model[i].Picture" width="80" height="80" />
+                        <img src="@book.Picture" width="80" height="80" />
                     </a>
                 </th>
-                <td>@Model[i].Name</td>
-                <td>@Model[i].Authors</td>
-                <td>@Model[i].Publisher</td>
-                <td>@Model[i].Rating</td>
-                <td>@Model[i].RentedOn</td>
-                <td>@(Model[i].ReturnedOn == null ? "Not returned yet" : Model[i].ReturnedOn)</td>
+                <td>@book.Name</td>
+                <td>@book.Authors</td>
+                <td>@book.Publisher</td>
+                <td>@book.Rating</td>
+                <td>@book.RentedOn</td>
+                <td>@(book.ReturnedOn == null ? "Not returned yet" : book.ReturnedOn)</td>
             </tr>
         }
-    </tbody>
-</table>
+    </table>
+</div>
