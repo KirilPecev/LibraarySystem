@@ -1,31 +1,34 @@
 ﻿namespace Libraary.Web.Models.Address
 {
     using System.ComponentModel.DataAnnotations;
+    using static Common.DataConstants.Address;
 
     public class AddressInputModel
     {
+        private const string ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.";
+        private const string ZipErrorMessage = "Invalid Zip code.";
+        private const string ZipRegex = @"(^\d{5}(?:[-\s]\d{4})?$)|(^\d{4})";
+
         [Required]
-        [Display(Name = "Country")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+        [Display(Name = CountryName)]
+        [StringLength(CountryMaxLength, ErrorMessage = ErrorMessage, MinimumLength = CountryMinimumLength)]
         public string Country { get; set; }
 
         [Required]
-        [Display(Name = "Town")]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
+        [Display(Name = TownName)]
+        [StringLength(TownMaxLength, ErrorMessage = ErrorMessage, MinimumLength = TownMinimumLength)]
         public string Town { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-        [Display(Name = "Street")]
-
+        [Display(Name = StreetName)]
+        [StringLength(StreetMaxLength, ErrorMessage = ErrorMessage, MinimumLength = StreetMinimumLength)]
         public string Street { get; set; }
 
         [Required]
         [DataType(DataType.PostalCode)]
-        [RegularExpression(@"(^\d{5}(?:[-\s]\d{4})?$)|(^\d{4})", ErrorMessage = "Invalid {0} code!")]
-        [Display(Name = "Zip")]
-
+        [Display(Name = ZipName)]
+        [RegularExpression(ZipRegex, ErrorMessage = ZipErrorMessage)]
         public string Zip { get; set; }
     }
 }

@@ -1,21 +1,21 @@
 ﻿namespace Libraary.Domain
 {
     using System.ComponentModel.DataAnnotations;
+    using static Common.DataConstants.Address;
 
     public class Address : BaseModel<string>
     {
         [Required]
-        [MaxLength(60)]
+        [MaxLength(CountryMaxLength)]
         public string Country { get; set; }
 
         [Required]
-        [MaxLength(60)]
+        [MaxLength(TownMaxLength)]
         public string Town { get; set; }
 
         [Required]
-        [MaxLength(80)]
+        [MaxLength(StreetMaxLength)]
         public string Street { get; set; }
-
 
         [Required]
         public string Zip { get; set; }

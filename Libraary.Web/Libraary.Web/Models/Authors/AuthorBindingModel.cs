@@ -1,23 +1,25 @@
 ﻿namespace Libraary.Web.Models.Authors
 {
     using System.ComponentModel.DataAnnotations;
+    using static Common.DataConstants.Author;
 
     public class AuthorBindingModel
     {
+        private const string ErrorMessage = "Invalid {0}! Must be between {2} and {1} symbols.";
+
         [Required]
-        [MaxLength(25)]
-        [StringLength(25, ErrorMessage = "Invalid name! Must be between {2} and {1}", MinimumLength = 1)]
-        [Display(Name = "First name")]
+        [Display(Name = DisplayFirstName)]
+        [StringLength(FirstNameMaxLength, ErrorMessage = ErrorMessage, MinimumLength = FirstNameMinimumLength)]
         public string FirstName { get; set; }
 
         [Required]
-        [MaxLength(25)]
-        [StringLength(25, ErrorMessage = "Invalid name! Must be between {2} and {1}", MinimumLength = 2)]
-        [Display(Name = "Last name")]
+        [Display(Name = DisplayLastName)]
+        [StringLength(LastNameMaxLength, ErrorMessage = ErrorMessage, MinimumLength = LastNameMinimumLength)]
         public string LastName { get; set; }
 
         [Required]
-        [Display(Name = "Nationality")]
+        [Display(Name = NationalityName)]
+        [StringLength(NationalityMaxLength, ErrorMessage = ErrorMessage, MinimumLength = NationalityMinimumLength)]
         public string Nationality { get; set; }
     }
 }

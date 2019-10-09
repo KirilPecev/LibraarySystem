@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using static Common.DataConstants.Book;
 
     public class Book : BaseModel<string>
     {
@@ -14,11 +15,11 @@
         }
 
         [Required]
-        [MaxLength(60)]
+        [MaxLength(ArticleMaxLength)]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(int.MaxValue)]
+        [MaxLength(SummaryMaxLength)]
         public string Summary { get; set; }
 
         [Required]

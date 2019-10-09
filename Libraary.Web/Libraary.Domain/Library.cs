@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using static Common.DataConstants.Library;
 
     public class Library : BaseModel<string>
     {
@@ -13,7 +14,7 @@
         }
 
         [Required]
-        [MaxLength(70)]
+        [MaxLength(LibraryNameMaxLength)]
         public string Name { get; set; }
 
         [Required]

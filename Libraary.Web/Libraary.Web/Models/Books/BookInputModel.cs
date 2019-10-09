@@ -3,17 +3,20 @@
     using CustomAttributes;
     using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
+    using static Common.DataConstants.Book;
 
     public class BookInputModel
     {
+        private const string ErrorMessage = "Invalid {0}! Must be between {2} and {1} symbols.";
+
         [Required]
-        [StringLength(60, ErrorMessage = "Invalid name! Must be between {2} and {1}", MinimumLength = 5)]
-        [Display(Name = "Name")]
+        [Display(Name = DisplayArticle)]
+        [StringLength(ArticleMaxLength, ErrorMessage = ErrorMessage, MinimumLength = ArticleMinimumLength)]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(5000, ErrorMessage = "Invalid name! Must be between {2} and {1}", MinimumLength = 100)]
-        [Display(Name = "Summary")]
+        [Display(Name = DisplaySummary)]
+        [StringLength(SummaryMaxLength, ErrorMessage = ErrorMessage, MinimumLength = SummaryMinimumLength)]
         public string Summary { get; set; }
 
         [Required]

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using static Common.DataConstants.Author;
 
     public class Author : BaseModel<string>
     {
@@ -11,15 +12,15 @@
         }
 
         [Required]
-        [MaxLength(25)]
+        [MaxLength(FirstNameMaxLength)]
         public string FirstName { get; set; }
 
         [Required]
-        [MaxLength(25)]
+        [MaxLength(LastNameMaxLength)]
         public string LastName { get; set; }
 
         [Required]
-        [MaxLength(25)]
+        [MaxLength(NationalityMaxLength)]
         public string Nationality { get; set; }
 
         public virtual ICollection<AuthorBooks> AuthorBooks { get; set; }

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using static Common.DataConstants.Publisher;
 
     public class Publisher : BaseModel<string>
     {
@@ -11,7 +12,7 @@
         }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(PublisherNameMaxLength)]
         public string Name { get; set; }
 
         [Required]
